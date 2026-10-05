@@ -1,0 +1,3949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title> THRIVE 🌱 </title>
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+
+<style>
+
+/* ================= GENERAL ================= */
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial, sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    min-height:100vh;
+}
+
+button,
+input,
+select,
+textarea{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+button:active{
+    transform:scale(.98);
+}
+
+
+/* ================= SIDEBAR ================= */
+
+.sidebar{
+    position:fixed;
+    right:0;
+    top:0;
+
+    width:235px;
+    height:100vh;
+
+    padding:25px 16px;
+
+    background:#101727;
+
+    border-left:1px solid #202a40;
+
+    z-index:20;
+}
+
+.logo{
+    text-align:center;
+
+    font-size:24px;
+    font-weight:800;
+
+    line-height:1.2;
+
+    margin-bottom:6px;
+}
+
+.made{
+    text-align:center;
+
+    color:#64748b;
+
+    font-size:12px;
+
+    margin-bottom:28px;
+}
+
+.nav-btn{
+    width:100%;
+
+    display:block;
+
+    border:0;
+
+    background:transparent;
+
+    color:#cbd5e1;
+
+    padding:13px 14px;
+
+    margin-bottom:7px;
+
+    border-radius:11px;
+
+    text-align:left;
+
+    transition:.2s;
+}
+
+.nav-btn:hover{
+    background:#1b2539;
+    color:#fff;
+}
+
+.nav-btn.active{
+    background:#4f46e5;
+    color:#fff;
+}
+
+
+/* ================= MAIN ================= */
+
+.main{
+    margin-right:235px;
+
+    padding:32px;
+
+    max-width:1400px;
+}
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+.page-title{
+    font-size:31px;
+    font-weight:800;
+
+    margin-bottom:7px;
+}
+
+.page-subtitle{
+    color:#94a3b8;
+
+    margin-bottom:22px;
+}
+
+
+/* ================= WELCOME ================= */
+
+.welcome{
+    position:relative;
+
+    overflow:hidden;
+
+    padding:26px 28px;
+
+    margin-bottom:22px;
+
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #171d3b,
+            #111827 58%,
+            #191533
+        );
+
+    border:1px solid #30395d;
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,.22);
+}
+
+.welcome::after{
+    content:"";
+
+    position:absolute;
+
+    width:220px;
+    height:220px;
+
+    right:-90px;
+    top:-120px;
+
+    border-radius:50%;
+
+    background:#6366f1;
+
+    opacity:.13;
+
+    filter:blur(65px);
+}
+
+.welcome-label{
+    position:relative;
+
+    color:#818cf8;
+
+    font-size:11px;
+
+    font-weight:bold;
+
+    letter-spacing:2.5px;
+
+    margin-bottom:9px;
+}
+
+.welcome h2{
+    position:relative;
+
+    font-size:30px;
+
+    margin-bottom:8px;
+}
+
+.welcome h2 span{
+    color:#a5b4fc;
+}
+
+.welcome p{
+    position:relative;
+
+    color:#94a3b8;
+
+    font-size:14px;
+}
+
+.welcome-footer{
+    position:relative;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:9px;
+
+    margin-top:18px;
+
+    color:#64748b;
+
+    font-size:12px;
+}
+
+.welcome-footer strong{
+    color:#818cf8;
+}
+
+
+/* ================= STATS ================= */
+
+.stats{
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:15px;
+
+    margin-bottom:22px;
+}
+
+.stat{
+    background:#111827;
+
+    border:1px solid #202a40;
+
+    border-radius:15px;
+
+    padding:18px;
+}
+
+.stat-title{
+    color:#94a3b8;
+
+    font-size:13px;
+
+    margin-bottom:5px;
+}
+
+.stat-value{
+    font-size:30px;
+
+    font-weight:800;
+}
+
+.reset-xp{
+    margin-top:11px;
+
+    padding:7px 10px;
+
+    border:0;
+
+    border-radius:8px;
+
+    background:#7f1d1d;
+
+    color:#fecaca;
+
+    font-size:12px;
+}
+
+.reset-xp:hover{
+    background:#991b1b;
+}
+
+
+/* ================= CARDS ================= */
+
+.card{
+    background:#111827;
+
+    border:1px solid #202a40;
+
+    border-radius:16px;
+
+    padding:21px;
+
+    margin-bottom:20px;
+}
+
+.card-title{
+    font-size:19px;
+
+    font-weight:700;
+
+    margin-bottom:6px;
+}
+
+.card-subtitle{
+    color:#94a3b8;
+
+    font-size:13px;
+
+    margin-bottom:16px;
+}
+
+
+/* ================= BUTTONS ================= */
+
+.btn{
+    border:0;
+
+    border-radius:9px;
+
+    padding:10px 15px;
+
+    background:#4f46e5;
+
+    color:white;
+}
+
+.btn:hover{
+    background:#4338ca;
+}
+
+.btn-secondary{
+    background:#334155;
+}
+
+.btn-secondary:hover{
+    background:#475569;
+}
+
+.btn-danger{
+    background:#991b1b;
+}
+
+.btn-danger:hover{
+    background:#b91c1c;
+}
+
+
+/* ================= INPUTS ================= */
+
+input,
+select,
+textarea{
+    width:100%;
+
+    background:#0b1020;
+
+    color:#e5e7eb;
+
+    border:1px solid #334155;
+
+    border-radius:9px;
+
+    padding:10px;
+
+    outline:none;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    border-color:#6366f1;
+}
+
+textarea{
+    min-height:100px;
+
+    resize:vertical;
+}
+
+
+/* ================= MOTIVATION ================= */
+
+.motivation-box{
+    padding:17px;
+
+    text-align:center;
+
+    font-size:18px;
+
+    font-weight:600;
+
+    line-height:1.8;
+
+    color:#a5b4fc;
+}
+
+
+/* ================= DUA ================= */
+
+.dua-box{
+    direction:rtl;
+
+    text-align:center;
+
+    padding:17px;
+
+    color:#e2e8f0;
+
+    font-size:19px;
+
+    line-height:2;
+
+    font-family:Arial,sans-serif;
+}
+
+
+/* ================= TASKS ================= */
+
+.task{
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:12px;
+
+    margin-bottom:8px;
+
+    background:#0b1020;
+
+    border:1px solid #202a40;
+
+    border-radius:10px;
+}
+
+.task-check{
+    width:auto;
+}
+
+.task-content{
+    flex:1;
+}
+
+.task-done{
+    text-decoration:line-through;
+
+    color:#64748b;
+}
+
+.task-subject{
+    color:#818cf8;
+
+    font-size:11px;
+
+    margin-top:4px;
+}
+
+
+/* ================= SUBJECTS ================= */
+
+.subject-grid{
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:15px;
+}
+
+.subject-card{
+    padding:20px;
+
+    background:#111827;
+
+    border:1px solid #202a40;
+
+    border-radius:15px;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.subject-card:hover{
+    transform:translateY(-3px);
+
+    border-color:#6366f1;
+}
+
+.subject-name{
+    font-size:19px;
+
+    font-weight:bold;
+
+    margin-bottom:13px;
+}
+
+.progress-bg{
+    height:8px;
+
+    background:#1e293b;
+
+    border-radius:10px;
+
+    overflow:hidden;
+}
+
+.progress{
+    height:100%;
+
+    width:0%;
+
+    background:#6366f1;
+
+    transition:.3s;
+}
+
+.percent{
+    display:block;
+
+    color:#94a3b8;
+
+    font-size:12px;
+
+    margin-top:7px;
+}
+
+
+/* ================= SCHEDULE ================= */
+
+.table-wrap{
+    overflow-x:auto;
+}
+
+.schedule-table{
+    width:100%;
+
+    border-collapse:collapse;
+
+    min-width:650px;
+}
+
+.schedule-table th,
+.schedule-table td{
+    border:1px solid #334155;
+
+    padding:9px;
+
+    text-align:center;
+}
+
+.schedule-table th{
+    background:#1e293b;
+}
+
+.schedule-table input{
+    border:0;
+
+    background:transparent;
+
+    text-align:center;
+}
+
+
+/* ================= PRAYERS ================= */
+
+.prayer-table{
+    width:100%;
+
+    border-collapse:separate;
+
+    border-spacing:0;
+
+    overflow:hidden;
+
+    border:1px solid #334155;
+
+    border-radius:15px;
+}
+
+.prayer-table th,
+.prayer-table td{
+    padding:16px;
+
+    border-bottom:1px solid #334155;
+}
+
+.prayer-table th{
+    background:#1e293b;
+
+    text-align:left;
+
+    color:#cbd5e1;
+}
+
+.prayer-table tr:last-child td{
+    border-bottom:0;
+}
+
+.prayer-name{
+    font-size:17px;
+
+    font-weight:bold;
+}
+
+.prayer-ar{
+    color:#94a3b8;
+
+    font-size:13px;
+
+    margin-top:4px;
+}
+
+.prayer-check{
+    width:22px;
+    height:22px;
+
+    accent-color:#6366f1;
+
+    cursor:pointer;
+}
+
+.prayer-status{
+    text-align:center;
+
+    margin-top:17px;
+
+    color:#a5b4fc;
+
+    font-weight:bold;
+}
+
+
+/* ================= TIMER ================= */
+
+.timer{
+    text-align:center;
+
+    font-size:70px;
+
+    font-weight:800;
+
+    margin:25px 0;
+}
+
+.timer-buttons{
+    display:flex;
+
+    justify-content:center;
+
+    gap:9px;
+}
+
+
+/* ================= ACHIEVEMENTS ================= */
+
+.achievement{
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    padding:15px;
+
+    margin-bottom:10px;
+
+    border:1px solid #334155;
+
+    border-radius:12px;
+
+    background:#111827;
+}
+
+.achievement-icon{
+    font-size:28px;
+}
+
+.locked{
+    opacity:.35;
+}
+
+
+/* ================= MODAL ================= */
+
+.modal{
+    display:none;
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.72);
+
+    align-items:center;
+
+    justify-content:center;
+
+    z-index:50;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    width:min(580px,90%);
+
+    max-height:90vh;
+
+    overflow:auto;
+
+    background:#111827;
+
+    border:1px solid #334155;
+
+    border-radius:18px;
+
+    padding:25px;
+}
+
+.form-group{
+    margin-bottom:15px;
+}
+
+.form-group label{
+    display:block;
+
+    margin-bottom:7px;
+}
+
+
+/* ================= NAME SCREEN ================= */
+
+.name-screen{
+    position:fixed;
+
+    inset:0;
+
+    display:none;
+
+    align-items:center;
+
+    justify-content:center;
+
+    z-index:100;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #18204a 0%,
+            #080d1b 65%
+        );
+}
+
+.name-screen.show{
+    display:flex;
+}
+
+.name-box{
+    width:min(430px,90%);
+
+    padding:35px;
+
+    text-align:center;
+
+    background:#111827;
+
+    border:1px solid #30395d;
+
+    border-radius:22px;
+
+    box-shadow:
+        0 30px 80px rgba(0,0,0,.5);
+}
+
+.name-logo{
+    font-size:48px;
+
+    margin-bottom:12px;
+}
+
+.name-brand{
+    color:#818cf8;
+
+    font-size:11px;
+
+    font-weight:bold;
+
+    letter-spacing:3px;
+
+    margin-bottom:13px;
+}
+
+.name-box h2{
+    font-size:29px;
+
+    margin-bottom:8px;
+}
+
+.name-box p{
+    color:#94a3b8;
+
+    font-size:14px;
+
+    margin-bottom:22px;
+}
+
+.name-box input{
+    text-align:center;
+
+    font-size:16px;
+
+    margin-bottom:12px;
+}
+
+.start-btn{
+    width:100%;
+
+    padding:12px;
+}
+
+
+/* ================= MOBILE ================= */
+
+@media(max-width:950px){
+
+    .stats{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .subject-grid{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:700px){
+
+    .sidebar{
+        position:static;
+
+        width:100%;
+
+        height:auto;
+
+        border-left:0;
+
+        border-bottom:1px solid #202a40;
+    }
+
+    .main{
+        margin-right:0;
+
+        padding:17px;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .subject-grid{
+        grid-template-columns:1fr;
+    }
+
+    .welcome h2{
+        font-size:25px;
+    }
+
+    .timer{
+        font-size:52px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<div class="sidebar">
+
+    <div class="logo">
+         THRIVE🌱
+    </div>
+
+    <div class="made">
+        Made by Haneen 🐢
+    </div>
+
+
+    <button
+        class="nav-btn active"
+        onclick="showPage('dashboard',this)"
+    >
+        🏠 Dashboard
+    </button>
+
+
+    <button
+        class="nav-btn"
+        onclick="showPage('subjects',this)"
+    >
+        📚 Subjects
+    </button>
+
+
+    <button
+        class="nav-btn"
+        onclick="showPage('schedule',this)"
+    >
+        📅 Schedule
+    </button>
+
+
+    <button
+        class="nav-btn"
+        onclick="showPage('study',this)"
+    >
+        ⏱️ Study Session
+    </button>
+
+
+    <button
+        class="nav-btn"
+        onclick="showPage('prayers',this)"
+    >
+        🕌 Prayers
+    </button>
+
+
+    <button
+        class="nav-btn"
+        onclick="showPage('achievements',this)"
+    >
+        🏆 Achievements
+    </button>
+
+</div>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<div class="main">
+
+
+<!-- =====================================================
+     DASHBOARD
+===================================================== -->
+
+<section
+    id="dashboard"
+    class="page active"
+>
+
+    <h1 class="page-title">
+        Dashboard
+    </h1>
+
+    <p class="page-subtitle">
+        Your study journey starts here.
+    </p>
+
+
+    <!-- WELCOME -->
+
+    <div class="welcome">
+
+        <div class="welcome-label">
+            ✨ WELCOME BACK
+        </div>
+
+        <h2>
+            Hey,
+            <span id="welcomeName">
+                Haneen
+            </span>
+            👋
+        </h2>
+
+        <p>
+            Your next achievement is waiting for you.
+        </p>
+
+        <div class="welcome-footer">
+
+            <strong>
+                ⚡ Stay focused
+            </strong>
+
+            <span>•</span>
+
+            <span>
+                Keep going
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- STATS -->
+
+    <div class="stats">
+
+
+        <div class="stat">
+
+            <div class="stat-title">
+                XP
+            </div>
+
+            <div
+                class="stat-value"
+                id="xpValue"
+            >
+                0
+            </div>
+
+            <button
+                class="reset-xp"
+                onclick="resetXP()"
+            >
+                🔄 Reset XP
+            </button>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-title">
+                Level
+            </div>
+
+            <div
+                class="stat-value"
+                id="levelValue"
+            >
+                1
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-title">
+                Tasks Done
+            </div>
+
+            <div
+                class="stat-value"
+                id="tasksValue"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-title">
+                Study Sessions
+            </div>
+
+            <div
+                class="stat-value"
+                id="sessionsValue"
+            >
+                0
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- MOTIVATION -->
+
+    <div class="card">
+
+        <div class="card-title">
+            💬 Daily Motivation
+        </div>
+
+        <div class="card-subtitle">
+            A little motivation for today.
+        </div>
+
+        <div
+            id="dailyMotivation"
+            class="motivation-box"
+        >
+        </div>
+
+    </div>
+
+
+    <!-- DUA -->
+
+    <div class="card">
+
+        <div class="card-title">
+            🤲 Daily Dua
+        </div>
+
+        <div class="card-subtitle">
+            A different dua every day.
+        </div>
+
+        <div
+            id="dailyDua"
+            class="dua-box"
+        >
+        </div>
+
+    </div>
+
+
+    <!-- TODAY -->
+
+    <div class="card">
+
+        <div class="card-title">
+            📅 Today's Schedule
+        </div>
+
+        <div
+            id="todaySchedule"
+            style="color:#94a3b8;"
+        >
+            No schedule added yet.
+        </div>
+
+    </div>
+
+
+    <!-- DASHBOARD TASKS -->
+
+    <div class="card">
+
+        <div class="card-title">
+            📝 Pending Tasks
+        </div>
+
+        <div id="dashboardTasks">
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     SUBJECTS
+===================================================== -->
+
+<section
+    id="subjects"
+    class="page"
+>
+
+    <h1 class="page-title">
+        📚 Subjects
+    </h1>
+
+    <p class="page-subtitle">
+        Track your progress in every subject.
+    </p>
+
+
+    <div class="subject-grid">
+
+
+        <div
+            class="subject-card"
+            onclick="openSubject('Arabic')"
+        >
+
+            <div class="subject-name">
+                Arabic
+            </div>
+
+            <div class="progress-bg">
+                <div
+                    class="progress"
+                    id="progress-Arabic"
+                ></div>
+            </div>
+
+            <span
+                class="percent"
+                id="percent-Arabic"
+            >
+                0%
+            </span>
+
+        </div>
+
+
+        <div
+            class="subject-card"
+            onclick="openSubject('English')"
+        >
+
+            <div class="subject-name">
+                English
+            </div>
+
+            <div class="progress-bg">
+                <div
+                    class="progress"
+                    id="progress-English"
+                ></div>
+            </div>
+
+            <span
+                class="percent"
+                id="percent-English"
+            >
+                0%
+            </span>
+
+        </div>
+
+
+        <div
+            class="subject-card"
+            onclick="openSubject('Chemistry')"
+        >
+
+            <div class="subject-name">
+                Chemistry
+            </div>
+
+            <div class="progress-bg">
+                <div
+                    class="progress"
+                    id="progress-Chemistry"
+                ></div>
+            </div>
+
+            <span
+                class="percent"
+                id="percent-Chemistry"
+            >
+                0%
+            </span>
+
+        </div>
+
+
+        <div
+            class="subject-card"
+            onclick="openSubject('Physics')"
+        >
+
+            <div class="subject-name">
+                Physics
+            </div>
+
+            <div class="progress-bg">
+                <div
+                    class="progress"
+                    id="progress-Physics"
+                ></div>
+            </div>
+
+            <span
+                class="percent"
+                id="percent-Physics"
+            >
+                0%
+            </span>
+
+        </div>
+
+
+        <div
+            class="subject-card"
+            onclick="openSubject('Math')"
+        >
+
+            <div class="subject-name">
+                Math
+            </div>
+
+            <div class="progress-bg">
+                <div
+                    class="progress"
+                    id="progress-Math"
+                ></div>
+            </div>
+
+            <span
+                class="percent"
+                id="percent-Math"
+            >
+                0%
+            </span>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     SCHEDULE
+===================================================== -->
+
+<section
+    id="schedule"
+    class="page"
+>
+
+    <h1 class="page-title">
+        📅 Weekly Schedule
+    </h1>
+
+    <p class="page-subtitle">
+        Organize your study week.
+    </p>
+
+
+    <div class="card">
+
+        <div class="table-wrap">
+
+            <table class="schedule-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Day
+                        </th>
+
+                        <th>
+                            1
+                        </th>
+
+                        <th>
+                            2
+                        </th>
+
+                        <th>
+                            3
+                        </th>
+
+                        <th>
+                            4
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+
+                    <tr>
+
+                        <th>
+                            Saturday
+                        </th>
+
+                        <td>
+                            <input id="sat1">
+                        </td>
+
+                        <td>
+                            <input id="sat2">
+                        </td>
+
+                        <td>
+                            <input id="sat3">
+                        </td>
+
+                        <td>
+                            <input id="sat4">
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <th>
+                            Sunday
+                        </th>
+
+                        <td>
+                            <input id="sun1">
+                        </td>
+
+                        <td>
+                            <input id="sun2">
+                        </td>
+
+                        <td>
+                            <input id="sun3">
+                        </td>
+
+                        <td>
+                            <input id="sun4">
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <th>
+                            Monday
+                        </th>
+
+                        <td>
+                            <input id="mon1">
+                        </td>
+
+                        <td>
+                            <input id="mon2">
+                        </td>
+
+                        <td>
+                            <input id="mon3">
+                        </td>
+
+                        <td>
+                            <input id="mon4">
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <th>
+                            Tuesday
+                        </th>
+
+                        <td>
+                            <input id="tue1">
+                        </td>
+
+                        <td>
+                            <input id="tue2">
+                        </td>
+
+                        <td>
+                            <input id="tue3">
+                        </td>
+
+                        <td>
+                            <input id="tue4">
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <th>
+                            Wednesday
+                        </th>
+
+                        <td>
+                            <input id="wed1">
+                        </td>
+
+                        <td>
+                            <input id="wed2">
+                        </td>
+
+                        <td>
+                            <input id="wed3">
+                        </td>
+
+                        <td>
+                            <input id="wed4">
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <th>
+                            Thursday
+                        </th>
+
+                        <td>
+                            <input id="thu1">
+                        </td>
+
+                        <td>
+                            <input id="thu2">
+                        </td>
+
+                        <td>
+                            <input id="thu3">
+                        </td>
+
+                        <td>
+                            <input id="thu4">
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <th>
+                            Friday
+                        </th>
+
+                        <td>
+                            <input id="fri1">
+                        </td>
+
+                        <td>
+                            <input id="fri2">
+                        </td>
+
+                        <td>
+                            <input id="fri3">
+                        </td>
+
+                        <td>
+                            <input id="fri4">
+                        </td>
+
+                    </tr>
+
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <button
+            class="btn"
+            style="margin-top:15px;"
+            onclick="saveSchedule()"
+        >
+            Save Schedule
+        </button>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     STUDY
+===================================================== -->
+
+<section
+    id="study"
+    class="page"
+>
+
+    <h1 class="page-title">
+        ⏱️ Study Session
+    </h1>
+
+    <p class="page-subtitle">
+        Focus, study, and earn XP.
+    </p>
+
+
+    <div class="card">
+
+        <div class="card-title">
+            🍅 Pomodoro
+        </div>
+
+        <div
+            id="timer"
+            class="timer"
+        >
+            25:00
+        </div>
+
+
+        <div class="timer-buttons">
+
+            <button
+                class="btn"
+                onclick="startTimer()"
+            >
+                Start
+            </button>
+
+            <button
+                class="btn btn-secondary"
+                onclick="pauseTimer()"
+            >
+                Pause
+            </button>
+
+            <button
+                class="btn btn-danger"
+                onclick="resetTimer()"
+            >
+                Reset
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-title">
+            📝 Add Task
+        </div>
+
+
+        <div
+            style="
+            display:grid;
+            grid-template-columns:2fr 1fr auto;
+            gap:10px;
+            "
+        >
+
+            <input
+                id="taskInput"
+                placeholder="What do you need to do?"
+            >
+
+
+            <select id="taskSubject">
+
+                <option>
+                    Arabic
+                </option>
+
+                <option>
+                    English
+                </option>
+
+                <option>
+                    Chemistry
+                </option>
+
+                <option>
+                    Physics
+                </option>
+
+                <option>
+                    Math
+                </option>
+
+            </select>
+
+
+            <button
+                class="btn"
+                onclick="addTask()"
+            >
+                Add
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-title">
+            📋 Tasks
+        </div>
+
+        <div id="tasksList">
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     PRAYERS
+===================================================== -->
+
+<section
+    id="prayers"
+    class="page"
+>
+
+    <h1 class="page-title">
+        🕌 Prayers
+    </h1>
+
+    <p class="page-subtitle">
+        Keep track of your prayers for today.
+    </p>
+
+
+    <div class="card">
+
+        <div class="card-title">
+            🌙 Today's Prayers
+        </div>
+
+        <div class="card-subtitle">
+            Your checklist automatically starts fresh each new day.
+        </div>
+
+
+        <table class="prayer-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Prayer
+                    </th>
+
+                    <th
+                        style="
+                        text-align:center;
+                        "
+                    >
+                        Completed
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+
+                <tr>
+
+                    <td>
+
+                        <div class="prayer-name">
+                            Fajr
+                        </div>
+
+                        <div class="prayer-ar">
+                            الفجر
+                        </div>
+
+                    </td>
+
+                    <td
+                        style="
+                        text-align:center;
+                        "
+                    >
+
+                        <input
+                            class="prayer-check"
+                            type="checkbox"
+                            id="prayer-fajr"
+                        >
+
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+
+                        <div class="prayer-name">
+                            Dhuhr
+                        </div>
+
+                        <div class="prayer-ar">
+                            الظهر
+                        </div>
+
+                    </td>
+
+                    <td
+                        style="
+                        text-align:center;
+                        "
+                    >
+
+                        <input
+                            class="prayer-check"
+                            type="checkbox"
+                            id="prayer-dhuhr"
+                        >
+
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+
+                        <div class="prayer-name">
+                            Asr
+                        </div>
+
+                        <div class="prayer-ar">
+                            العصر
+                        </div>
+
+                    </td>
+
+                    <td
+                        style="
+                        text-align:center;
+                        "
+                    >
+
+                        <input
+                            class="prayer-check"
+                            type="checkbox"
+                            id="prayer-asr"
+                        >
+
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+
+                        <div class="prayer-name">
+                            Maghrib
+                        </div>
+
+                        <div class="prayer-ar">
+                            المغرب
+                        </div>
+
+                    </td>
+
+                    <td
+                        style="
+                        text-align:center;
+                        "
+                    >
+
+                        <input
+                            class="prayer-check"
+                            type="checkbox"
+                            id="prayer-maghrib"
+                        >
+
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+
+                        <div class="prayer-name">
+                            Isha
+                        </div>
+
+                        <div class="prayer-ar">
+                            العشاء
+                        </div>
+
+                    </td>
+
+                    <td
+                        style="
+                        text-align:center;
+                        "
+                    >
+
+                        <input
+                            class="prayer-check"
+                            type="checkbox"
+                            id="prayer-isha"
+                        >
+
+                    </td>
+
+                </tr>
+
+
+            </tbody>
+
+        </table>
+
+
+        <div
+            id="prayerStatus"
+            class="prayer-status"
+        >
+            0 / 5 completed
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-title">
+            🤲 Today's Dua
+        </div>
+
+        <div class="card-subtitle">
+            A different dua every day.
+        </div>
+
+        <div
+            id="prayerDua"
+            class="dua-box"
+        >
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     ACHIEVEMENTS
+===================================================== -->
+
+<section
+    id="achievements"
+    class="page"
+>
+
+    <h1 class="page-title">
+        🏆 Achievements
+    </h1>
+
+    <p class="page-subtitle">
+        Keep studying and unlock achievements.
+    </p>
+
+    <div id="achievementsList">
+    </div>
+
+</section>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     SUBJECT MODAL
+===================================================== -->
+
+<div
+    id="subjectModal"
+    class="modal"
+>
+
+    <div class="modal-box">
+
+        <h2 id="modalSubjectTitle">
+        </h2>
+
+        <br>
+
+
+        <div class="form-group">
+
+            <label>
+                Homework Grade
+            </label>
+
+            <input
+                type="number"
+                id="homeworkGrade"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Homework Max
+            </label>
+
+            <input
+                type="number"
+                id="homeworkMax"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Exam Grade
+            </label>
+
+            <input
+                type="number"
+                id="examGrade"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Exam Max
+            </label>
+
+            <input
+                type="number"
+                id="examMax"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Notes
+            </label>
+
+            <textarea
+                id="subjectNotes"
+            ></textarea>
+
+        </div>
+
+
+        <button
+            class="btn"
+            onclick="saveSubject()"
+        >
+            Save
+        </button>
+
+
+        <button
+            class="btn btn-secondary"
+            onclick="closeSubject()"
+        >
+            Close
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     NAME SCREEN
+===================================================== -->
+
+<div
+    id="nameScreen"
+    class="name-screen"
+>
+
+    <div class="name-box">
+
+        <div class="name-logo">
+            🌱
+        </div>
+
+        <div class="name-brand">
+             THRIVE    
+    </div>
+
+        <h2>
+            Welcome! 👋
+        </h2>
+
+        <p>
+            Let's personalize your study journey.
+        </p>
+
+
+        <input
+            id="nameInput"
+            type="text"
+            placeholder="Enter your name"
+            autocomplete="off"
+        >
+
+
+        <button
+            class="btn start-btn"
+            onclick="saveName()"
+        >
+            Start My Journey 🚀
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+/* =====================================================
+   DATA
+===================================================== */
+
+let xp =
+    Number(
+        localStorage.getItem("xp")
+    ) || 0;
+
+
+let level =
+    Number(
+        localStorage.getItem("level")
+    ) || 1;
+
+
+let sessions =
+    Number(
+        localStorage.getItem("sessions")
+    ) || 0;
+
+
+let tasksDone =
+    Number(
+        localStorage.getItem("tasksDone")
+    ) || 0;
+
+
+let tasks =
+    JSON.parse(
+        localStorage.getItem("tasks")
+    ) || [];
+
+
+let subjectData =
+    JSON.parse(
+        localStorage.getItem("subjectData")
+    ) || {};
+
+
+let schedule =
+    JSON.parse(
+        localStorage.getItem("schedule")
+    ) || {};
+
+
+let currentSubject = "";
+
+
+/* =====================================================
+   PAGE NAVIGATION
+===================================================== */
+
+function showPage(
+    pageId,
+    button
+){
+
+    document
+        .querySelectorAll(".page")
+        .forEach(
+            page =>
+                page.classList.remove("active")
+        );
+
+
+    document
+        .getElementById(pageId)
+        .classList.add("active");
+
+
+    document
+        .querySelectorAll(".nav-btn")
+        .forEach(
+            btn =>
+                btn.classList.remove("active")
+        );
+
+
+    if(button){
+
+        button.classList.add("active");
+
+    }
+
+
+    if(pageId === "dashboard"){
+
+        renderDashboardTasks();
+
+        showToday();
+
+    }
+
+
+    if(pageId === "subjects"){
+
+        updateSubjectProgress();
+
+    }
+
+
+    if(pageId === "prayers"){
+
+        loadPrayers();
+
+        loadPrayerDua();
+
+    }
+
+
+    if(pageId === "achievements"){
+
+        updateAchievements();
+
+    }
+
+}
+
+
+/* =====================================================
+   NAME
+===================================================== */
+
+function checkName(){
+
+    let name =
+        localStorage.getItem(
+            "userName"
+        );
+
+
+    if(
+        !name ||
+        name.trim() === "" ||
+        name === "Student" ||
+        name === "Haneen"
+    ){
+
+        document
+            .getElementById("nameScreen")
+            .classList.add("show");
+
+        return;
+
+    }
+
+
+    showWelcomeName(name);
+
+}
+
+
+function saveName(){
+
+    const input =
+        document.getElementById(
+            "nameInput"
+        );
+
+
+    const name =
+        input.value.trim();
+
+
+    if(!name){
+
+        input.focus();
+
+        return;
+
+    }
+
+
+    localStorage.setItem(
+        "userName",
+        name
+    );
+
+
+    document
+        .getElementById("nameScreen")
+        .classList.remove("show");
+
+
+    showWelcomeName(name);
+
+}
+
+
+function showWelcomeName(name){
+
+    const box =
+        document.getElementById(
+            "welcomeName"
+        );
+
+
+    if(box){
+
+        box.textContent =
+            name;
+
+    }
+
+}
+
+
+/* =====================================================
+   XP
+===================================================== */
+
+function addXP(amount){
+
+    xp += amount;
+
+
+    while(
+        xp >= level * 100
+    ){
+
+        xp -= level * 100;
+
+        level++;
+
+
+        alert(
+            "🎉 LEVEL UP!\n\n" +
+            "You reached Level " +
+            level +
+            "!"
+        );
+
+    }
+
+
+    localStorage.setItem(
+        "xp",
+        xp
+    );
+
+
+    localStorage.setItem(
+        "level",
+        level
+    );
+
+
+    updateStats();
+
+    updateAchievements();
+
+}
+
+
+/* =====================================================
+   RESET XP ONLY
+===================================================== */
+
+function resetXP(){
+
+    const answer =
+        confirm(
+            "⚠️ Are you sure?\n\n" +
+            "This will reset XP to 0.\n" +
+            "Your Level will NOT change."
+        );
+
+
+    if(!answer){
+
+        return;
+
+    }
+
+
+    xp = 0;
+
+
+    localStorage.setItem(
+        "xp",
+        0
+    );
+
+
+    updateStats();
+
+
+    alert(
+        "🔄 XP reset successfully!\n\n" +
+        "Your Level is still " +
+        level +
+        "."
+    );
+
+}
+
+
+/* =====================================================
+   STATS
+===================================================== */
+
+function updateStats(){
+
+    document
+        .getElementById("xpValue")
+        .textContent =
+        xp;
+
+
+    document
+        .getElementById("levelValue")
+        .textContent =
+        level;
+
+
+    document
+        .getElementById("tasksValue")
+        .textContent =
+        tasksDone;
+
+
+    document
+        .getElementById("sessionsValue")
+        .textContent =
+        sessions;
+
+}
+
+
+/* =====================================================
+   SUCCESS MESSAGES
+===================================================== */
+
+const successMessages = [
+
+    "🎉 Great job! Keep going!",
+
+    "🔥 Another one completed!",
+
+    "💪 You're doing amazing!",
+
+    "⭐ One step closer to your goal!",
+
+    "🚀 You did it! Don't stop now!",
+
+    "👑 Excellent work!",
+
+    "💥 Boom! Another achievement!",
+
+    "🌟 Your hard work is paying off!"
+
+];
+
+
+function showMotivationMessage(){
+
+    const index =
+        Math.floor(
+            Math.random() *
+            successMessages.length
+        );
+
+
+    alert(
+        successMessages[index]
+    );
+
+}
+
+
+/* =====================================================
+   DAILY CONTENT
+===================================================== */
+
+const motivations = [
+
+    "Small progress is still progress. Keep going. 💪",
+
+    "You don't need to be perfect. You just need to start. ✨",
+
+    "One focused hour today can make tomorrow easier. 📚",
+
+    "Believe in yourself and keep moving forward. 🌟",
+
+    "Your future self will thank you for studying today. 🚀",
+
+    "Don't wait for motivation. Start, and motivation will follow. 🔥",
+
+    "Every completed task is one step closer to your goal. 🎯",
+
+    "You are capable of more than you think. 💜",
+
+    "Focus on progress, not perfection. 🌱",
+
+    "Keep going. You're building something great. 👑",
+
+    "Today is another chance to get closer to your dreams. 🌙",
+
+    "Consistency beats perfection. Keep showing up. 📖",
+
+    "Your effort today matters more than you think. ✨"
+
+];
+
+
+const duas = [
+
+    "رَبِّ زِدْنِي عِلْمًا",
+
+    "اللهم انفعني بما علمتني وعلمني ما ينفعني وزدني علمًا.",
+
+    "اللهم لا سهل إلا ما جعلته سهلاً.",
+
+    "اللهم وفقني لما تحب وترضى.",
+
+    "رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي.",
+
+    "اللهم ارزقني فهمًا وحفظًا وتركيزًا.",
+
+    "اللهم بارك لي في وقتي واجعل علمي نافعًا.",
+
+    "رَبِّ زِدْنِي عِلْمًا وَفَهْمًا وَحِكْمَةً.",
+
+    "اللهم أعني على ذكرك وشكرك وحسن عبادتك.",
+
+    "اللهم افتح عليّ فتوح العارفين وارزقني فهمًا نافعًا.",
+
+    "اللهم اجعل لي من أمري يسرًا.",
+
+    "رب اشرح لي صدري ويسر لي أمري."
+
+];
+
+
+function getDayNumber(){
+
+    const now =
+        new Date();
+
+
+    const start =
+        new Date(
+            now.getFullYear(),
+            0,
+            0
+        );
+
+
+    return Math.floor(
+        (
+            now - start
+        ) /
+        86400000
+    );
+
+}
+
+
+function loadDailyMotivation(){
+
+    const index =
+        getDayNumber() %
+        motivations.length;
+
+
+    const box =
+        document.getElementById(
+            "dailyMotivation"
+        );
+
+
+    if(box){
+
+        box.textContent =
+            '"' +
+            motivations[index] +
+            '"';
+
+    }
+
+}
+
+
+function loadDailyDua(){
+
+    const index =
+        getDayNumber() %
+        duas.length;
+
+
+    const box =
+        document.getElementById(
+            "dailyDua"
+        );
+
+
+    if(box){
+
+        box.textContent =
+            duas[index];
+
+    }
+
+}
+
+
+function loadPrayerDua(){
+
+    const index =
+        getDayNumber() %
+        duas.length;
+
+
+    const box =
+        document.getElementById(
+            "prayerDua"
+        );
+
+
+    if(box){
+
+        box.textContent =
+            duas[index];
+
+    }
+
+}
+
+
+/* =====================================================
+   PRAYERS
+===================================================== */
+
+const prayerNames = [
+
+    "fajr",
+    "dhuhr",
+    "asr",
+    "maghrib",
+    "isha"
+
+];
+
+
+function todayKey(){
+
+    const date =
+        new Date();
+
+
+    return (
+
+        date.getFullYear() +
+        "-" +
+
+        String(
+            date.getMonth()+1
+        ).padStart(2,"0") +
+
+        "-" +
+
+        String(
+            date.getDate()
+        ).padStart(2,"0")
+
+    );
+
+}
+
+
+function loadPrayers(){
+
+    const today =
+        todayKey();
+
+
+    let saved =
+        JSON.parse(
+            localStorage.getItem(
+                "prayers"
+            )
+        );
+
+
+    /*
+       لو اليوم اتغير،
+       نعمل قائمة صلوات جديدة.
+    */
+
+    if(
+        !saved ||
+        saved.date !== today
+    ){
+
+        saved = {
+
+            date:today,
+
+            fajr:false,
+
+            dhuhr:false,
+
+            asr:false,
+
+            maghrib:false,
+
+            isha:false
+
+        };
+
+
+        localStorage.setItem(
+            "prayers",
+            JSON.stringify(saved)
+        );
+
+    }
+
+
+    let completed = 0;
+
+
+    prayerNames.forEach(
+        prayer => {
+
+            const checkbox =
+                document.getElementById(
+                    "prayer-" +
+                    prayer
+                );
+
+
+            if(!checkbox){
+
+                return;
+
+            }
+
+
+            checkbox.checked =
+                saved[prayer] === true;
+
+
+            if(
+                checkbox.checked
+            ){
+
+                completed++;
+
+            }
+
+
+            checkbox.onchange =
+                savePrayers;
+
+        }
+    );
+
+
+    const status =
+        document.getElementById(
+            "prayerStatus"
+        );
+
+
+    if(status){
+
+        status.textContent =
+            completed +
+            " / 5 completed";
+
+    }
+
+}
+
+
+function savePrayers(){
+
+    const today =
+        todayKey();
+
+
+    const data = {
+
+        date:today
+
+    };
+
+
+    prayerNames.forEach(
+        prayer => {
+
+            const checkbox =
+                document.getElementById(
+                    "prayer-" +
+                    prayer
+                );
+
+
+            data[prayer] =
+                checkbox.checked;
+
+        }
+    );
+
+
+    localStorage.setItem(
+        "prayers",
+        JSON.stringify(data)
+    );
+
+
+    loadPrayers();
+
+}
+
+
+/* =====================================================
+   TASKS
+===================================================== */
+
+function addTask(){
+
+    const input =
+        document.getElementById(
+            "taskInput"
+        );
+
+
+    const subject =
+        document.getElementById(
+            "taskSubject"
+        );
+
+
+    const text =
+        input.value.trim();
+
+
+    if(!text){
+
+        input.focus();
+
+        return;
+
+    }
+
+
+    tasks.push({
+
+        text:text,
+
+        subject:subject.value,
+
+        done:false
+
+    });
+
+
+    saveTasks();
+
+
+    input.value = "";
+
+
+    renderTasks();
+
+    renderDashboardTasks();
+
+    updateSubjectProgress();
+
+}
+
+
+function saveTasks(){
+
+    localStorage.setItem(
+        "tasks",
+        JSON.stringify(tasks)
+    );
+
+}
+
+
+function toggleTask(index){
+
+    if(
+        tasks[index].done
+    ){
+
+        return;
+
+    }
+
+
+    tasks[index].done =
+        true;
+
+
+    tasksDone++;
+
+
+    localStorage.setItem(
+        "tasksDone",
+        tasksDone
+    );
+
+
+    addXP(10);
+
+
+    showMotivationMessage();
+
+
+    saveTasks();
+
+
+    renderTasks();
+
+    renderDashboardTasks();
+
+    updateSubjectProgress();
+
+}
+
+
+function deleteTask(index){
+
+    tasks.splice(
+        index,
+        1
+    );
+
+
+    saveTasks();
+
+
+    renderTasks();
+
+    renderDashboardTasks();
+
+    updateSubjectProgress();
+
+}
+
+
+function taskHTML(
+    task,
+    index
+){
+
+    return `
+
+        <div class="task">
+
+            <input
+                class="task-check"
+                type="checkbox"
+
+                ${
+                    task.done
+                    ? "checked disabled"
+                    : ""
+                }
+
+                onchange="
+                    toggleTask(${index})
+                "
+            >
+
+            <div class="task-content">
+
+                <div
+                    class="
+                    ${
+                        task.done
+                        ? "task-done"
+                        : ""
+                    }
+                    "
+                >
+
+                    ${escapeHTML(
+                        task.text
+                    )}
+
+                </div>
+
+                <div class="task-subject">
+
+                    ${escapeHTML(
+                        task.subject
+                    )}
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="btn btn-danger"
+                onclick="
+                    deleteTask(${index})
+                "
+            >
+                Delete
+            </button>
+
+        </div>
+
+    `;
+
+}
+
+
+function renderTasks(){
+
+    const box =
+        document.getElementById(
+            "tasksList"
+        );
+
+
+    if(!box){
+
+        return;
+
+    }
+
+
+    if(tasks.length === 0){
+
+        box.innerHTML =
+            '<p style="color:#64748b;">No tasks yet.</p>';
+
+        return;
+
+    }
+
+
+    box.innerHTML =
+        tasks
+            .map(
+                (
+                    task,
+                    index
+                ) =>
+                    taskHTML(
+                        task,
+                        index
+                    )
+            )
+            .join("");
+
+}
+
+
+function renderDashboardTasks(){
+
+    const box =
+        document.getElementById(
+            "dashboardTasks"
+        );
+
+
+    if(!box){
+
+        return;
+
+    }
+
+
+    const pending =
+        tasks
+            .map(
+                (
+                    task,
+                    index
+                ) => ({
+                    task,
+                    index
+                })
+            )
+            .filter(
+                item =>
+                    !item.task.done
+            );
+
+
+    if(pending.length === 0){
+
+        box.innerHTML =
+            '<p style="color:#64748b;">No pending tasks 🎉</p>';
+
+        return;
+
+    }
+
+
+    box.innerHTML =
+        pending
+            .map(
+                item =>
+                    taskHTML(
+                        item.task,
+                        item.index
+                    )
+            )
+            .join("");
+
+}
+
+
+/* =====================================================
+   SUBJECTS
+===================================================== */
+
+function openSubject(
+    subject
+){
+
+    currentSubject =
+        subject;
+
+
+    document
+        .getElementById(
+            "modalSubjectTitle"
+        )
+        .textContent =
+        subject;
+
+
+    const data =
+        subjectData[subject] ||
+        {};
+
+
+    document
+        .getElementById(
+            "homeworkGrade"
+        )
+        .value =
+        data.homeworkGrade || "";
+
+
+    document
+        .getElementById(
+            "homeworkMax"
+        )
+        .value =
+        data.homeworkMax || "";
+
+
+    document
+        .getElementById(
+            "examGrade"
+        )
+        .value =
+        data.examGrade || "";
+
+
+    document
+        .getElementById(
+            "examMax"
+        )
+        .value =
+        data.examMax || "";
+
+
+    document
+        .getElementById(
+            "subjectNotes"
+        )
+        .value =
+        data.notes || "";
+
+
+    document
+        .getElementById(
+            "subjectModal"
+        )
+        .classList
+        .add("show");
+
+}
+
+
+function closeSubject(){
+
+    document
+        .getElementById(
+            "subjectModal"
+        )
+        .classList
+        .remove("show");
+
+}
+
+
+function saveSubject(){
+
+    subjectData[currentSubject] = {
+
+        homeworkGrade:
+            Number(
+                document
+                    .getElementById(
+                        "homeworkGrade"
+                    )
+                    .value
+            ) || 0,
+
+        homeworkMax:
+            Number(
+                document
+                    .getElementById(
+                        "homeworkMax"
+                    )
+                    .value
+            ) || 0,
+
+        examGrade:
+            Number(
+                document
+                    .getElementById(
+                        "examGrade"
+                    )
+                    .value
+            ) || 0,
+
+        examMax:
+            Number(
+                document
+                    .getElementById(
+                        "examMax"
+                    )
+                    .value
+            ) || 0,
+
+        notes:
+            document
+                .getElementById(
+                    "subjectNotes"
+                )
+                .value
+
+    };
+
+
+    localStorage.setItem(
+        "subjectData",
+        JSON.stringify(
+            subjectData
+        )
+    );
+
+
+    updateSubjectProgress();
+
+    closeSubject();
+
+}
+
+
+function updateSubjectProgress(){
+
+    const subjects = [
+
+        "Arabic",
+        "English",
+        "Chemistry",
+        "Physics",
+        "Math"
+
+    ];
+
+
+    subjects.forEach(
+        subject => {
+
+            const list =
+                tasks.filter(
+                    task =>
+                        task.subject ===
+                        subject
+                );
+
+
+            let percentage = 0;
+
+
+            if(list.length){
+
+                const done =
+                    list.filter(
+                        task =>
+                            task.done
+                    ).length;
+
+
+                percentage =
+                    Math.round(
+                        done /
+                        list.length *
+                        100
+                    );
+
+            }
+
+
+            const bar =
+                document.getElementById(
+                    "progress-" +
+                    subject
+                );
+
+
+            const text =
+                document.getElementById(
+                    "percent-" +
+                    subject
+                );
+
+
+            if(bar){
+
+                bar.style.width =
+                    percentage +
+                    "%";
+
+            }
+
+
+            if(text){
+
+                text.textContent =
+                    percentage +
+                    "%";
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   SCHEDULE
+===================================================== */
+
+const scheduleIds = [
+
+    "sat1","sat2","sat3","sat4",
+
+    "sun1","sun2","sun3","sun4",
+
+    "mon1","mon2","mon3","mon4",
+
+    "tue1","tue2","tue3","tue4",
+
+    "wed1","wed2","wed3","wed4",
+
+    "thu1","thu2","thu3","thu4",
+
+    "fri1","fri2","fri3","fri4"
+
+];
+
+
+function saveSchedule(){
+
+    schedule = {};
+
+
+    scheduleIds.forEach(
+        id => {
+
+            const input =
+                document.getElementById(
+                    id
+                );
+
+
+            schedule[id] =
+                input.value;
+
+        }
+    );
+
+
+    localStorage.setItem(
+        "schedule",
+        JSON.stringify(
+            schedule
+        )
+    );
+
+
+    showToday();
+
+
+    alert(
+        "📅 Schedule saved!"
+    );
+
+}
+
+
+function loadSchedule(){
+
+    scheduleIds.forEach(
+        id => {
+
+            const input =
+                document.getElementById(
+                    id
+                );
+
+
+            if(input){
+
+                input.value =
+                    schedule[id] || "";
+
+            }
+
+        }
+    );
+
+}
+
+
+function showToday(){
+
+    const days = [
+
+        "sun",
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat"
+
+    ];
+
+
+    const today =
+        days[
+            new Date().getDay()
+        ];
+
+
+    const box =
+        document.getElementById(
+            "todaySchedule"
+        );
+
+
+    if(!box){
+
+        return;
+
+    }
+
+
+    const items = [];
+
+
+    for(
+        let i = 1;
+        i <= 4;
+        i++
+    ){
+
+        const value =
+            schedule[
+                today + i
+            ];
+
+
+        if(value){
+
+            items.push(`
+
+                <div style="
+                    padding:9px 0;
+                    border-bottom:1px solid #334155;
+                ">
+
+                    <strong>
+                        Slot ${i}
+                    </strong>
+
+                    :
+                    ${escapeHTML(value)}
+
+                </div>
+
+            `);
+
+        }
+
+    }
+
+
+    box.innerHTML =
+        items.length
+        ? items.join("")
+        : "No study sessions scheduled for today.";
+
+}
+
+
+/* =====================================================
+   TIMER
+===================================================== */
+
+let timerSeconds =
+    25 * 60;
+
+
+let timerInterval =
+    null;
+
+
+let timerRunning =
+    false;
+
+
+function updateTimer(){
+
+    const minutes =
+        Math.floor(
+            timerSeconds / 60
+        );
+
+
+    const seconds =
+        timerSeconds % 60;
+
+
+    document
+        .getElementById("timer")
+        .textContent =
+
+        String(minutes)
+            .padStart(2,"0")
+
+        +
+
+        ":"
+
+        +
+
+        String(seconds)
+            .padStart(2,"0");
+
+}
+
+
+function startTimer(){
+
+    if(timerRunning){
+
+        return;
+
+    }
+
+
+    timerRunning =
+        true;
+
+
+    timerInterval =
+        setInterval(
+            () => {
+
+                timerSeconds--;
+
+
+                updateTimer();
+
+
+                if(
+                    timerSeconds <= 0
+                ){
+
+                    clearInterval(
+                        timerInterval
+                    );
+
+
+                    timerRunning =
+                        false;
+
+
+                    timerSeconds =
+                        25 * 60;
+
+
+                    updateTimer();
+
+
+                    sessions++;
+
+
+                    localStorage.setItem(
+                        "sessions",
+                        sessions
+                    );
+
+
+                    addXP(25);
+
+
+                    showMotivationMessage();
+
+                }
+
+            },
+            1000
+        );
+
+}
+
+
+function pauseTimer(){
+
+    clearInterval(
+        timerInterval
+    );
+
+
+    timerRunning =
+        false;
+
+}
+
+
+function resetTimer(){
+
+    clearInterval(
+        timerInterval
+    );
+
+
+    timerRunning =
+        false;
+
+
+    timerSeconds =
+        25 * 60;
+
+
+    updateTimer();
+
+}
+
+
+/* =====================================================
+   ACHIEVEMENTS
+===================================================== */
+
+function updateAchievements(){
+
+    const box =
+        document.getElementById(
+            "achievementsList"
+        );
+
+
+    if(!box){
+
+        return;
+
+    }
+
+
+    const list = [
+
+        {
+            icon:"🌱",
+            title:"First Step",
+            text:"Complete your first task.",
+            unlocked:
+                tasksDone >= 1
+        },
+
+        {
+            icon:"🔥",
+            title:"Getting Started",
+            text:"Complete 5 tasks.",
+            unlocked:
+                tasksDone >= 5
+        },
+
+        {
+            icon:"📚",
+            title:"Study Mode",
+            text:"Complete 10 tasks.",
+            unlocked:
+                tasksDone >= 10
+        },
+
+        {
+            icon:"⏱️",
+            title:"Focused",
+            text:"Complete 3 study sessions.",
+            unlocked:
+                sessions >= 3
+        },
+
+        {
+            icon:"⭐",
+            title:"Level 5",
+            text:"Reach Level 5.",
+            unlocked:
+                level >= 5
+        },
+
+        {
+            icon:"👑",
+            title:"Scholar",
+            text:"Reach Level 10.",
+            unlocked:
+                level >= 10
+        }
+
+    ];
+
+
+    box.innerHTML =
+        list
+            .map(
+                item => `
+
+                    <div
+                        class="
+                        achievement
+                        ${
+                            item.unlocked
+                            ? ""
+                            : "locked"
+                        }
+                        "
+                    >
+
+                        <div
+                            class="achievement-icon"
+                        >
+                            ${item.icon}
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                ${item.title}
+                            </strong>
+
+                            <div
+                                style="
+                                color:#94a3b8;
+                                font-size:13px;
+                                margin-top:4px;
+                                "
+                            >
+
+                                ${item.text}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                `
+            )
+            .join("");
+
+}
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHTML(text){
+
+    return String(text)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+/* =====================================================
+   START
+===================================================== */
+
+checkName();
+
+updateStats();
+
+loadSchedule();
+
+loadPrayers();
+
+loadDailyMotivation();
+
+loadDailyDua();
+
+loadPrayerDua();
+
+renderTasks();
+
+renderDashboardTasks();
+
+showToday();
+
+updateTimer();
+
+updateSubjectProgress();
+
+updateAchievements();
+
+
+/* =====================================================
+   ENTER KEY FOR NAME
+===================================================== */
+
+document
+    .getElementById("nameInput")
+    .addEventListener(
+        "keydown",
+        function(event){
+
+            if(
+                event.key === "Enter"
+            ){
+
+                saveName();
+
+            }
+
+        }
+    );
+
+</script>
+
+</body>
+</html>
