@@ -4,229 +4,396 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>THRIVE 🌱</title>
+
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Inter,Arial,sans-serif;background:#eef1ed;color:#26352b}
-button,input,textarea,select{font:inherit}
-button{cursor:pointer;border:0}
 
-.app{display:flex;min-height:100vh}
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Inter,Arial,sans-serif;
+  background:#C4D3C6;
+  color:#203126;
+}
+
+button,
+input,
+textarea,
+select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+  border:0;
+}
+
+.app{
+  display:flex;
+  min-height:100vh;
+}
 
 .sidebar{
-  width:235px;background:#183b2a;color:#fff;padding:25px 15px;
-  position:fixed;inset:0 auto 0 0;z-index:20
+  width:235px;
+  background:#183b2a;
+  color:#fff;
+  padding:25px 15px;
+  position:fixed;
+  inset:0 auto 0 0;
+  z-index:20;
 }
 
-.logo{font-size:25px;font-weight:800;text-align:center;margin-bottom:28px}
+.logo{
+  font-size:25px;
+  font-weight:800;
+  text-align:center;
+  margin-bottom:28px;
+}
+
+.made-by{
+  text-align:center;
+  color:#BFD1C2;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.4px;
+  margin-top:-20px;
+  margin-bottom:22px;
+}
 
 .nav button{
-  width:100%;padding:12px 14px;margin:4px 0;background:transparent;
-  color:#dce9df;text-align:left;border-radius:12px
+  width:100%;
+  padding:12px 14px;
+  margin:4px 0;
+  background:transparent;
+  color:#dce9df;
+  text-align:left;
+  border-radius:12px;
 }
 
-.nav button:hover,.nav button.active{
-  background:#2c6044;color:#fff
+.nav button:hover,
+.nav button.active{
+  background:#2c6044;
+  color:#fff;
 }
 
 .main{
-  margin-left:235px;width:calc(100% - 235px);
-  padding:28px;max-width:1500px
+  margin-left:235px;
+  width:calc(100% - 235px);
+  padding:28px;
+  max-width:1500px;
 }
 
 .top{
-  display:flex;justify-content:space-between;align-items:center;
-  margin-bottom:25px
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:25px;
 }
 
-.page{display:none}
-.page.active{display:block}
+.page{
+  display:none;
+}
+
+.page.active{
+  display:block;
+}
 
 .card{
-  background:#fff;border-radius:18px;padding:20px;
-  margin-bottom:18px;box-shadow:0 4px 18px #183b2a12
+  background:#D6E1D8;
+  border-radius:18px;
+  padding:20px;
+  margin-bottom:18px;
+  box-shadow:0 4px 18px #183b2a12;
 }
 
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:16px
+  gap:16px;
 }
 
 .stat{
-  padding:20px;border-radius:16px;background:#eef5ef
+  padding:20px;
+  border-radius:16px;
+  background:#B8CDBB;
 }
 
 .stat b{
-  font-size:30px;display:block;margin-top:8px
+  font-size:30px;
+  display:block;
+  margin-top:8px;
 }
 
-input,textarea,select{
-  width:100%;padding:11px 13px;border:1px solid #d6dfd7;
-  border-radius:10px;background:#fff;outline:none
+input,
+textarea,
+select{
+  width:100%;
+  padding:11px 13px;
+  border:1px solid #AEBFAF;
+  border-radius:10px;
+  background:#C9D8CC;
+  color:#203126;
+  outline:none;
 }
 
-textarea{min-height:110px;resize:vertical}
+textarea{
+  min-height:110px;
+  resize:vertical;
+}
 
-input:focus,textarea:focus,select:focus{
-  border-color:#4d9a68
+input:focus,
+textarea:focus,
+select:focus{
+  border-color:#4d9a68;
 }
 
 .btn{
-  background:#2f754d;color:#fff;padding:10px 15px;
-  border-radius:10px;font-weight:700
+  background:#2f754d;
+  color:#fff;
+  padding:10px 15px;
+  border-radius:10px;
+  font-weight:700;
 }
 
-.btn:hover{background:#286541}
+.btn:hover{
+  background:#286541;
+}
 
 .btn.secondary{
-  background:#e7efe9;color:#285238
+  background:#e7efe9;
+  color:#285238;
 }
 
-.btn.danger{background:#b94b4b}
+.btn.danger{
+  background:#b94b4b;
+}
 
-.btn.danger:hover{background:#a43f3f}
+.btn.danger:hover{
+  background:#a43f3f;
+}
 
-.btn.success{background:#387b4f}
+.btn.success{
+  background:#387b4f;
+}
 
 .row{
-  display:flex;gap:10px;align-items:center;flex-wrap:wrap
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
 }
 
-.task,.subject,.note,.schedule-item{
-  border:1px solid #e0e7e1;padding:13px;border-radius:12px;
-  margin:9px 0;background:#fbfdfb
+.task,
+.subject,
+.note,
+.schedule-item{
+  border:1px solid #AFC1B2;
+  padding:13px;
+  border-radius:12px;
+  margin:9px 0;
+  background:#C7D7CA;
 }
 
 .task{
   display:flex;
   align-items:center;
-  gap:10px
+  gap:10px;
 }
 
 .task-check{
   width:auto;
-  flex-shrink:0
+  flex-shrink:0;
 }
 
 .task-content{
-  flex:1
+  flex:1;
 }
 
 .task.done{
-  opacity:.55
+  opacity:.55;
 }
 
 .task.done .task-content{
-  text-decoration:line-through
+  text-decoration:line-through;
 }
 
-.muted{color:#728078}
-.small{font-size:13px}
+.muted{
+  color:#53675A;
+}
+
+.small{
+  font-size:13px;
+}
 
 .badge{
-  display:inline-block;padding:5px 9px;border-radius:20px;
-  background:#e6f2e9;color:#28603d;font-size:12px;font-weight:700
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  background:#B5CBB8;
+  color:#234C31;
+  font-size:12px;
+  font-weight:700;
 }
 
-.stopwatch{text-align:center;padding:25px}
+.stopwatch{
+  text-align:center;
+  padding:25px;
+}
 
 .time{
-  font-size:55px;font-weight:800;letter-spacing:2px
+  font-size:55px;
+  font-weight:800;
+  letter-spacing:2px;
 }
 
 .xpbar{
-  height:12px;background:#e6ece7;border-radius:20px;overflow:hidden
+  height:12px;
+  background:#AFC2B2;
+  border-radius:20px;
+  overflow:hidden;
 }
 
 .xpfill{
-  height:100%;background:#4d9a68;width:0%;transition:.3s
+  height:100%;
+  background:#4d9a68;
+  width:0%;
+  transition:.3s;
 }
 
 .prayer{
-  display:flex;align-items:center;gap:10px;padding:13px;
-  border-bottom:1px solid #edf1ed
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:13px;
+  border-bottom:1px solid #AFC2B2;
 }
 
-.prayer input{width:auto}
+.prayer input{
+  width:auto;
+}
 
 .achievement{
-  padding:15px;border-radius:13px;background:#f0f5f1;margin:8px 0
+  padding:15px;
+  border-radius:13px;
+  background:#BDD0C0;
+  margin:8px 0;
 }
 
 .achievement.locked{
-  opacity:.45
+  opacity:.45;
 }
 
 .account{
-  background:#214b35;padding:13px;border-radius:13px;
-  margin-top:25px;font-size:12px;color:#dce9df
+  background:#214b35;
+  padding:13px;
+  border-radius:13px;
+  margin-top:25px;
+  font-size:12px;
+  color:#dce9df;
 }
 
 .account button{
-  margin-top:9px;width:100%
+  margin-top:9px;
+  width:100%;
 }
 
 .toast{
-  position:fixed;right:22px;bottom:22px;
-  background:#183b2a;color:#fff;padding:15px 18px;
-  border-radius:13px;box-shadow:0 8px 30px #0003;
-  z-index:200;max-width:380px;display:none
+  position:fixed;
+  right:22px;
+  bottom:22px;
+  background:#183b2a;
+  color:#fff;
+  padding:15px 18px;
+  border-radius:13px;
+  box-shadow:0 8px 30px #0003;
+  z-index:200;
+  max-width:380px;
+  display:none;
 }
 
 .toast-title{
-  font-weight:800;margin-bottom:5px
+  font-weight:800;
+  margin-bottom:5px;
 }
 
 .toast-text{
-  line-height:1.5
+  line-height:1.5;
 }
 
 .overlay{
-  position:fixed;inset:0;background:#f6f8f4;z-index:100;
-  display:flex;align-items:center;justify-content:center;padding:20px
+  position:fixed;
+  inset:0;
+  background:#C4D3C6;
+  z-index:100;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
 }
 
 .auth{
-  width:min(440px,100%);background:#fff;border-radius:22px;
-  padding:28px;box-shadow:0 10px 45px #183b2a18
+  width:min(440px,100%);
+  background:#D6E1D8;
+  border-radius:22px;
+  padding:28px;
+  box-shadow:0 10px 45px #183b2a18;
 }
 
-.auth h1{text-align:center;color:#183b2a}
+.auth h1{
+  text-align:center;
+  color:#183b2a;
+}
 
 .auth-tabs{
-  display:flex;gap:8px;margin-bottom:18px
+  display:flex;
+  gap:8px;
+  margin-bottom:18px;
 }
 
 .auth-tabs button{
-  flex:1;padding:10px;border-radius:10px;
-  background:#edf3ee;color:#31563d
+  flex:1;
+  padding:10px;
+  border-radius:10px;
+  background:#BDCEBF;
+  color:#31563d;
 }
 
 .auth-tabs button.active{
-  background:#2f754d;color:white
+  background:#2f754d;
+  color:white;
 }
 
 .auth label{
-  display:block;font-size:13px;font-weight:700;margin:12px 0 6px
+  display:block;
+  font-size:13px;
+  font-weight:700;
+  margin:12px 0 6px;
 }
 
 .auth .btn{
-  width:100%;margin-top:15px
+  width:100%;
+  margin-top:15px;
 }
 
 .auth-msg{
-  min-height:20px;margin-top:12px;
-  text-align:center;font-size:13px
+  min-height:20px;
+  margin-top:12px;
+  text-align:center;
+  font-size:13px;
 }
 
 .member{
-  display:flex;gap:8px;align-items:center;flex-wrap:wrap
+  display:flex;
+  gap:8px;
+  align-items:center;
+  flex-wrap:wrap;
 }
-
-/* Extra content while preserving base appearance */
 
 .motivation-box{
   padding:18px;
@@ -236,7 +403,7 @@ input:focus,textarea:focus,select:focus{
   color:#315d41;
   font-size:17px;
   font-weight:600;
-  line-height:1.7
+  line-height:1.7;
 }
 
 .dua-box{
@@ -247,7 +414,7 @@ input:focus,textarea:focus,select:focus{
   border-radius:13px;
   color:#315d41;
   font-size:19px;
-  line-height:2
+  line-height:2;
 }
 
 .quran-box{
@@ -256,185 +423,186 @@ input:focus,textarea:focus,select:focus{
   padding:20px;
   background:#f0f6f1;
   border-radius:14px;
-  line-height:2.2
+  line-height:2.2;
 }
 
 .quran-box .ayah{
   font-size:21px;
-  color:#26352b
+  color:#26352b;
 }
 
 .quran-box .ref{
   color:#4d795c;
   font-size:13px;
-  margin-top:8px
+  margin-top:8px;
 }
 
 .section-title{
   font-size:20px;
   font-weight:800;
-  margin-bottom:6px
+  margin-bottom:6px;
 }
 
 .section-subtitle{
   color:#728078;
   font-size:13px;
-  margin-bottom:16px
+  margin-bottom:16px;
 }
 
 .subject-grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
-  gap:16px
+  gap:16px;
 }
 
 .subject-card{
-  background:#fff;
+  background:#D6E1D8;
   border-radius:16px;
   padding:20px;
   box-shadow:0 4px 18px #183b2a12;
-  border:1px solid #e0e7e1;
-  transition:.2s
+  border:1px solid #AFC1B2;
+  transition:.2s;
 }
 
 .subject-card:hover{
-  transform:translateY(-2px)
+  transform:translateY(-2px);
 }
 
 .subject-name{
   font-size:19px;
   font-weight:800;
-  margin-bottom:13px
+  margin-bottom:13px;
 }
 
 .progress-bg{
   height:8px;
   background:#e5ece7;
   border-radius:10px;
-  overflow:hidden
+  overflow:hidden;
 }
 
 .progress{
   height:100%;
   background:#4d9a68;
-  transition:.3s
+  transition:.3s;
 }
 
 .percent{
   display:block;
   color:#728078;
   font-size:12px;
-  margin-top:7px
+  margin-top:7px;
 }
 
 .subject-actions{
   display:flex;
   gap:8px;
-  margin-top:13px
+  margin-top:13px;
+  flex-wrap:wrap;
 }
 
 .table-wrap{
-  overflow-x:auto
+  overflow-x:auto;
 }
 
 .schedule-table{
   width:100%;
   border-collapse:collapse;
-  min-width:650px
+  min-width:650px;
 }
 
 .schedule-table th,
 .schedule-table td{
   border:1px solid #dce5de;
   padding:9px;
-  text-align:center
+  text-align:center;
 }
 
 .schedule-table th{
   background:#eef5ef;
-  color:#285238
+  color:#285238;
 }
 
 .schedule-table input{
   border:0;
   background:transparent;
-  text-align:center
+  text-align:center;
 }
 
 .prayer-table{
   width:100%;
-  border-collapse:collapse
+  border-collapse:collapse;
 }
 
 .prayer-table th,
 .prayer-table td{
   padding:13px;
-  border-bottom:1px solid #e5ece7
+  border-bottom:1px solid #e5ece7;
 }
 
 .prayer-table th{
   background:#eef5ef;
-  text-align:left
+  text-align:left;
 }
 
 .prayer-check{
   width:21px;
   height:21px;
   accent-color:#2f754d;
-  cursor:pointer
+  cursor:pointer;
 }
 
 .prayer-status{
   text-align:center;
   margin-top:17px;
   color:#2f754d;
-  font-weight:800
+  font-weight:800;
 }
 
 .timer-buttons{
   display:flex;
   justify-content:center;
   gap:9px;
-  flex-wrap:wrap
+  flex-wrap:wrap;
 }
 
 .timer-note{
   text-align:center;
   color:#728078;
   font-size:13px;
-  margin-top:10px
+  margin-top:10px;
 }
 
 .timer-reward{
   text-align:center;
   color:#2f754d;
   margin-top:10px;
-  font-size:14px
+  font-size:14px;
 }
 
 .notes-list .note{
   padding:15px;
-  background:#fbfdfb
+  background:#fbfdfb;
 }
 
 .note-head{
   display:flex;
   justify-content:space-between;
   gap:10px;
-  align-items:center
+  align-items:center;
 }
 
 .note-date{
   font-size:11px;
   color:#728078;
-  margin-top:4px
+  margin-top:4px;
 }
 
 .note-body{
   white-space:pre-wrap;
   color:#435148;
   line-height:1.7;
-  margin-top:9px
+  margin-top:9px;
 }
 
 .modal{
@@ -444,11 +612,11 @@ input:focus,textarea:focus,select:focus{
   background:rgba(24,59,42,.45);
   align-items:center;
   justify-content:center;
-  z-index:150
+  z-index:150;
 }
 
 .modal.show{
-  display:flex
+  display:flex;
 }
 
 .modal-box{
@@ -458,18 +626,18 @@ input:focus,textarea:focus,select:focus{
   background:#fff;
   border-radius:18px;
   padding:25px;
-  box-shadow:0 20px 60px #183b2a30
+  box-shadow:0 20px 60px #183b2a30;
 }
 
 .form-group{
-  margin-bottom:15px
+  margin-bottom:15px;
 }
 
 .form-group label{
   display:block;
   margin-bottom:7px;
   font-weight:700;
-  font-size:13px
+  font-size:13px;
 }
 
 .reset-xp{
@@ -479,129 +647,69 @@ input:focus,textarea:focus,select:focus{
   border-radius:8px;
   background:#f5dddd;
   color:#963c3c;
-  font-size:12px
+  font-size:12px;
 }
 
 .reset-xp:hover{
-  background:#eed0d0
+  background:#eed0d0;
 }
 
 @media(max-width:750px){
+
   .sidebar{
     width:72px;
-    padding:18px 8px
+    padding:18px 8px;
   }
 
   .logo{
-    font-size:0
+    font-size:0;
   }
 
   .logo:first-letter{
-    font-size:25px
+    font-size:25px;
   }
 
   .nav button{
     font-size:0;
-    text-align:center
+    text-align:center;
   }
 
   .nav button::first-letter{
-    font-size:20px
+    font-size:20px;
   }
 
   .main{
     margin-left:72px;
     width:calc(100% - 72px);
-    padding:16px
+    padding:16px;
   }
 
   .time{
-    font-size:42px
+    font-size:42px;
   }
 
   .top{
     align-items:flex-start;
-    gap:10px
+    gap:10px;
   }
 
   .member{
-    font-size:11px
+    font-size:11px;
   }
-}
-.made-by{
-  text-align:center;
-  color:#BFD1C2;
-  font-size:11px;
-  font-weight:700;
-  letter-spacing:.4px;
-  margin-top:-20px;
-  margin-bottom:22px;
-}
-/* ===== THRIVE DARK GREEN THEME ===== */
 
-body,
-.overlay {
-  background:#C4D3C6 !important;
-  color:#203126;
-}
-
-.card,
-.auth {
-  background:#D6E1D8 !important;
-}
-
-input,
-textarea,
-select {
-  background:#C9D8CC !important;
-  color:#203126;
-  border-color:#AEBFAF !important;
-}
-
-.task,
-.subject,
-.note,
-.schedule-item {
-  background:#C7D7CA !important;
-  border-color:#AFC1B2 !important;
-}
-
-.stat {
-  background:#B8CDBB !important;
-}
-
-.achievement {
-  background:#BDD0C0 !important;
-}
-
-.xpbar {
-  background:#AFC2B2 !important;
-}
-
-.prayer {
-  border-bottom-color:#AFC2B2 !important;
-}
-
-.auth-tabs button {
-  background:#BDCEBF !important;
-}
-
-.muted {
-  color:#53675A;
-}
-
-.badge {
-  background:#B5CBB8;
-  color:#234C31;
 }
 
 </style>
+</head>
+
 <body>
 
 <!-- ================= AUTH ================= -->
 
 <div id="authOverlay" class="overlay">
+
   <div class="auth">
+
     <h1>THRIVE 🌱</h1>
 
     <p class="muted" style="text-align:center">
@@ -609,603 +717,838 @@ select {
     </p>
 
     <div class="auth-tabs">
-      <button id="loginTab" class="active" onclick="showAuth('login')">
+
+      <button
+        id="loginTab"
+        class="active"
+        onclick="showAuth('login')"
+      >
         Login
       </button>
 
-      <button id="signupTab" onclick="showAuth('signup')">
+      <button
+        id="signupTab"
+        onclick="showAuth('signup')"
+      >
         Create account
       </button>
+
     </div>
 
     <div id="nameWrap" style="display:none">
+
       <label>Name</label>
-      <input id="authName" placeholder="Your name">
+
+      <input
+        id="authName"
+        placeholder="Your name"
+      >
+
     </div>
 
     <label>Email</label>
-    <input id="authEmail" type="email" placeholder="you@example.com">
+
+    <input
+      id="authEmail"
+      type="email"
+      placeholder="you@example.com"
+    >
 
     <label>Password</label>
-    <input id="authPassword" type="password" placeholder="At least 6 characters">
 
-    <button class="btn" id="authBtn" onclick="submitAuth()">
+    <input
+      id="authPassword"
+      type="password"
+      placeholder="At least 6 characters"
+    >
+
+    <button
+      class="btn"
+      id="authBtn"
+      onclick="submitAuth()"
+    >
       Login
     </button>
 
-    <div id="authMsg" class="auth-msg"></div>
+    <div
+      id="authMsg"
+      class="auth-msg"
+    ></div>
+
   </div>
+
 </div>
+
 
 <!-- ================= APP ================= -->
 
-<div class="app" id="app" style="display:none">
+<div
+  class="app"
+  id="app"
+  style="display:none"
+>
 
-<aside class="sidebar">
-<div class="logo">🌱 THRIVE</div>
+  <aside class="sidebar">
 
-<div class="made-by">Made by Haneen 🐢</div>
-
-<div class="nav">
- 
-
-    <button class="active" onclick="go('dashboard',this)">
-      🏠 Dashboard
-    </button>
-
-    <button onclick="go('subjects',this)">
-      📚 Subjects
-    </button>
-
-    <button onclick="go('schedule',this)">
-      🗓️ Schedule
-    </button>
-
-    <button onclick="go('study',this)">
-      ⏱️ Study
-    </button>
-
-    <button onclick="go('prayers',this)">
-      🕌 Prayers
-    </button>
-
-    <button onclick="go('notes',this)">
-      📝 Notes
-    </button>
-
-    <button onclick="go('achievements',this)">
-      🏆 Achievements
-    </button>
-
-  </div>
-
-  <div class="account">
-
-    <div>
-      👤 <span id="sideUser">User</span>
+    <div class="logo">
+      🌱 THRIVE
     </div>
 
-    <div class="small" id="sideEmail"></div>
-
-    <button class="btn secondary" onclick="logout()">
-      Log out
-    </button>
-
-  </div>
-
-</aside>
-
-<main class="main">
-
-<!-- ================= TOP ================= -->
-
-<div class="top">
-
-  <div>
-    <h1 id="welcome">Welcome 🌱</h1>
-    <div class="muted">
-      Small steps. Every day.
+    <div class="made-by">
+      Made by Haneen 🐢
     </div>
-  </div>
 
-  <div class="member badge">
-    📅 Member since
-    <span id="memberSince">—</span>
-  </div>
+    <div class="nav">
+
+      <button
+        class="active"
+        onclick="go('dashboard',this)"
+      >
+        🏠 Dashboard
+      </button>
+
+      <button
+        onclick="go('subjects',this)"
+      >
+        📚 Subjects
+      </button>
+
+      <button
+        onclick="go('schedule',this)"
+      >
+        🗓️ Schedule
+      </button>
+
+      <button
+        onclick="go('study',this)"
+      >
+        ⏱️ Study
+      </button>
+
+      <button
+        onclick="go('prayers',this)"
+      >
+        🕌 Prayers
+      </button>
+
+      <button
+        onclick="go('notes',this)"
+      >
+        📝 Notes
+      </button>
+
+      <button
+        onclick="go('achievements',this)"
+      >
+        🏆 Achievements
+      </button>
+
+    </div>
+
+    <div class="account">
+
+      <div>
+        👤 <span id="sideUser">User</span>
+      </div>
+
+      <div
+        class="small"
+        id="sideEmail"
+      ></div>
+
+      <button
+        class="btn secondary"
+        onclick="logout()"
+      >
+        Log out
+      </button>
+
+    </div>
+
+  </aside>
+
+
+  <main class="main">
+
+    <!-- ================= TOP ================= -->
+
+    <div class="top">
+
+      <div>
+
+        <h1 id="welcome">
+          Welcome 🌱
+        </h1>
+
+        <div class="muted">
+          Small steps. Every day.
+        </div>
+
+      </div>
+
+      <div class="member badge">
+
+        📅 Member since
+
+        <span id="memberSince">
+          —
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <!-- ================= DASHBOARD ================= -->
+
+    <section
+      id="dashboard"
+      class="page active"
+    >
+
+      <div class="grid">
+
+        <div class="stat">
+
+          ⭐ XP
+
+          <b id="xp">0</b>
+
+          <button
+            class="reset-xp"
+            onclick="resetXP()"
+          >
+            🔄 Reset XP
+          </button>
+
+        </div>
+
+        <div class="stat">
+
+          🏅 Level
+
+          <b id="level">1</b>
+
+        </div>
+
+        <div class="stat">
+
+          📖 Tasks done
+
+          <b id="tasksDone">0</b>
+
+        </div>
+
+        <div class="stat">
+
+          ⏱️ Study sessions
+
+          <b id="sessions">0</b>
+
+        </div>
+
+      </div>
+
+
+      <div class="card">
+
+        <h2>Progress</h2>
+
+        <div class="xpbar">
+
+          <div
+            id="xpfill"
+            class="xpfill"
+          ></div>
+
+        </div>
+
+        <p
+          class="muted"
+          id="xpText"
+        ></p>
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="section-title">
+          💬 Daily Motivation
+        </div>
+
+        <div class="section-subtitle">
+          A little motivation for today.
+        </div>
+
+        <div
+          id="dailyMotivation"
+          class="motivation-box"
+        ></div>
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="section-title">
+          🤲 Daily Dua
+        </div>
+
+        <div class="section-subtitle">
+          A rotating dua for your day.
+        </div>
+
+        <div
+          id="dailyDua"
+          class="dua-box"
+        ></div>
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="section-title">
+          📅 Today's Schedule
+        </div>
+
+        <div
+          id="todaySchedule"
+          class="muted"
+        >
+          No schedule added yet.
+        </div>
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="section-title">
+          📝 Pending Tasks
+        </div>
+
+        <div id="dashboardTasks"></div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= SUBJECTS ================= -->
+
+    <section
+      id="subjects"
+      class="page"
+    >
+
+      <div class="card">
+
+        <h2>📚 Subjects</h2>
+
+        <p
+          class="muted"
+          style="margin:6px 0 16px"
+        >
+          Add the subjects you actually study.
+        </p>
+
+        <div class="row">
+
+          <input
+            id="subjectInput"
+            placeholder="e.g. History, Biology, Turkish..."
+          >
+
+          <button
+            class="btn"
+            onclick="addSubject()"
+          >
+            Add Subject
+          </button>
+
+        </div>
+
+      </div>
+
+      <div
+        id="subjectGrid"
+        class="subject-grid"
+      ></div>
+
+    </section>
+
+
+    <!-- ================= SCHEDULE ================= -->
+
+    <section
+      id="schedule"
+      class="page"
+    >
+
+      <div class="card">
+
+        <h2>🗓️ Weekly Schedule</h2>
+
+        <p
+          class="muted"
+          style="margin:6px 0 16px"
+        >
+          Organize your study week.
+        </p>
+
+        <div class="table-wrap">
+
+          <table class="schedule-table">
+
+            <thead>
+
+              <tr>
+                <th>Day</th>
+                <th>1</th>
+                <th>2</th>
+                <th>3</th>
+                <th>4</th>
+              </tr>
+
+            </thead>
+
+            <tbody>
+
+              <tr>
+                <th>Saturday</th>
+                <td><input id="sat1"></td>
+                <td><input id="sat2"></td>
+                <td><input id="sat3"></td>
+                <td><input id="sat4"></td>
+              </tr>
+
+              <tr>
+                <th>Sunday</th>
+                <td><input id="sun1"></td>
+                <td><input id="sun2"></td>
+                <td><input id="sun3"></td>
+                <td><input id="sun4"></td>
+              </tr>
+
+              <tr>
+                <th>Monday</th>
+                <td><input id="mon1"></td>
+                <td><input id="mon2"></td>
+                <td><input id="mon3"></td>
+                <td><input id="mon4"></td>
+              </tr>
+
+              <tr>
+                <th>Tuesday</th>
+                <td><input id="tue1"></td>
+                <td><input id="tue2"></td>
+                <td><input id="tue3"></td>
+                <td><input id="tue4"></td>
+              </tr>
+
+              <tr>
+                <th>Wednesday</th>
+                <td><input id="wed1"></td>
+                <td><input id="wed2"></td>
+                <td><input id="wed3"></td>
+                <td><input id="wed4"></td>
+              </tr>
+
+              <tr>
+                <th>Thursday</th>
+                <td><input id="thu1"></td>
+                <td><input id="thu2"></td>
+                <td><input id="thu3"></td>
+                <td><input id="thu4"></td>
+              </tr>
+
+              <tr>
+                <th>Friday</th>
+                <td><input id="fri1"></td>
+                <td><input id="fri2"></td>
+                <td><input id="fri3"></td>
+                <td><input id="fri4"></td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+        <button
+          class="btn"
+          style="margin-top:15px"
+          onclick="saveSchedule()"
+        >
+          💾 Save Schedule
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= STUDY ================= -->
+
+    <section
+      id="study"
+      class="page"
+    >
+
+      <div class="card stopwatch">
+
+        <h2>⏱️ Study Stopwatch</h2>
+
+        <div
+          class="time"
+          id="time"
+        >
+          00:00:00
+        </div>
+
+        <p class="muted">
+          Every 30 focused minutes = +30 XP ⭐
+        </p>
+
+        <div class="timer-buttons">
+
+          <button
+            class="btn"
+            id="startBtn"
+            onclick="toggleStopwatch()"
+          >
+            Start
+          </button>
+
+          <button
+            class="btn secondary"
+            onclick="pauseStopwatch()"
+          >
+            Pause
+          </button>
+
+          <button
+            class="btn danger"
+            onclick="resetStopwatch()"
+          >
+            Reset
+          </button>
+
+        </div>
+
+        <div
+          class="timer-reward"
+          id="timerReward"
+        >
+          Next reward: 30 XP after 30 minutes.
+        </div>
+
+        <div class="timer-note">
+          Your earned 30-minute blocks are counted only while the stopwatch is running.
+        </div>
+
+      </div>
+
+
+      <div class="card">
+
+        <h2>📝 Add Any Task</h2>
+
+        <p
+          class="muted"
+          style="margin:6px 0 16px"
+        >
+          Homework, revision, reading, studying, or anything else.
+        </p>
+
+        <div class="grid">
+
+          <input
+            id="taskInput"
+            placeholder="What do you need to do?"
+          >
+
+          <select id="taskSubject"></select>
+
+        </div>
+
+        <button
+          class="btn"
+          style="margin-top:10px"
+          onclick="addTask()"
+        >
+          ➕ Add Task
+        </button>
+
+      </div>
+
+
+      <div class="card">
+
+        <h2>📋 Tasks</h2>
+
+        <div id="tasksList"></div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= PRAYERS ================= -->
+
+    <section
+      id="prayers"
+      class="page"
+    >
+
+      <div class="card">
+
+        <h2>🕌 Today's Prayers</h2>
+
+        <p
+          class="muted"
+          style="margin:6px 0 16px"
+        >
+          Keep track of your prayers for today.
+        </p>
+
+        <table class="prayer-table">
+
+          <thead>
+
+            <tr>
+
+              <th>Prayer</th>
+
+              <th style="text-align:center">
+                Completed
+              </th>
+
+            </tr>
+
+          </thead>
+
+          <tbody>
+
+            <tr>
+              <td>
+                <b>Fajr</b>
+                <div class="small muted">الفجر</div>
+              </td>
+              <td style="text-align:center">
+                <input
+                  class="prayer-check"
+                  type="checkbox"
+                  id="prayer-fajr"
+                >
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <b>Dhuhr</b>
+                <div class="small muted">الظهر</div>
+              </td>
+              <td style="text-align:center">
+                <input
+                  class="prayer-check"
+                  type="checkbox"
+                  id="prayer-dhuhr"
+                >
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <b>Asr</b>
+                <div class="small muted">العصر</div>
+              </td>
+              <td style="text-align:center">
+                <input
+                  class="prayer-check"
+                  type="checkbox"
+                  id="prayer-asr"
+                >
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <b>Maghrib</b>
+                <div class="small muted">المغرب</div>
+              </td>
+              <td style="text-align:center">
+                <input
+                  class="prayer-check"
+                  type="checkbox"
+                  id="prayer-maghrib"
+                >
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <b>Isha</b>
+                <div class="small muted">العشاء</div>
+              </td>
+              <td style="text-align:center">
+                <input
+                  class="prayer-check"
+                  type="checkbox"
+                  id="prayer-isha"
+                >
+              </td>
+            </tr>
+
+          </tbody>
+
+        </table>
+
+        <div
+          id="prayerStatus"
+          class="prayer-status"
+        >
+          0 / 5 completed
+        </div>
+
+      </div>
+
+
+      <div class="card">
+
+        <h2>📖 Ayah for Your Prayer</h2>
+
+        <p
+          class="muted"
+          style="margin:6px 0 16px"
+        >
+          After completing a prayer, a different ayah appears.
+        </p>
+
+        <div
+          id="prayerQuran"
+          class="quran-box"
+        ></div>
+
+      </div>
+
+
+      <div class="card">
+
+        <h2>🤲 Rotating Duas</h2>
+
+        <p
+          class="muted"
+          style="margin:6px 0 16px"
+        >
+          A little dua to keep close.
+        </p>
+
+        <div
+          id="prayerDua"
+          class="dua-box"
+        ></div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= NOTES ================= -->
+
+    <section
+      id="notes"
+      class="page"
+    >
+
+      <div class="card">
+
+        <h2>📝 New Note</h2>
+
+        <div class="form-group">
+
+          <label>Title</label>
+
+          <input
+            id="noteTitle"
+            placeholder="Note title..."
+          >
+
+        </div>
+
+        <div class="form-group">
+
+          <label>Note</label>
+
+          <textarea
+            id="noteBody"
+            placeholder="Write whatever you want..."
+          ></textarea>
+
+        </div>
+
+        <button
+          class="btn"
+          onclick="addNote()"
+        >
+          💾 Save Note
+        </button>
+
+      </div>
+
+
+      <div class="card">
+
+        <h2>📚 Your Notes</h2>
+
+        <div
+          id="notesList"
+          class="notes-list"
+        ></div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= ACHIEVEMENTS ================= -->
+
+    <section
+      id="achievements"
+      class="page"
+    >
+
+      <div class="card">
+
+        <h2>🏆 Achievements</h2>
+
+        <p
+          class="muted"
+          style="margin:6px 0 16px"
+        >
+          Keep going and unlock new milestones. 🌟
+        </p>
+
+        <div id="achievementList"></div>
+
+      </div>
+
+    </section>
+
+  </main>
 
 </div>
 
-<!-- ================= DASHBOARD ================= -->
-
-<section id="dashboard" class="page active">
-
-  <div class="grid">
-
-    <div class="stat">
-      ⭐ XP
-      <b id="xp">0</b>
-
-      <button class="reset-xp" onclick="resetXP()">
-        🔄 Reset XP
-      </button>
-    </div>
-
-    <div class="stat">
-      🏅 Level
-      <b id="level">1</b>
-    </div>
-
-    <div class="stat">
-      📖 Tasks done
-      <b id="tasksDone">0</b>
-    </div>
-
-    <div class="stat">
-      ⏱️ Study sessions
-      <b id="sessions">0</b>
-    </div>
-
-  </div>
-
-  <div class="card">
-
-    <h2>Progress</h2>
-
-    <div class="xpbar">
-      <div id="xpfill" class="xpfill"></div>
-    </div>
-
-    <p class="muted" id="xpText"></p>
-
-  </div>
-
-  <div class="card">
-
-    <div class="section-title">
-      💬 Daily Motivation
-    </div>
-
-    <div class="section-subtitle">
-      A little motivation for today.
-    </div>
-
-    <div id="dailyMotivation" class="motivation-box"></div>
-
-  </div>
-
-  <div class="card">
-
-    <div class="section-title">
-      🤲 Daily Dua
-    </div>
-
-    <div class="section-subtitle">
-      A rotating dua for your day.
-    </div>
-
-    <div id="dailyDua" class="dua-box"></div>
-
-  </div>
-
-  <div class="card">
-
-    <div class="section-title">
-      📅 Today's Schedule
-    </div>
-
-    <div id="todaySchedule" class="muted">
-      No schedule added yet.
-    </div>
-
-  </div>
-
-  <div class="card">
-
-    <div class="section-title">
-      📝 Pending Tasks
-    </div>
-
-    <div id="dashboardTasks"></div>
-
-  </div>
-
-</section>
-
-<!-- ================= SUBJECTS ================= -->
-
-<section id="subjects" class="page">
-
-  <div class="card">
-
-    <h2>📚 Subjects</h2>
-
-    <p class="muted" style="margin:6px 0 16px">
-      Add the subjects you actually study.
-    </p>
-
-    <div class="row">
-
-      <input
-        id="subjectInput"
-        placeholder="e.g. History, Biology, Turkish..."
-      >
-
-      <button class="btn" onclick="addSubject()">
-        Add Subject
-      </button>
-
-    </div>
-
-  </div>
-
-  <div id="subjectGrid" class="subject-grid"></div>
-
-</section>
-
-<!-- ================= SCHEDULE ================= -->
-
-<section id="schedule" class="page">
-
-  <div class="card">
-
-    <h2>🗓️ Weekly Schedule</h2>
-
-    <p class="muted" style="margin:6px 0 16px">
-      Organize your study week.
-    </p>
-
-    <div class="table-wrap">
-
-      <table class="schedule-table">
-
-        <thead>
-          <tr>
-            <th>Day</th>
-            <th>1</th>
-            <th>2</th>
-            <th>3</th>
-            <th>4</th>
-          </tr>
-        </thead>
-
-        <tbody>
-
-          <tr>
-            <th>Saturday</th>
-            <td><input id="sat1"></td>
-            <td><input id="sat2"></td>
-            <td><input id="sat3"></td>
-            <td><input id="sat4"></td>
-          </tr>
-
-          <tr>
-            <th>Sunday</th>
-            <td><input id="sun1"></td>
-            <td><input id="sun2"></td>
-            <td><input id="sun3"></td>
-            <td><input id="sun4"></td>
-          </tr>
-
-          <tr>
-            <th>Monday</th>
-            <td><input id="mon1"></td>
-            <td><input id="mon2"></td>
-            <td><input id="mon3"></td>
-            <td><input id="mon4"></td>
-          </tr>
-
-          <tr>
-            <th>Tuesday</th>
-            <td><input id="tue1"></td>
-            <td><input id="tue2"></td>
-            <td><input id="tue3"></td>
-            <td><input id="tue4"></td>
-          </tr>
-
-          <tr>
-            <th>Wednesday</th>
-            <td><input id="wed1"></td>
-            <td><input id="wed2"></td>
-            <td><input id="wed3"></td>
-            <td><input id="wed4"></td>
-          </tr>
-
-          <tr>
-            <th>Thursday</th>
-            <td><input id="thu1"></td>
-            <td><input id="thu2"></td>
-            <td><input id="thu3"></td>
-            <td><input id="thu4"></td>
-          </tr>
-
-          <tr>
-            <th>Friday</th>
-            <td><input id="fri1"></td>
-            <td><input id="fri2"></td>
-            <td><input id="fri3"></td>
-            <td><input id="fri4"></td>
-          </tr>
-
-        </tbody>
-
-      </table>
-
-    </div>
-
-    <button class="btn" style="margin-top:15px" onclick="saveSchedule()">
-      💾 Save Schedule
-    </button>
-
-  </div>
-
-</section>
-
-<!-- ================= STUDY ================= -->
-
-<section id="study" class="page">
-
-  <div class="card stopwatch">
-
-    <h2>⏱️ Study Stopwatch</h2>
-
-    <div class="time" id="time">
-      00:00:00
-    </div>
-
-    <p class="muted">
-      Every 30 focused minutes = +30 XP ⭐
-    </p>
-
-    <div class="timer-buttons">
-
-      <button class="btn" id="startBtn" onclick="toggleStopwatch()">
-        Start
-      </button>
-
-      <button class="btn secondary" onclick="pauseStopwatch()">
-        Pause
-      </button>
-
-      <button class="btn danger" onclick="resetStopwatch()">
-        Reset
-      </button>
-
-    </div>
-
-    <div class="timer-reward" id="timerReward">
-      Next reward: 30 XP after 30 minutes.
-    </div>
-
-    <div class="timer-note">
-      Your earned 30-minute blocks are counted only while the stopwatch is running.
-    </div>
-
-  </div>
-
-  <div class="card">
-
-    <h2>📝 Add Any Task</h2>
-
-    <p class="muted" style="margin:6px 0 16px">
-      Homework, revision, reading, studying, or anything else.
-    </p>
-
-    <div class="grid">
-
-      <input
-        id="taskInput"
-        placeholder="What do you need to do?"
-      >
-
-      <select id="taskSubject"></select>
-
-    </div>
-
-    <button class="btn" style="margin-top:10px" onclick="addTask()">
-      ➕ Add Task
-    </button>
-
-  </div>
-
-  <div class="card">
-
-    <h2>📋 Tasks</h2>
-
-    <div id="tasksList"></div>
-
-  </div>
-
-</section>
-
-<!-- ================= PRAYERS ================= -->
-
-<section id="prayers" class="page">
-
-  <div class="card">
-
-    <h2>🕌 Today's Prayers</h2>
-
-    <p class="muted" style="margin:6px 0 16px">
-      Keep track of your prayers for today.
-    </p>
-
-    <table class="prayer-table">
-
-      <thead>
-        <tr>
-          <th>Prayer</th>
-          <th style="text-align:center">
-            Completed
-          </th>
-        </tr>
-      </thead>
-
-      <tbody>
-
-        <tr>
-          <td>
-            <b>Fajr</b>
-            <div class="small muted">الفجر</div>
-          </td>
-          <td style="text-align:center">
-            <input
-              class="prayer-check"
-              type="checkbox"
-              id="prayer-fajr"
-            >
-          </td>
-        </tr>
-
-        <tr>
-          <td>
-            <b>Dhuhr</b>
-            <div class="small muted">الظهر</div>
-          </td>
-          <td style="text-align:center">
-            <input
-              class="prayer-check"
-              type="checkbox"
-              id="prayer-dhuhr"
-            >
-          </td>
-        </tr>
-
-        <tr>
-          <td>
-            <b>Asr</b>
-            <div class="small muted">العصر</div>
-          </td>
-          <td style="text-align:center">
-            <input
-              class="prayer-check"
-              type="checkbox"
-              id="prayer-asr"
-            >
-          </td>
-        </tr>
-
-        <tr>
-          <td>
-            <b>Maghrib</b>
-            <div class="small muted">المغرب</div>
-          </td>
-          <td style="text-align:center">
-            <input
-              class="prayer-check"
-              type="checkbox"
-              id="prayer-maghrib"
-            >
-          </td>
-        </tr>
-
-        <tr>
-          <td>
-            <b>Isha</b>
-            <div class="small muted">العشاء</div>
-          </td>
-          <td style="text-align:center">
-            <input
-              class="prayer-check"
-              type="checkbox"
-              id="prayer-isha"
-            >
-          </td>
-        </tr>
-
-      </tbody>
-
-    </table>
-
-    <div id="prayerStatus" class="prayer-status">
-      0 / 5 completed
-    </div>
-
-  </div>
-
-  <div class="card">
-
-    <h2>📖 Ayah for Your Prayer</h2>
-
-    <p class="muted" style="margin:6px 0 16px">
-      After completing a prayer, a different ayah appears.
-    </p>
-
-    <div id="prayerQuran" class="quran-box"></div>
-
-  </div>
-
-  <div class="card">
-
-    <h2>🤲 Rotating Duas</h2>
-
-    <p class="muted" style="margin:6px 0 16px">
-      A little dua to keep close.
-    </p>
-
-    <div id="prayerDua" class="dua-box"></div>
-
-  </div>
-
-</section>
-
-<!-- ================= NOTES ================= -->
-
-<section id="notes" class="page">
-
-  <div class="card">
-
-    <h2>📝 New Note</h2>
-
-    <div class="form-group">
-      <label>Title</label>
-      <input id="noteTitle" placeholder="Note title...">
-    </div>
-
-    <div class="form-group">
-      <label>Note</label>
-      <textarea id="noteBody" placeholder="Write whatever you want..."></textarea>
-    </div>
-
-    <button class="btn" onclick="addNote()">
-      💾 Save Note
-    </button>
-
-  </div>
-
-  <div class="card">
-
-    <h2>📚 Your Notes</h2>
-
-    <div id="notesList" class="notes-list"></div>
-
-  </div>
-
-</section>
-
-<!-- ================= ACHIEVEMENTS ================= -->
-
-<section id="achievements" class="page">
-
-  <div class="card">
-
-    <h2>🏆 Achievements</h2>
-
-    <p class="muted" style="margin:6px 0 16px">
-      Keep going and unlock new milestones. 🌟
-    </p>
-
-    <div id="achievementList"></div>
-
-  </div>
-
-</section>
-
-</main>
-</div>
 
 <!-- ================= SUBJECT MODAL ================= -->
 
-<div id="subjectModal" class="modal">
+<div
+  id="subjectModal"
+  class="modal"
+>
 
   <div class="modal-box">
 
@@ -1214,37 +1557,74 @@ select {
     <br>
 
     <div class="form-group">
+
       <label>Homework Grade</label>
-      <input type="number" id="homeworkGrade" min="0">
+
+      <input
+        type="number"
+        id="homeworkGrade"
+        min="0"
+      >
+
     </div>
 
     <div class="form-group">
+
       <label>Homework Max</label>
-      <input type="number" id="homeworkMax" min="0">
+
+      <input
+        type="number"
+        id="homeworkMax"
+        min="0"
+      >
+
     </div>
 
     <div class="form-group">
+
       <label>Exam Grade</label>
-      <input type="number" id="examGrade" min="0">
+
+      <input
+        type="number"
+        id="examGrade"
+        min="0"
+      >
+
     </div>
 
     <div class="form-group">
+
       <label>Exam Max</label>
-      <input type="number" id="examMax" min="0">
+
+      <input
+        type="number"
+        id="examMax"
+        min="0"
+      >
+
     </div>
 
     <div class="form-group">
+
       <label>Subject Notes</label>
+
       <textarea id="subjectNotes"></textarea>
+
     </div>
 
     <div class="row">
 
-      <button class="btn" onclick="saveSubject()">
+      <button
+        class="btn"
+        onclick="saveSubject()"
+      >
         Save
       </button>
 
-      <button class="btn secondary" onclick="closeSubject()">
+      <button
+        class="btn secondary"
+        onclick="closeSubject()"
+      >
         Close
       </button>
 
@@ -1254,10 +1634,26 @@ select {
 
 </div>
 
-<div id="toast" class="toast">
-  <div id="toastTitle" class="toast-title"></div>
-  <div id="toastText" class="toast-text"></div>
+
+<!-- ================= TOAST ================= -->
+
+<div
+  id="toast"
+  class="toast"
+>
+
+  <div
+    id="toastTitle"
+    class="toast-title"
+  ></div>
+
+  <div
+    id="toastText"
+    class="toast-text"
+  ></div>
+
 </div>
+
 
 <script>
 
@@ -1266,16 +1662,63 @@ select {
 ========================================================= */
 
 const SUPABASE_URL =
-"https://mmzhncswovxfcdsjetyn.supabase.co";
+  "https://mmzhncswovxfcdsjetyn.supabase.co";
 
 const SUPABASE_KEY =
-"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1temhuY3N3b3Z4ZmNkc2pldHluIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEzMTUxNTIsImV4cCI6MjEwNjg5MTE1Mn0.zI_i83QRNjECG4SAGU2G0_HYMh3QMBr1446ZNeSyENE";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1temhuY3N3b3Z4ZmNkc2pldHluIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEzMTUxNTIsImV4cCI6MjEwNjg5MTE1Mn0.zI_i83QRNjECG4SAGU2G0_HYMh3QMBr1446ZNeSyENE";
 
 const sb =
-window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+/* =========================================================
+   DOM REFERENCES
+========================================================= */
+
+const sideUser =
+  document.getElementById("sideUser");
+
+const sideEmail =
+  document.getElementById("sideEmail");
+
+const welcome =
+  document.getElementById("welcome");
+
+const memberSinceEl =
+  document.getElementById("memberSince");
+
+const authOverlay =
+  document.getElementById("authOverlay");
+
+const app =
+  document.getElementById("app");
+
+const loginTab =
+  document.getElementById("loginTab");
+
+const signupTab =
+  document.getElementById("signupTab");
+
+const nameWrap =
+  document.getElementById("nameWrap");
+
+const authBtn =
+  document.getElementById("authBtn");
+
+const authMsg =
+  document.getElementById("authMsg");
+
+const authEmail =
+  document.getElementById("authEmail");
+
+const authPassword =
+  document.getElementById("authPassword");
+
+const authName =
+  document.getElementById("authName");
 
 
 /* =========================================================
@@ -1285,7 +1728,9 @@ window.supabase.createClient(
 let currentUser = null;
 let memberSince = null;
 let authMode = "login";
+
 let syncTimer = null;
+let toastTimer = null;
 
 let xp = 0;
 let level = 1;
@@ -1296,11 +1741,10 @@ let tasks = [];
 let subjects = [];
 let subjectData = {};
 
-let schedule = [];
+let schedule = {};
 let weeklySchedule = {};
 
 let notes = [];
-
 let prayers = {};
 
 let timerSeconds = 0;
@@ -1308,10 +1752,11 @@ let rewardedBlocks = 0;
 
 let stopwatchRunning = false;
 let stopwatchInterval = null;
+let stopwatchStartTime = null;
+let stopwatchBaseSeconds = 0;
 
 let lastAyahIndex = -1;
 let userName = "";
-
 let currentSubject = "";
 
 
@@ -1320,70 +1765,80 @@ let currentSubject = "";
 ========================================================= */
 
 const motivations = [
-"Small progress is still progress. Keep going. 💪",
-"You don't need to be perfect. You just need to start. ✨",
-"One focused hour today can make tomorrow easier. 📚",
-"Believe in yourself and keep moving forward. 🌟",
-"Your future self will thank you for studying today. 🚀",
-"Don't wait for motivation. Start, and motivation will follow. 🔥",
-"Every completed task is one step closer to your goal. 🎯",
-"You are capable of more than you think. 💜",
-"Focus on progress, not perfection. 🌱",
-"Keep going. You're building something great. 👑",
-"Today is another chance to get closer to your dreams. 🌙",
-"Consistency beats perfection. Keep showing up. 📖",
-"Your effort today matters more than you think. ✨",
-"Quiet effort becomes loud results. 🌿",
-"One page. One task. One step. You’ve got this. ☁️"
+  "Small progress is still progress. Keep going. 💪",
+  "You don't need to be perfect. You just need to start. ✨",
+  "One focused hour today can make tomorrow easier. 📚",
+  "Believe in yourself and keep moving forward. 🌟",
+  "Your future self will thank you for studying today. 🚀",
+  "Don't wait for motivation. Start, and motivation will follow. 🔥",
+  "Every completed task is one step closer to your goal. 🎯",
+  "You are capable of more than you think. 💜",
+  "Focus on progress, not perfection. 🌱",
+  "Keep going. You're building something great. 👑",
+  "Today is another chance to get closer to your dreams. 🌙",
+  "Consistency beats perfection. Keep showing up. 📖",
+  "Your effort today matters more than you think. ✨",
+  "Quiet effort becomes loud results. 🌿",
+  "One page. One task. One step. You’ve got this. ☁️"
 ];
 
 const duas = [
-"رَبِّ زِدْنِي عِلْمًا",
-"اللهم انفعني بما علمتني وعلمني ما ينفعني وزدني علمًا.",
-"اللهم لا سهل إلا ما جعلته سهلاً.",
-"اللهم وفقني لما تحب وترضى.",
-"رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي.",
-"اللهم ارزقني فهمًا وحفظًا وتركيزًا.",
-"اللهم بارك لي في وقتي واجعل علمي نافعًا.",
-"رَبِّ زِدْنِي عِلْمًا وَفَهْمًا وَحِكْمَةً.",
-"اللهم أعني على ذكرك وشكرك وحسن عبادتك.",
-"اللهم اجعل لي من أمري يسرًا.",
-"اللهم افتح عليّ فتوحًا طيبة وارزقني فهمًا نافعًا.",
-"يا رب اجعل القادم أجمل، وبارك لي في سعيي ووقتي.",
-"اللهم اجعل العلم نورًا في قلبي ونفعًا في حياتي.",
-"اللهم ارزقني الصبر والثبات وحسن التوكل عليك."
+  "رَبِّ زِدْنِي عِلْمًا",
+  "اللهم انفعني بما علمتني وعلمني ما ينفعني وزدني علمًا.",
+  "اللهم لا سهل إلا ما جعلته سهلاً.",
+  "اللهم وفقني لما تحب وترضى.",
+  "رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي.",
+  "اللهم ارزقني فهمًا وحفظًا وتركيزًا.",
+  "اللهم بارك لي في وقتي واجعل علمي نافعًا.",
+  "رَبِّ زِدْنِي عِلْمًا وَفَهْمًا وَحِكْمَةً.",
+  "اللهم أعني على ذكرك وشكرك وحسن عبادتك.",
+  "اللهم اجعل لي من أمري يسرًا.",
+  "اللهم افتح عليّ فتوحًا طيبة وارزقني فهمًا نافعًا.",
+  "يا رب اجعل القادم أجمل، وبارك لي في سعيي ووقتي.",
+  "اللهم اجعل العلم نورًا في قلبي ونفعًا في حياتي.",
+  "اللهم ارزقني الصبر والثبات وحسن التوكل عليك."
 ];
 
 const quranAyat = [
-["وَقُل رَّبِّ زِدْنِي عِلْمًا","طه: 114"],
-["إِنَّ مَعَ الْعُسْرِ يُسْرًا","الشرح: 6"],
-["فَإِنَّ مَعَ الْعُسْرِ يُسْرًا","الشرح: 5"],
-["وَاللَّهُ مَعَ الصَّابِرِينَ","الأنفال: 46"],
-["إِنَّ اللَّهَ لَا يُضِيعُ أَجْرَ الْمُحْسِنِينَ","التوبة: 120"],
-["وَمَن يَتَّقِ اللَّهَ يَجْعَل لَّهُ مَخْرَجًا","الطلاق: 2"],
-["وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ","الطلاق: 3"],
-["إِنَّ اللَّهَ يُحِبُّ التَّوَّابِينَ وَيُحِبُّ الْمُتَطَهِّرِينَ","البقرة: 222"],
-["إِنَّ اللَّهَ لَا يُغَيِّرُ مَا بِقَوْمٍ حَتَّىٰ يُغَيِّرُوا مَا بِأَنفُسِهِمْ","الرعد: 11"],
-["وَبَشِّرِ الصَّابِرِينَ","البقرة: 155"],
-["وَاللَّهُ خَيْرٌ حَافِظًا وَهُوَ أَرْحَمُ الرَّاحِمِينَ","يوسف: 64"],
-["إِنَّ رَبِّي قَرِيبٌ مُّجِيبٌ","هود: 61"]
+  ["وَقُل رَّبِّ زِدْنِي عِلْمًا","طه: 114"],
+  ["إِنَّ مَعَ الْعُسْرِ يُسْرًا","الشرح: 6"],
+  ["فَإِنَّ مَعَ الْعُسْرِ يُسْرًا","الشرح: 5"],
+  ["وَاللَّهُ مَعَ الصَّابِرِينَ","الأنفال: 46"],
+  ["إِنَّ اللَّهَ لَا يُضِيعُ أَجْرَ الْمُحْسِنِينَ","التوبة: 120"],
+  ["وَمَن يَتَّقِ اللَّهَ يَجْعَل لَّهُ مَخْرَجًا","الطلاق: 2"],
+  ["وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ","الطلاق: 3"],
+  ["إِنَّ اللَّهَ يُحِبُّ التَّوَّابِينَ وَيُحِبُّ الْمُتَطَهِّرِينَ","البقرة: 222"],
+  ["إِنَّ اللَّهَ لَا يُغَيِّرُ مَا بِقَوْمٍ حَتَّىٰ يُغَيِّرُوا مَا بِأَنفُسِهِمْ","الرعد: 11"],
+  ["وَبَشِّرِ الصَّابِرِينَ","البقرة: 155"],
+  ["وَاللَّهُ خَيْرٌ حَافِظًا وَهُوَ أَرْحَمُ الرَّاحِمِينَ","يوسف: 64"],
+  ["إِنَّ رَبِّي قَرِيبٌ مُّجِيبٌ","هود: 61"]
 ];
 
 const prayerNames = [
-"fajr",
-"dhuhr",
-"asr",
-"maghrib",
-"isha"
+  "fajr",
+  "dhuhr",
+  "asr",
+  "maghrib",
+  "isha"
 ];
 
 const prayerLabels = {
-fajr:"الفجر",
-dhuhr:"الظهر",
-asr:"العصر",
-maghrib:"المغرب",
-isha:"العشاء"
+  fajr:"الفجر",
+  dhuhr:"الظهر",
+  asr:"العصر",
+  maghrib:"المغرب",
+  isha:"العشاء"
 };
+
+const scheduleIds = [
+  "sat1","sat2","sat3","sat4",
+  "sun1","sun2","sun3","sun4",
+  "mon1","mon2","mon3","mon4",
+  "tue1","tue2","tue3","tue4",
+  "wed1","wed2","wed3","wed4",
+  "thu1","thu2","thu3","thu4",
+  "fri1","fri2","fri3","fri4"
+];
 
 
 /* =========================================================
@@ -1394,47 +1849,66 @@ function todayKey(){
 
   const d = new Date();
 
-  return (
-    d.getFullYear() +
-    "-" +
-    String(d.getMonth()+1).padStart(2,"0") +
-    "-" +
+  return [
+    d.getFullYear(),
+    String(d.getMonth()+1).padStart(2,"0"),
     String(d.getDate()).padStart(2,"0")
-  );
+  ].join("-");
+
 }
 
-function esc(s){
 
-  return String(s ?? "")
-    .replace(/[&<>"']/g,m=>({
+function esc(value){
+
+  return String(value ?? "")
+    .replace(/[&<>"']/g, char => ({
       "&":"&amp;",
       "<":"&lt;",
       ">":"&gt;",
       '"':"&quot;",
       "'":"&#039;"
-    }[m]));
+    }[char]));
+
 }
 
-function escapeAttr(s){
-  return String(s ?? "")
+
+function escapeAttr(value){
+
+  return String(value ?? "")
     .replace(/\\/g,"\\\\")
     .replace(/'/g,"\\'");
+
 }
 
+
 function localKey(){
+
   return "thrive_cache_v2";
+
 }
+
 
 function getLocal(){
 
   try{
+
     return JSON.parse(
       localStorage.getItem(localKey()) || "{}"
     );
-  }catch{
+
+  }catch(error){
+
+    console.error(
+      "Local cache error:",
+      error
+    );
+
     return {};
+
   }
+
 }
+
 
 function getDayNumber(){
 
@@ -1447,186 +1921,124 @@ function getDayNumber(){
   );
 
   return Math.floor(
-    (now-start)/86400000
+    (now - start) / 86400000
   );
+
 }
 
 
 /* =========================================================
-   MIGRATION
+   NORMALIZATION
 ========================================================= */
 
 function normalizeTasks(list){
 
-  if(!Array.isArray(list)) return [];
+  if(!Array.isArray(list))
+    return [];
 
-  return list.map((t,i)=>{
+  return list.map((task,index)=>({
 
-    return {
-      id: t.id ?? Date.now()+i,
-      title: t.title ?? t.text ?? "Untitled Task",
-      subject:
-        t.subject === "General"
+    id:
+      task.id ??
+      `${Date.now()}-${index}`,
+
+    title:
+      task.title ??
+      task.text ??
+      "Untitled Task",
+
+    subject:
+      task.subject === "General"
         ? ""
-        : (t.subject || ""),
-      done: t.done === true
-    };
+        : (task.subject || ""),
 
-  });
+    done:
+      task.done === true
+
+  }));
+
 }
+
 
 function normalizeNotes(list){
 
-  if(!Array.isArray(list)) return [];
+  if(!Array.isArray(list))
+    return [];
 
-  return list.map((n,i)=>{
+  return list.map((note,index)=>({
 
-    if(n.body !== undefined){
+    id:
+      note.id ??
+      `${Date.now()}-${index}`,
 
-      return {
-        id:n.id ?? Date.now()+i,
-        title:n.title || "Untitled Note",
-        body:n.body || "",
-        date:n.date || new Date().toLocaleString()
-      };
+    title:
+      note.title ||
+      "Untitled Note",
 
-    }
+    body:
+      note.body ??
+      note.text ??
+      "",
 
-    return {
-      id:n.id ?? Date.now()+i,
-      title:"Untitled Note",
-      body:n.text || "",
-      date:n.date || new Date().toLocaleString()
-    };
+    date:
+      note.date ||
+      new Date().toLocaleString()
 
-  });
+  }));
+
 }
+
 
 function normalizeSchedule(data){
 
-  if(Array.isArray(data)){
+  if(!data)
+    return {};
 
-    const result = {};
+  if(!Array.isArray(data))
+    return data || {};
 
-    data.forEach(item=>{
+  const result = {};
 
-      const day = String(item.day || "").toLowerCase();
+  const map = {
+    saturday:"sat",
+    sunday:"sun",
+    monday:"mon",
+    tuesday:"tue",
+    wednesday:"wed",
+    thursday:"thu",
+    friday:"fri"
+  };
 
-      const map = {
-        saturday:"sat",
-        sunday:"sun",
-        monday:"mon",
-        tuesday:"tue",
-        wednesday:"wed",
-        thursday:"thu",
-        friday:"fri"
-      };
+  data.forEach(item=>{
 
-      const prefix = map[day];
+    const day =
+      String(item.day || "")
+        .toLowerCase();
 
-      if(prefix){
+    const prefix =
+      map[day];
 
-        const slot =
-          item.slot ||
-          item.index ||
-          1;
+    if(!prefix)
+      return;
 
-        result[prefix + slot] =
-          item.text || "";
+    const slot =
+      item.slot ||
+      item.index ||
+      1;
 
-      }
+    result[prefix + slot] =
+      item.text || "";
 
-    });
+  });
 
-    return result;
-  }
+  return result;
 
-  return data || {};
 }
 
 
 /* =========================================================
-   LOCAL CACHE
+   STATE COLLECTION
 ========================================================= */
-
-function cacheLocal(){
-
-  localStorage.setItem(
-    localKey(),
-    JSON.stringify({
-      xp,
-      level,
-      sessions,
-      tasksDone,
-      tasks,
-      subjects,
-      subjectData,
-      schedule,
-      weeklySchedule,
-      notes,
-      prayers,
-      timerSeconds,
-      rewardedBlocks,
-      lastAyahIndex,
-      userName
-    })
-  );
-}
-
-
-/* =========================================================
-   STATE LOAD / SAVE
-========================================================= */
-
-function applyState(d={}){
-
-  xp = Number(d.xp ?? 0);
-  level = Number(d.level ?? 1);
-  sessions = Number(d.sessions ?? 0);
-  tasksDone = Number(d.tasksDone ?? 0);
-
-  tasks = normalizeTasks(d.tasks);
-
-  subjects =
-    Array.isArray(d.subjects)
-    ? d.subjects
-    : [];
-
-  subjectData =
-    d.subjectData || {};
-
-  schedule =
-    normalizeSchedule(d.schedule);
-
-  weeklySchedule =
-    d.weeklySchedule ||
-    schedule ||
-    {};
-
-  notes =
-    normalizeNotes(d.notes);
-
-  prayers =
-    d.prayers ||
-    {};
-
-  timerSeconds =
-    Number(d.timerSeconds ?? 0);
-
-  rewardedBlocks =
-    Number(
-      d.rewardedBlocks ??
-      Math.floor(timerSeconds/1800)
-    );
-
-  lastAyahIndex =
-    Number(d.lastAyahIndex ?? -1);
-
-  userName =
-    d.userName ||
-    currentUser?.user_metadata?.name ||
-    "";
-}
 
 function collectState(){
 
@@ -1645,17 +2057,175 @@ function collectState(){
     weeklySchedule,
 
     notes,
-
     prayers,
 
     timerSeconds,
     rewardedBlocks,
+
+    stopwatchRunning,
+    stopwatchStartTime,
+    stopwatchBaseSeconds,
 
     lastAyahIndex,
 
     userName
 
   };
+
+}
+
+
+/* =========================================================
+   LOCAL CACHE
+========================================================= */
+
+function cacheLocal(){
+
+  try{
+
+    localStorage.setItem(
+      localKey(),
+      JSON.stringify(
+        collectState()
+      )
+    );
+
+  }catch(error){
+
+    console.error(
+      "Could not save local cache:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   APPLY STATE
+========================================================= */
+
+function applyState(data = {}){
+
+  xp =
+    Number(data.xp ?? 0);
+
+  level =
+    Number(data.level ?? 1);
+
+  sessions =
+    Number(data.sessions ?? 0);
+
+  tasksDone =
+    Number(data.tasksDone ?? 0);
+
+  tasks =
+    normalizeTasks(data.tasks);
+
+  subjects =
+    Array.isArray(data.subjects)
+      ? data.subjects
+      : [];
+
+  subjectData =
+    data.subjectData &&
+    typeof data.subjectData === "object"
+      ? data.subjectData
+      : {};
+
+  schedule =
+    normalizeSchedule(data.schedule);
+
+  weeklySchedule =
+    normalizeSchedule(
+      data.weeklySchedule
+    );
+
+  if(
+    !Object.keys(weeklySchedule).length &&
+    Object.keys(schedule).length
+  ){
+
+    weeklySchedule =
+      {...schedule};
+
+  }
+
+  notes =
+    normalizeNotes(data.notes);
+
+  prayers =
+    data.prayers &&
+    typeof data.prayers === "object"
+      ? data.prayers
+      : {};
+
+  timerSeconds =
+    Math.max(
+      0,
+      Number(data.timerSeconds ?? 0)
+    );
+
+  rewardedBlocks =
+    Math.max(
+      0,
+      Number(
+        data.rewardedBlocks ??
+        Math.floor(timerSeconds / 1800)
+      )
+    );
+
+  lastAyahIndex =
+    Number(data.lastAyahIndex ?? -1);
+
+  userName =
+    data.userName ||
+    currentUser?.user_metadata?.name ||
+    "";
+
+  stopwatchRunning =
+    data.stopwatchRunning === true;
+
+  stopwatchStartTime =
+    normalizeTimestamp(
+      data.stopwatchStartTime
+    );
+
+  stopwatchBaseSeconds =
+    Math.max(
+      0,
+      Number(
+        data.stopwatchBaseSeconds ??
+        timerSeconds
+      )
+    );
+
+}
+
+
+/* =========================================================
+   STOPWATCH TIMESTAMP NORMALIZATION
+========================================================= */
+
+function normalizeTimestamp(value){
+
+  if(value === null || value === undefined)
+    return null;
+
+  const number =
+    Number(value);
+
+  if(Number.isFinite(number))
+    return number;
+
+  const parsed =
+    new Date(value).getTime();
+
+  return Number.isFinite(parsed)
+    ? parsed
+    : null;
+
 }
 
 
@@ -1665,36 +2235,50 @@ function collectState(){
 
 async function syncCloud(){
 
-  if(!currentUser) return;
+  if(!currentUser)
+    return;
 
   cacheLocal();
 
-  const data = collectState();
+  const data =
+    collectState();
 
-  const {error} =
-    await sb
-      .from("profiles")
-      .upsert(
-        {
-          id:currentUser.id,
-          user_name:userName,
-          app_data:data
-        },
-        {
-          onConflict:"id"
-        }
+  try{
+
+    const {error} =
+      await sb
+        .from("profiles")
+        .upsert(
+          {
+            id:currentUser.id,
+            user_name:userName,
+            app_data:data
+          },
+          {
+            onConflict:"id"
+          }
+        );
+
+    if(error){
+
+      console.error(
+        "Sync error:",
+        error
       );
 
-  if(error){
+    }
+
+  }catch(error){
 
     console.error(
-      "Sync error:",
+      "Cloud sync exception:",
       error
     );
 
   }
 
 }
+
 
 function scheduleSync(){
 
@@ -1703,7 +2287,7 @@ function scheduleSync(){
   syncTimer =
     setTimeout(
       syncCloud,
-      400
+      600
     );
 
 }
@@ -1713,64 +2297,76 @@ function scheduleSync(){
    TOAST
 ========================================================= */
 
-let toastTimer = null;
-
 function showToast(title,text=""){
 
   const toast =
     document.getElementById("toast");
 
+  if(!toast)
+    return;
+
   toast.innerHTML = `
+
     <div class="toast-title">
       ${esc(title)}
     </div>
+
     <div class="toast-text">
       ${esc(text)}
     </div>
+
   `;
 
-  toast.style.display="block";
+  toast.style.display =
+    "block";
 
   clearTimeout(toastTimer);
 
   toastTimer =
     setTimeout(
-      ()=>toast.style.display="none",
+      ()=>{
+        toast.style.display = "none";
+      },
       4500
     );
+
 }
 
 
 /* =========================================================
-   AUTH
+   AUTH UI
 ========================================================= */
 
 function showAuth(mode){
 
-  authMode = mode;
+  authMode =
+    mode;
 
   loginTab.classList.toggle(
     "active",
-    mode==="login"
+    mode === "login"
   );
 
   signupTab.classList.toggle(
     "active",
-    mode==="signup"
+    mode === "signup"
   );
 
   nameWrap.style.display =
-    mode==="signup"
-    ? "block"
-    : "none";
+    mode === "signup"
+      ? "block"
+      : "none";
 
   authBtn.textContent =
-    mode==="login"
-    ? "Login"
-    : "Create account";
+    mode === "login"
+      ? "Login"
+      : "Create account";
 
-  authMsg.textContent="";
+  authMsg.textContent =
+    "";
+
 }
+
 
 async function submitAuth(){
 
@@ -1783,9 +2379,18 @@ async function submitAuth(){
   const password =
     authPassword.value;
 
+  if(!email || !password){
+
+    authMsg.textContent =
+      "Please enter your email and password.";
+
+    return;
+
+  }
+
   try{
 
-    if(authMode==="signup"){
+    if(authMode === "signup"){
 
       const name =
         authName.value.trim();
@@ -1796,20 +2401,34 @@ async function submitAuth(){
           "Please enter your name.";
 
         return;
+
+      }
+
+      if(password.length < 6){
+
+        authMsg.textContent =
+          "Password must be at least 6 characters.";
+
+        return;
+
       }
 
       const {data,error} =
         await sb.auth.signUp({
+
           email,
           password,
+
           options:{
             data:{
               name
             }
           }
+
         });
 
-      if(error) throw error;
+      if(error)
+        throw error;
 
       if(!data.session){
 
@@ -1817,6 +2436,7 @@ async function submitAuth(){
           "Account created. Check your email to confirm, then log in.";
 
         return;
+
       }
 
       authMsg.textContent =
@@ -1826,37 +2446,62 @@ async function submitAuth(){
 
       const {error} =
         await sb.auth.signInWithPassword({
+
           email,
           password
+
         });
 
-      if(error) throw error;
+      if(error)
+        throw error;
 
     }
 
-  }catch(e){
+  }catch(error){
+
+    console.error(
+      "Auth error:",
+      error
+    );
 
     authMsg.textContent =
-      e.message ||
+      error.message ||
       "Something went wrong.";
 
   }
 
 }
 
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
 async function logout(){
 
-  stopwatchRunning=false;
+  if(stopwatchRunning){
 
-  clearInterval(
-    stopwatchInterval
-  );
+    updateStopwatch();
 
-  stopwatchInterval=null;
+    stopwatchRunning =
+      false;
+
+    stopwatchStartTime =
+      null;
+
+    stopwatchBaseSeconds =
+      timerSeconds;
+
+  }
+
+  clearStopwatchInterval();
+
+  cacheLocal();
 
   await syncCloud();
 
   await sb.auth.signOut();
+
 }
 
 
@@ -1870,10 +2515,17 @@ sb.auth.onAuthStateChange(
     setTimeout(
       ()=>{
 
-        if(session)
-          loadUser(session.user);
-        else
+        if(session){
+
+          loadUser(
+            session.user
+          );
+
+        }else{
+
           showLoggedOut();
+
+        }
 
       },
       0
@@ -1882,36 +2534,64 @@ sb.auth.onAuthStateChange(
   }
 );
 
+
+/* =========================================================
+   LOAD USER
+========================================================= */
+
 async function loadUser(user){
 
-  currentUser=user;
+  currentUser =
+    user;
 
-  authOverlay.style.display="none";
-  app.style.display="flex";
+  authOverlay.style.display =
+    "none";
+
+  app.style.display =
+    "flex";
 
   sideEmail.textContent =
     user.email || "";
 
-  const {
-    data,
-    error
-  } =
-    await sb
-      .from("profiles")
-      .select("*")
-      .eq("id",user.id)
-      .maybeSingle();
+  let data = null;
 
-  if(error){
+  try{
 
-    console.error(error);
+    const result =
+      await sb
+        .from("profiles")
+        .select("*")
+        .eq("id",user.id)
+        .maybeSingle();
 
-    showToast(
-      "Cloud data",
-      "Could not load cloud data."
+    data =
+      result.data;
+
+    if(result.error){
+
+      console.error(
+        "Profile load error:",
+        result.error
+      );
+
+      showToast(
+        "Cloud data",
+        "Could not load cloud data."
+      );
+
+    }
+
+  }catch(error){
+
+    console.error(
+      "Profile exception:",
+      error
     );
 
   }
+
+  const local =
+    getLocal();
 
   if(data){
 
@@ -1921,9 +2601,6 @@ async function loadUser(user){
 
     const remote =
       data.app_data || {};
-
-    const local =
-      getLocal();
 
     if(
       remote &&
@@ -1949,18 +2626,36 @@ async function loadUser(user){
     memberSince =
       user.created_at;
 
-    const local =
-      getLocal();
-
     applyState(local);
 
-    await sb
-      .from("profiles")
-      .insert({
-        id:user.id,
-        user_name:userName,
-        app_data:collectState()
-      });
+    userName =
+      user.user_metadata?.name ||
+      userName ||
+      "";
+
+    try{
+
+      await sb
+        .from("profiles")
+        .upsert(
+          {
+            id:user.id,
+            user_name:userName,
+            app_data:collectState()
+          },
+          {
+            onConflict:"id"
+          }
+        );
+
+    }catch(error){
+
+      console.error(
+        "Profile creation error:",
+        error
+      );
+
+    }
 
   }
 
@@ -1970,35 +2665,63 @@ async function loadUser(user){
   welcome.textContent =
     `Welcome, ${userName || "there"} 🌱`;
 
-  memberSinceEl.textContent =
-    new Date(memberSince)
-      .toLocaleDateString(
-        undefined,
-        {
-          year:"numeric",
-          month:"long",
-          day:"numeric"
-        }
-      );
+  if(memberSince){
+
+    memberSinceEl.textContent =
+      new Date(memberSince)
+        .toLocaleDateString(
+          undefined,
+          {
+            year:"numeric",
+            month:"long",
+            day:"numeric"
+          }
+        );
+
+  }else{
+
+    memberSinceEl.textContent =
+      "—";
+
+  }
 
   renderAll();
+
+  resumeStopwatchIfNeeded();
 
   await syncCloud();
 
 }
 
+
+/* =========================================================
+   LOGGED OUT
+========================================================= */
+
 function showLoggedOut(){
 
-  currentUser=null;
+  currentUser =
+    null;
 
-  app.style.display="none";
+  clearStopwatchInterval();
 
-  authOverlay.style.display="flex";
+  app.style.display =
+    "none";
 
-  authEmail.value="";
-  authPassword.value="";
+  authOverlay.style.display =
+    "flex";
+
+  authEmail.value =
+    "";
+
+  authPassword.value =
+    "";
+
+  authName.value =
+    "";
 
   showAuth("login");
+
 }
 
 
@@ -2011,43 +2734,56 @@ function go(id,btn){
   document
     .querySelectorAll(".page")
     .forEach(
-      p=>p.classList.remove("active")
+      page=>{
+        page.classList.remove("active");
+      }
     );
 
-  document
-    .getElementById(id)
-    .classList.add("active");
+  const page =
+    document.getElementById(id);
+
+  if(page)
+    page.classList.add("active");
 
   document
     .querySelectorAll(".nav button")
     .forEach(
-      b=>b.classList.remove("active")
+      button=>{
+        button.classList.remove("active");
+      }
     );
 
-  btn.classList.add("active");
+  if(btn)
+    btn.classList.add("active");
 
-  if(id==="dashboard")
+  if(id === "dashboard")
     renderDashboard();
 
-  if(id==="subjects")
+  if(id === "subjects")
     renderSubjects();
 
-  if(id==="schedule")
+  if(id === "schedule")
     loadWeeklySchedule();
 
-  if(id==="study"){
+  if(id === "study"){
+
     renderTasks();
+
     updateTaskSubjectOptions();
+
+    updateStopwatch();
+
     renderTimer();
+
   }
 
-  if(id==="prayers")
+  if(id === "prayers")
     renderPrayers();
 
-  if(id==="notes")
+  if(id === "notes")
     renderNotes();
 
-  if(id==="achievements")
+  if(id === "achievements")
     renderAchievements();
 
 }
@@ -2059,17 +2795,23 @@ function go(id,btn){
 
 function addXP(amount){
 
-  xp += Number(amount) || 0;
+  xp +=
+    Number(amount) || 0;
 
-  let leveled=false;
+  let leveled =
+    false;
 
   while(
-    xp >= level*100
+    xp >= level * 100
   ){
 
-    xp -= level*100;
+    xp -=
+      level * 100;
+
     level++;
-    leveled=true;
+
+    leveled =
+      true;
 
   }
 
@@ -2086,8 +2828,12 @@ function addXP(amount){
 
   renderAchievements();
 
+  cacheLocal();
+
   scheduleSync();
+
 }
+
 
 function resetXP(){
 
@@ -2095,11 +2841,15 @@ function resetXP(){
     !confirm(
       "⚠️ Are you sure?\n\nThis will reset XP to 0.\nYour Level will NOT change."
     )
-  ) return;
+  )
+    return;
 
-  xp=0;
+  xp =
+    0;
 
   renderDashboard();
+
+  cacheLocal();
 
   scheduleSync();
 
@@ -2107,6 +2857,7 @@ function resetXP(){
     "🔄 XP Reset",
     "Your XP is back to 0. Your level stayed the same."
   );
+
 }
 
 
@@ -2116,36 +2867,40 @@ function resetXP(){
 
 function renderDashboard(){
 
-  document.getElementById("xp").textContent=xp;
+  document.getElementById("xp").textContent =
+    xp;
 
-  document.getElementById("level").textContent=level;
+  document.getElementById("level").textContent =
+    level;
 
-  document.getElementById("tasksDone").textContent=
+  document.getElementById("tasksDone").textContent =
     tasksDone;
 
-  document.getElementById("sessions").textContent=
+  document.getElementById("sessions").textContent =
     sessions;
 
   const need =
-    level*100;
+    Math.max(
+      1,
+      level * 100
+    );
 
   document.getElementById("xpfill").style.width =
     Math.min(
       100,
-      xp/need*100
+      xp / need * 100
     ) + "%";
 
   document.getElementById("xpText").textContent =
-    `${xp} / ${need} XP to Level ${level+1}`;
+    `${xp} / ${need} XP to Level ${level + 1}`;
 
   loadDailyMotivation();
-
   loadDailyDua();
-
   showToday();
-
   renderDashboardTasks();
+
 }
+
 
 function loadDailyMotivation(){
 
@@ -2153,6 +2908,9 @@ function loadDailyMotivation(){
     document.getElementById(
       "dailyMotivation"
     );
+
+  if(!box)
+    return;
 
   box.textContent =
     `"${motivations[
@@ -2162,11 +2920,18 @@ function loadDailyMotivation(){
 
 }
 
+
 function loadDailyDua(){
 
-  document.getElementById(
-    "dailyDua"
-  ).textContent =
+  const box =
+    document.getElementById(
+      "dailyDua"
+    );
+
+  if(!box)
+    return;
+
+  box.textContent =
     duas[
       getDayNumber() %
       duas.length
@@ -2174,13 +2939,20 @@ function loadDailyDua(){
 
 }
 
+
 function loadPrayerDua(){
 
-  document.getElementById(
-    "prayerDua"
-  ).textContent =
+  const box =
+    document.getElementById(
+      "prayerDua"
+    );
+
+  if(!box)
+    return;
+
+  box.textContent =
     duas[
-      (getDayNumber()+1) %
+      (getDayNumber() + 1) %
       duas.length
     ];
 
@@ -2188,7 +2960,7 @@ function loadPrayerDua(){
 
 
 /* =========================================================
-   TASKS
+   TASK SUBJECT OPTIONS
 ========================================================= */
 
 function updateTaskSubjectOptions(){
@@ -2198,19 +2970,30 @@ function updateTaskSubjectOptions(){
       "taskSubject"
     );
 
-  if(!select) return;
+  if(!select)
+    return;
 
   select.innerHTML =
     `<option value="">No subject / General</option>` +
-    subjects.map(
-      s=>`
-        <option value="${escapeAttr(s)}">
-          ${esc(s)}
-        </option>
-      `
-    ).join("");
+
+    subjects
+      .map(
+        subject=>`
+
+          <option value="${escapeAttr(subject)}">
+            ${esc(subject)}
+          </option>
+
+        `
+      )
+      .join("");
 
 }
+
+
+/* =========================================================
+   TASKS
+========================================================= */
 
 function addTask(){
 
@@ -2230,12 +3013,15 @@ function addTask(){
   if(!title){
 
     input.focus();
+
     return;
+
   }
 
   tasks.unshift({
 
-    id:Date.now(),
+    id:
+      `${Date.now()}-${Math.random()}`,
 
     title,
 
@@ -2246,19 +3032,23 @@ function addTask(){
 
   });
 
-  input.value="";
+  input.value =
+    "";
 
   renderTasks();
   renderDashboardTasks();
   renderSubjects();
 
+  cacheLocal();
   scheduleSync();
 
   showToast(
     "📝 Task added",
     "Your new task has been saved."
   );
+
 }
+
 
 function addTaskForSubject(subject){
 
@@ -2270,9 +3060,11 @@ function addTaskForSubject(subject){
 
   tasks.unshift({
 
-    id:Date.now(),
+    id:
+      `${Date.now()}-${Math.random()}`,
 
-    title:title.trim(),
+    title:
+      title.trim(),
 
     subject,
 
@@ -2282,21 +3074,26 @@ function addTaskForSubject(subject){
 
   renderAll();
 
+  cacheLocal();
   scheduleSync();
 
 }
+
 
 function completeTask(id){
 
   const task =
     tasks.find(
-      x=>String(x.id)===String(id)
+      item =>
+        String(item.id) ===
+        String(id)
     );
 
   if(!task || task.done)
     return;
 
-  task.done=true;
+  task.done =
+    true;
 
   tasksDone++;
 
@@ -2309,33 +3106,43 @@ function completeTask(id){
     "Another little win. +20 XP 🌱"
   );
 
+  cacheLocal();
   scheduleSync();
 
 }
+
 
 function deleteTask(id){
 
   tasks =
     tasks.filter(
-      x=>String(x.id)!==String(id)
+      item =>
+        String(item.id) !==
+        String(id)
     );
 
   renderAll();
 
+  cacheLocal();
   scheduleSync();
 
 }
 
+
 function taskHTML(task){
 
+  const safeId =
+    JSON.stringify(task.id);
+
   return `
+
     <div class="task">
 
       <input
         class="task-check"
         type="checkbox"
-        ${task.done?"checked disabled":""}
-        onchange="completeTask(${JSON.stringify(task.id)})"
+        ${task.done ? "checked disabled" : ""}
+        onchange="completeTask(${safeId})"
       >
 
       <div class="task-content">
@@ -2353,15 +3160,17 @@ function taskHTML(task){
       <button
         class="btn danger"
         style="padding:6px 10px"
-        onclick="deleteTask(${JSON.stringify(task.id)})"
+        onclick="deleteTask(${safeId})"
       >
         Delete
       </button>
 
     </div>
+
   `;
 
 }
+
 
 function renderTasks(){
 
@@ -2370,18 +3179,24 @@ function renderTasks(){
       "tasksList"
     );
 
-  if(!box) return;
+  if(!box)
+    return;
 
   box.innerHTML =
     tasks.length
-    ? tasks.map(taskHTML).join("")
-    : `
-      <p class="muted">
-        No tasks yet. Add anything you need to do ✨
-      </p>
-    `;
+
+      ? tasks.map(taskHTML).join("")
+
+      : `
+
+        <p class="muted">
+          No tasks yet. Add anything you need to do ✨
+        </p>
+
+      `;
 
 }
+
 
 function renderDashboardTasks(){
 
@@ -2390,21 +3205,28 @@ function renderDashboardTasks(){
       "dashboardTasks"
     );
 
-  if(!box) return;
+  if(!box)
+    return;
 
   const pending =
-    tasks.filter(
-      t=>!t.done
-    ).slice(0,8);
+    tasks
+      .filter(
+        task=>!task.done
+      )
+      .slice(0,8);
 
   box.innerHTML =
     pending.length
-    ? pending.map(taskHTML).join("")
-    : `
-      <p class="muted">
-        No pending tasks 🎉
-      </p>
-    `;
+
+      ? pending.map(taskHTML).join("")
+
+      : `
+
+        <p class="muted">
+          No pending tasks 🎉
+        </p>
+
+      `;
 
 }
 
@@ -2426,12 +3248,16 @@ function addSubject(){
   if(!name){
 
     input.focus();
+
     return;
+
   }
 
   if(
     subjects.some(
-      s=>s.toLowerCase()===name.toLowerCase()
+      subject =>
+        subject.toLowerCase() ===
+        name.toLowerCase()
     )
   ){
 
@@ -2441,6 +3267,7 @@ function addSubject(){
     );
 
     return;
+
   }
 
   subjects.push(name);
@@ -2448,47 +3275,57 @@ function addSubject(){
   subjectData[name] =
     subjectData[name] || {};
 
-  input.value="";
+  input.value =
+    "";
 
   renderSubjects();
-
   updateTaskSubjectOptions();
 
+  cacheLocal();
   scheduleSync();
 
 }
+
 
 function deleteSubject(index){
 
   const name =
     subjects[index];
 
+  if(!name)
+    return;
+
   if(
     !confirm(
       `Delete "${name}"?\n\nExisting tasks will remain, but this subject will be removed from your subject list.`
     )
-  ) return;
+  )
+    return;
 
-  subjects.splice(index,1);
+  subjects.splice(
+    index,
+    1
+  );
 
   delete subjectData[name];
 
   tasks =
     tasks.map(
-      t=>t.subject===name
-        ? {...t,subject:""}
-        : t
+      task =>
+        task.subject === name
+          ? {...task,subject:""}
+          : task
     );
 
   renderSubjects();
-
   updateTaskSubjectOptions();
-
   renderTasks();
 
+  cacheLocal();
   scheduleSync();
 
 }
+
 
 function renderSubjects(){
 
@@ -2497,96 +3334,111 @@ function renderSubjects(){
       "subjectGrid"
     );
 
-  if(!grid) return;
+  if(!grid)
+    return;
 
   if(!subjects.length){
 
     grid.innerHTML = `
+
       <div class="card">
+
         <p class="muted">
           No subjects yet. Add your first one 🌱
         </p>
+
       </div>
+
     `;
 
     return;
+
   }
 
   grid.innerHTML =
-    subjects.map(
-      (subject,index)=>{
+    subjects
+      .map(
+        (subject,index)=>{
 
-        const list =
-          tasks.filter(
-            t=>t.subject===subject
-          );
+          const list =
+            tasks.filter(
+              task =>
+                task.subject === subject
+            );
 
-        const done =
-          list.filter(
-            t=>t.done
-          ).length;
+          const done =
+            list.filter(
+              task=>task.done
+            ).length;
 
-        const pct =
-          list.length
-          ? Math.round(
-              done/list.length*100
-            )
-          : 0;
+          const pct =
+            list.length
+              ? Math.round(
+                  done / list.length * 100
+                )
+              : 0;
 
-        return `
-          <div class="subject-card">
+          return `
 
-            <div class="subject-name">
-              📚 ${esc(subject)}
+            <div class="subject-card">
+
+              <div class="subject-name">
+                📚 ${esc(subject)}
+              </div>
+
+              <div class="progress-bg">
+
+                <div
+                  class="progress"
+                  style="width:${pct}%"
+                ></div>
+
+              </div>
+
+              <span class="percent">
+                ${pct}% • ${done}/${list.length} tasks done
+              </span>
+
+              <div class="subject-actions">
+
+                <button
+                  class="btn"
+                  onclick='addTaskForSubject(${JSON.stringify(subject)})'
+                >
+                  ➕ Task
+                </button>
+
+                <button
+                  class="btn secondary"
+                  onclick='openSubject(${JSON.stringify(subject)})'
+                >
+                  ✏️ Details
+                </button>
+
+                <button
+                  class="btn danger"
+                  onclick="deleteSubject(${index})"
+                >
+                  🗑️
+                </button>
+
+              </div>
+
             </div>
 
-            <div class="progress-bg">
-              <div
-                class="progress"
-                style="width:${pct}%"
-              ></div>
-            </div>
+          `;
 
-            <span class="percent">
-              ${pct}% • ${done}/${list.length} tasks done
-            </span>
-
-            <div class="subject-actions">
-
-              <button
-                class="btn"
-                onclick='addTaskForSubject(${JSON.stringify(subject)})'
-              >
-                ➕ Task
-              </button>
-
-              <button
-                class="btn secondary"
-                onclick='openSubject(${JSON.stringify(subject)})'
-              >
-                ✏️ Details
-              </button>
-
-              <button
-                class="btn danger"
-                onclick="deleteSubject(${index})"
-              >
-                🗑️
-              </button>
-
-            </div>
-
-          </div>
-        `;
-
-      }
-    ).join("");
+        }
+      )
+      .join("");
 
 }
 
+
 function openSubject(subject){
 
-  currentSubject=subject;
+  currentSubject =
+    subject;
 
   document.getElementById(
     "modalSubjectTitle"
@@ -2627,15 +3479,23 @@ function openSubject(subject){
 
 }
 
+
 function closeSubject(){
 
   document
     .getElementById("subjectModal")
     .classList.remove("show");
 
+  currentSubject =
+    "";
+
 }
 
+
 function saveSubject(){
+
+  if(!currentSubject)
+    return;
 
   subjectData[currentSubject] = {
 
@@ -2674,15 +3534,19 @@ function saveSubject(){
 
   };
 
+  const subject =
+    currentSubject;
+
   closeSubject();
 
   renderSubjects();
 
+  cacheLocal();
   scheduleSync();
 
   showToast(
     "📚 Saved",
-    `${currentSubject} details were saved.`
+    `${subject} details were saved.`
   );
 
 }
@@ -2692,33 +3556,29 @@ function saveSubject(){
    WEEKLY SCHEDULE
 ========================================================= */
 
-const scheduleIds = [
-"sat1","sat2","sat3","sat4",
-"sun1","sun2","sun3","sun4",
-"mon1","mon2","mon3","mon4",
-"tue1","tue2","tue3","tue4",
-"wed1","wed2","wed3","wed4",
-"thu1","thu2","thu3","thu4",
-"fri1","fri2","fri3","fri4"
-];
-
 function saveSchedule(){
 
-  weeklySchedule={};
+  weeklySchedule =
+    {};
 
   scheduleIds.forEach(
     id=>{
+
+      const input =
+        document.getElementById(id);
+
       weeklySchedule[id] =
-        document.getElementById(id)
-          ?.value || "";
+        input?.value || "";
+
     }
   );
 
   schedule =
-    weeklySchedule;
+    {...weeklySchedule};
 
   showToday();
 
+  cacheLocal();
   scheduleSync();
 
   showToast(
@@ -2728,12 +3588,13 @@ function saveSchedule(){
 
 }
 
+
 function loadWeeklySchedule(){
 
   const source =
     Object.keys(weeklySchedule).length
-    ? weeklySchedule
-    : schedule;
+      ? weeklySchedule
+      : schedule;
 
   scheduleIds.forEach(
     id=>{
@@ -2755,6 +3616,7 @@ function loadWeeklySchedule(){
 
 }
 
+
 function showToday(){
 
   const days = [
@@ -2775,35 +3637,40 @@ function showToday(){
       "todaySchedule"
     );
 
-  if(!box) return;
+  if(!box)
+    return;
 
   const source =
     Object.keys(weeklySchedule).length
-    ? weeklySchedule
-    : schedule;
+      ? weeklySchedule
+      : schedule;
 
-  const items=[];
+  const items = [];
 
-  for(let i=1;i<=4;i++){
+  for(let i = 1; i <= 4; i++){
 
     const value =
-      source?.[today+i];
+      source?.[today + i];
 
     if(value){
 
       items.push(`
+
         <div
           style="
             padding:9px 0;
             border-bottom:1px solid #edf1ed;
           "
         >
+
           <strong>
             Slot ${i}
           </strong>
           :
           ${esc(value)}
+
         </div>
+
       `);
 
     }
@@ -2812,91 +3679,259 @@ function showToday(){
 
   box.innerHTML =
     items.length
-    ? items.join("")
-    : "No study sessions scheduled for today.";
+      ? items.join("")
+      : "No study sessions scheduled for today.";
 
 }
 
 
 /* =========================================================
    STOPWATCH
+   SINGLE SOURCE OF TRUTH
 ========================================================= */
 
-function formatTime(sec){
+function formatTime(seconds){
 
-  const h =
-    String(
-      Math.floor(sec/3600)
-    ).padStart(2,"0");
-
-  const m =
-    String(
+  const sec =
+    Math.max(
+      0,
       Math.floor(
-        sec%3600/60
+        Number(seconds) || 0
       )
-    ).padStart(2,"0");
+    );
 
-  const s =
-    String(
-      sec%60
-    ).padStart(2,"0");
+  const hours =
+    Math.floor(sec / 3600);
 
-  return `${h}:${m}:${s}`;
+  const minutes =
+    Math.floor(
+      (sec % 3600) / 60
+    );
+
+  const remainingSeconds =
+    sec % 60;
+
+  return [
+    String(hours).padStart(2,"0"),
+    String(minutes).padStart(2,"0"),
+    String(remainingSeconds).padStart(2,"0")
+  ].join(":");
 
 }
 
+
 function renderTimer(){
 
-  const timeEl =
+  const timeElement =
     document.getElementById("time");
 
-  if(timeEl)
-    timeEl.textContent =
+  if(timeElement){
+
+    timeElement.textContent =
       formatTime(timerSeconds);
 
-  const btn =
-    document.getElementById("startBtn");
+  }
 
-  if(btn)
-    btn.textContent =
-      stopwatchRunning
-      ? "Pause"
-      : "Start";
+  updateTimerReward();
+
+}
+
+
+function updateTimerReward(){
 
   const reward =
     document.getElementById(
       "timerReward"
     );
 
-  if(!reward) return;
+  if(!reward)
+    return;
 
-  const currentBlocks =
-    Math.floor(
-      timerSeconds/1800
-    );
+  if(timerSeconds >= 1800){
 
-  if(currentBlocks > rewardedBlocks){
+    const nextBlock =
+      Math.floor(
+        timerSeconds / 1800
+      ) + 1;
+
+    const remaining =
+      nextBlock * 1800 -
+      timerSeconds;
 
     reward.textContent =
-      "🎉 Reward ready!";
+      `Next reward: +30 XP in ${formatTime(remaining)}.`;
 
   }else{
 
     const remaining =
-      1800 -
-      (timerSeconds % 1800);
-
-    const minutes =
-      Math.ceil(
-        remaining/60
-      );
+      1800 - timerSeconds;
 
     reward.textContent =
-      `Next reward: 30 XP in ${minutes} minute${minutes===1?"":"s"}.`;
+      `Next reward: 30 XP after ${formatTime(remaining)}.`;
 
   }
 
 }
+
+
+function checkStopwatchRewards(){
+
+  const blocks =
+    Math.floor(
+      timerSeconds / 1800
+    );
+
+  while(
+    rewardedBlocks < blocks
+  ){
+
+    rewardedBlocks++;
+
+    addXP(30);
+
+    showToast(
+      "⚡ +30 XP",
+      "30 minutes of focused time completed. Amazing work! 🌱"
+    );
+
+  }
+
+}
+
+
+function updateStopwatch(){
+
+  if(
+    !stopwatchRunning ||
+    !stopwatchStartTime
+  ){
+
+    renderTimer();
+
+    return;
+
+  }
+
+  const start =
+    Number(
+      stopwatchStartTime
+    );
+
+  if(!Number.isFinite(start)){
+
+    stopwatchRunning =
+      false;
+
+    stopwatchStartTime =
+      null;
+
+    clearStopwatchInterval();
+
+    renderTimer();
+
+    cacheLocal();
+
+    return;
+
+  }
+
+  const elapsed =
+    Math.max(
+      0,
+      Math.floor(
+        (Date.now() - start) / 1000
+      )
+    );
+
+  const newSeconds =
+    Math.max(
+      0,
+      stopwatchBaseSeconds +
+      elapsed
+    );
+
+  if(
+    newSeconds === timerSeconds
+  ){
+
+    renderTimer();
+
+    return;
+
+  }
+
+  timerSeconds =
+    newSeconds;
+
+  checkStopwatchRewards();
+
+  renderTimer();
+
+  cacheLocal();
+
+  if(
+    timerSeconds > 0 &&
+    timerSeconds % 30 === 0
+  ){
+
+    scheduleSync();
+
+  }
+
+}
+
+
+function clearStopwatchInterval(){
+
+  if(stopwatchInterval !== null){
+
+    clearInterval(
+      stopwatchInterval
+    );
+
+  }
+
+  stopwatchInterval =
+    null;
+
+}
+
+
+function startStopwatch(){
+
+  if(stopwatchRunning)
+    return;
+
+  stopwatchRunning =
+    true;
+
+  stopwatchBaseSeconds =
+    Math.max(
+      0,
+      timerSeconds
+    );
+
+  stopwatchStartTime =
+    Date.now();
+
+  clearStopwatchInterval();
+
+  stopwatchInterval =
+    setInterval(
+      updateStopwatch,
+      250
+    );
+
+  updateStopwatch();
+
+  updateStartButton();
+
+  cacheLocal();
+
+  scheduleSync();
+
+}
+
 
 function toggleStopwatch(){
 
@@ -2904,94 +3939,213 @@ function toggleStopwatch(){
 
     pauseStopwatch();
 
-    return;
+  }else{
+
+    startStopwatch();
+
   }
 
-  stopwatchRunning=true;
-
-  stopwatchInterval =
-    setInterval(
-      ()=>{
-
-        timerSeconds++;
-
-        const blocks =
-          Math.floor(
-            timerSeconds/1800
-          );
-
-        while(
-          rewardedBlocks < blocks
-        ){
-
-          rewardedBlocks++;
-
-          addXP(30);
-
-          showToast(
-            "⚡ +30 XP",
-            "30 minutes of focused time completed. Amazing work! 🌱"
-          );
-
-        }
-
-        renderTimer();
-
-        cacheLocal();
-
-        if(timerSeconds%30===0)
-          scheduleSync();
-
-      },
-      1000
-    );
-
-  renderTimer();
-
 }
+
 
 function pauseStopwatch(){
 
   if(!stopwatchRunning)
     return;
 
-  clearInterval(
-    stopwatchInterval
-  );
+  /*
+    Calculate the exact real elapsed time
+    BEFORE stopping the stopwatch.
+  */
 
-  stopwatchInterval=null;
+  updateStopwatch();
 
-  stopwatchRunning=false;
+  clearStopwatchInterval();
+
+  stopwatchRunning =
+    false;
+
+  stopwatchBaseSeconds =
+    timerSeconds;
+
+  stopwatchStartTime =
+    null;
 
   sessions++;
 
   renderTimer();
 
+  updateStartButton();
+
   renderDashboard();
+
+  cacheLocal();
 
   scheduleSync();
 
 }
+
 
 function resetStopwatch(){
 
-  clearInterval(
-    stopwatchInterval
-  );
+  clearStopwatchInterval();
 
-  stopwatchInterval=null;
+  stopwatchRunning =
+    false;
 
-  stopwatchRunning=false;
+  stopwatchStartTime =
+    null;
 
-  timerSeconds=0;
+  stopwatchBaseSeconds =
+    0;
 
-  rewardedBlocks=0;
+  timerSeconds =
+    0;
+
+  rewardedBlocks =
+    0;
 
   renderTimer();
+
+  updateStartButton();
+
+  renderDashboard();
+
+  cacheLocal();
 
   scheduleSync();
 
 }
+
+
+function updateStartButton(){
+
+  const button =
+    document.getElementById(
+      "startBtn"
+    );
+
+  if(!button)
+    return;
+
+  button.textContent =
+    stopwatchRunning
+      ? "Running..."
+      : "Start";
+
+}
+
+
+/*
+  Resume the interval only.
+
+  The actual elapsed time is ALWAYS calculated
+  from Date.now(), so background throttling
+  cannot make the stopwatch lose time.
+*/
+
+function resumeStopwatchIfNeeded(){
+
+  clearStopwatchInterval();
+
+  if(
+    !stopwatchRunning ||
+    !stopwatchStartTime
+  ){
+
+    updateStartButton();
+
+    renderTimer();
+
+    return;
+
+  }
+
+  stopwatchInterval =
+    setInterval(
+      updateStopwatch,
+      250
+    );
+
+  updateStopwatch();
+
+  updateStartButton();
+
+}
+
+
+/* =========================================================
+   TAB / WINDOW LIFECYCLE
+========================================================= */
+
+document.addEventListener(
+  "visibilitychange",
+  ()=>{
+
+    if(!document.hidden){
+
+      if(stopwatchRunning){
+
+        updateStopwatch();
+
+      }
+
+    }else{
+
+      if(stopwatchRunning){
+
+        updateStopwatch();
+        cacheLocal();
+
+      }
+
+    }
+
+  }
+);
+
+
+window.addEventListener(
+  "focus",
+  ()=>{
+
+    if(stopwatchRunning){
+
+      updateStopwatch();
+
+    }
+
+  }
+);
+
+
+window.addEventListener(
+  "pageshow",
+  ()=>{
+
+    if(stopwatchRunning){
+
+      resumeStopwatchIfNeeded();
+
+    }
+
+  }
+);
+
+
+window.addEventListener(
+  "pagehide",
+  ()=>{
+
+    if(stopwatchRunning){
+
+      updateStopwatch();
+      cacheLocal();
+
+    }
+
+  }
+);
 
 
 /* =========================================================
@@ -3006,14 +4160,15 @@ function renderPrayers(){
   const day =
     prayers[today] || {};
 
-  let completed=0;
+  let completed =
+    0;
 
   prayerNames.forEach(
     name=>{
 
       const checkbox =
         document.getElementById(
-          "prayer-"+name
+          "prayer-" + name
         );
 
       if(!checkbox)
@@ -3026,26 +4181,38 @@ function renderPrayers(){
         completed++;
 
       checkbox.onchange =
-        ()=>togglePrayer(
-          name,
-          checkbox.checked
-        );
+        ()=>{
+          togglePrayer(
+            name,
+            checkbox.checked
+          );
+        };
 
     }
   );
 
-  document.getElementById(
-    "prayerStatus"
-  ).textContent =
-    `${completed} / 5 completed`;
+  const status =
+    document.getElementById(
+      "prayerStatus"
+    );
+
+  if(status){
+
+    status.textContent =
+      `${completed} / 5 completed`;
+
+  }
 
   loadPrayerDua();
 
+  const quran =
+    document.getElementById(
+      "prayerQuran"
+    );
+
   if(
-    !document
-      .getElementById("prayerQuran")
-      .textContent
-      .trim()
+    quran &&
+    !quran.textContent.trim()
   ){
 
     loadLastOrWelcomeAyah();
@@ -3053,6 +4220,7 @@ function renderPrayers(){
   }
 
 }
+
 
 function togglePrayer(
   name,
@@ -3062,13 +4230,18 @@ function togglePrayer(
   const today =
     todayKey();
 
-  if(!prayers[today])
-    prayers[today]={};
+  if(!prayers[today]){
+
+    prayers[today] =
+      {};
+
+  }
 
   const previous =
     prayers[today][name] === true;
 
-  prayers[today][name]=checked;
+  prayers[today][name] =
+    checked;
 
   if(
     checked &&
@@ -3081,16 +4254,17 @@ function togglePrayer(
 
       index =
         Math.floor(
-          Math.random()*
+          Math.random() *
           quranAyat.length
         );
 
     }while(
-      index===lastAyahIndex &&
-      quranAyat.length>1
+      index === lastAyahIndex &&
+      quranAyat.length > 1
     );
 
-    lastAyahIndex=index;
+    lastAyahIndex =
+      index;
 
     const [
       text,
@@ -3098,17 +4272,26 @@ function togglePrayer(
     ] =
       quranAyat[index];
 
-    document.getElementById(
-      "prayerQuran"
-    ).innerHTML = `
-      <div class="ayah">
-        ﴿ ${esc(text)} ﴾
-      </div>
+    const quran =
+      document.getElementById(
+        "prayerQuran"
+      );
 
-      <div class="ref">
-        سورة ${esc(ref)}
-      </div>
-    `;
+    if(quran){
+
+      quran.innerHTML = `
+
+        <div class="ayah">
+          ﴿ ${esc(text)} ﴾
+        </div>
+
+        <div class="ref">
+          سورة ${esc(ref)}
+        </div>
+
+      `;
+
+    }
 
     showToast(
       "🤍 جزاكِ الله خيرًا",
@@ -3119,35 +4302,22 @@ function togglePrayer(
 
   }
 
-  if(
-    !checked &&
-    previous
-  ){
-
-    /* No XP removal when unchecking.
-       This prevents exploiting/repeating XP. */
-
-  }
-
   renderPrayers();
-
   renderAchievements();
 
+  cacheLocal();
   scheduleSync();
 
 }
 
 
-/* =========================================================
-   QURAN
-========================================================= */
-
 function loadLastOrWelcomeAyah(){
 
   const index =
-    lastAyahIndex>=0
-    ? lastAyahIndex
-    : 0;
+    lastAyahIndex >= 0 &&
+    lastAyahIndex < quranAyat.length
+      ? lastAyahIndex
+      : 0;
 
   const [
     text,
@@ -3155,9 +4325,16 @@ function loadLastOrWelcomeAyah(){
   ] =
     quranAyat[index];
 
-  document.getElementById(
-    "prayerQuran"
-  ).innerHTML = `
+  const box =
+    document.getElementById(
+      "prayerQuran"
+    );
+
+  if(!box)
+    return;
+
+  box.innerHTML = `
+
     <div class="ayah">
       ﴿ ${esc(text)} ﴾
     </div>
@@ -3165,6 +4342,7 @@ function loadLastOrWelcomeAyah(){
     <div class="ref">
       سورة ${esc(ref)}
     </div>
+
   `;
 
 }
@@ -3193,11 +4371,13 @@ function addNote(){
     ).focus();
 
     return;
+
   }
 
   notes.unshift({
 
-    id:Date.now(),
+    id:
+      `${Date.now()}-${Math.random()}`,
 
     title:
       title || "Untitled Note",
@@ -3211,14 +4391,17 @@ function addNote(){
 
   document.getElementById(
     "noteTitle"
-  ).value="";
+  ).value =
+    "";
 
   document.getElementById(
     "noteBody"
-  ).value="";
+  ).value =
+    "";
 
   renderNotes();
 
+  cacheLocal();
   scheduleSync();
 
   showToast(
@@ -3228,18 +4411,23 @@ function addNote(){
 
 }
 
+
 function deleteNote(id){
 
   notes =
     notes.filter(
-      n=>String(n.id)!==String(id)
+      note =>
+        String(note.id) !==
+        String(id)
     );
 
   renderNotes();
 
+  cacheLocal();
   scheduleSync();
 
 }
+
 
 function renderNotes(){
 
@@ -3248,53 +4436,66 @@ function renderNotes(){
       "notesList"
     );
 
-  if(!box) return;
+  if(!box)
+    return;
 
   if(!notes.length){
 
     box.innerHTML = `
+
       <p class="muted">
         No notes yet. Your first one can go here 🌱
       </p>
+
     `;
 
     return;
+
   }
 
   box.innerHTML =
-    notes.map(
-      n=>`
+    notes
+      .map(
+        note=>{
 
-      <div class="note">
+          const safeId =
+            JSON.stringify(note.id);
 
-        <div class="note-head">
+          return `
 
-          <strong>
-            📌 ${esc(n.title)}
-          </strong>
+            <div class="note">
 
-          <button
-            class="btn danger"
-            style="padding:6px 10px"
-            onclick="deleteNote(${JSON.stringify(n.id)})"
-          >
-            Delete
-          </button>
+              <div class="note-head">
 
-        </div>
+                <strong>
+                  📌 ${esc(note.title)}
+                </strong>
 
-        <div class="note-date">
-          ${esc(n.date)}
-        </div>
+                <button
+                  class="btn danger"
+                  style="padding:6px 10px"
+                  onclick="deleteNote(${safeId})"
+                >
+                  Delete
+                </button>
 
-        <div class="note-body">
-          ${esc(n.body)}
-        </div>
+              </div>
 
-      </div>
+              <div class="note-date">
+                ${esc(note.date)}
+              </div>
 
-      `
-    ).join("");
+              <div class="note-body">
+                ${esc(note.body)}
+              </div>
+
+            </div>
+
+          `;
+
+        }
+      )
+      .join("");
 
 }
 
@@ -3310,10 +4511,12 @@ function prayerDayComplete(){
 
   return !!day &&
     prayerNames.every(
-      name=>day[name]===true
+      name =>
+        day[name] === true
     );
 
 }
+
 
 function renderAchievements(){
 
@@ -3322,7 +4525,8 @@ function renderAchievements(){
       "achievementList"
     );
 
-  if(!box) return;
+  if(!box)
+    return;
 
   const list = [
 
@@ -3330,92 +4534,107 @@ function renderAchievements(){
       icon:"🌱",
       title:"First Step",
       text:"Complete your first task.",
-      unlocked:tasksDone>=1
+      unlocked:
+        tasksDone >= 1
     },
 
     {
       icon:"🔥",
       title:"Getting Started",
       text:"Complete 5 tasks.",
-      unlocked:tasksDone>=5
+      unlocked:
+        tasksDone >= 5
     },
 
     {
       icon:"📚",
       title:"Study Mode",
       text:"Complete 10 tasks.",
-      unlocked:tasksDone>=10
+      unlocked:
+        tasksDone >= 10
     },
 
     {
       icon:"⏱️",
       title:"Focused",
       text:"Earn your first 30-minute XP reward.",
-      unlocked:rewardedBlocks>=1
+      unlocked:
+        rewardedBlocks >= 1
     },
 
     {
       icon:"🕌",
       title:"Five Prayers",
       text:"Complete all five prayers in a day.",
-      unlocked:prayerDayComplete()
+      unlocked:
+        prayerDayComplete()
     },
 
     {
       icon:"⭐",
       title:"Level 5",
       text:"Reach Level 5.",
-      unlocked:level>=5
+      unlocked:
+        level >= 5
     },
 
     {
       icon:"👑",
       title:"Scholar",
       text:"Reach Level 10.",
-      unlocked:level>=10
+      unlocked:
+        level >= 10
     }
 
   ];
 
   box.innerHTML =
-    list.map(
-      item=>`
+    list
+      .map(
+        item=>`
 
-        <div class="achievement ${
-          item.unlocked
-          ? ""
-          : "locked"
-        }">
+          <div
+            class="achievement ${
+              item.unlocked
+                ? ""
+                : "locked"
+            }"
+          >
 
-          <span style="font-size:27px">
-            ${item.unlocked
-              ? "🏆"
-              : "🔒"}
-          </span>
+            <span style="font-size:27px">
 
-          <div>
+              ${
+                item.unlocked
+                  ? "🏆"
+                  : "🔒"
+              }
 
-            <b>
-              ${item.icon}
-              ${esc(item.title)}
-            </b>
+            </span>
 
-            <div class="small muted">
-              ${esc(item.text)}
+            <div>
+
+              <b>
+                ${item.icon}
+                ${esc(item.title)}
+              </b>
+
+              <div class="small muted">
+                ${esc(item.text)}
+              </div>
+
             </div>
 
           </div>
 
-        </div>
-
-      `
-    ).join("");
+        `
+      )
+      .join("");
 
 }
 
 
 /* =========================================================
-   RENDER ALL
+   RENDER EVERYTHING
 ========================================================= */
 
 function renderAll(){
@@ -3438,6 +4657,8 @@ function renderAll(){
 
   renderTimer();
 
+  updateStartButton();
+
   sideUser.textContent =
     userName || "User";
 
@@ -3448,81 +4669,6 @@ function renderAll(){
 
 
 /* =========================================================
-   DOM REFERENCES
-========================================================= */
-
-const sideUser =
-  document.getElementById(
-    "sideUser"
-  );
-
-const sideEmail =
-  document.getElementById(
-    "sideEmail"
-  );
-
-const welcome =
-  document.getElementById(
-    "welcome"
-  );
-
-const memberSinceEl =
-  document.getElementById(
-    "memberSince"
-  );
-
-const authOverlay =
-  document.getElementById(
-    "authOverlay"
-  );
-
-const app =
-  document.getElementById(
-    "app"
-  );
-
-const loginTab =
-  document.getElementById(
-    "loginTab"
-  );
-
-const signupTab =
-  document.getElementById(
-    "signupTab"
-  );
-
-const nameWrap =
-  document.getElementById(
-    "nameWrap"
-  );
-
-const authBtn =
-  document.getElementById(
-    "authBtn"
-  );
-
-const authMsg =
-  document.getElementById(
-    "authMsg"
-  );
-
-const authEmail =
-  document.getElementById(
-    "authEmail"
-  );
-
-const authPassword =
-  document.getElementById(
-    "authPassword"
-  );
-
-const authName =
-  document.getElementById(
-    "authName"
-  );
-
-
-/* =========================================================
    KEYBOARD SHORTCUTS
 ========================================================= */
 
@@ -3530,58 +4676,72 @@ document
   .getElementById("subjectInput")
   ?.addEventListener(
     "keydown",
-    e=>{
-      if(e.key==="Enter")
+    event=>{
+
+      if(event.key === "Enter")
         addSubject();
+
     }
   );
+
 
 document
   .getElementById("taskInput")
   ?.addEventListener(
     "keydown",
-    e=>{
-      if(e.key==="Enter")
+    event=>{
+
+      if(event.key === "Enter")
         addTask();
+
     }
   );
+
 
 document
   .getElementById("noteBody")
   ?.addEventListener(
     "keydown",
-    e=>{
+    event=>{
+
       if(
-        e.ctrlKey &&
-        e.key==="Enter"
-      )
+        event.ctrlKey &&
+        event.key === "Enter"
+      ){
+
         addNote();
+
+      }
+
     }
   );
 
 
 /* =========================================================
-   CLOSE MODAL
+   CLOSE SUBJECT MODAL
 ========================================================= */
 
 document
   .getElementById("subjectModal")
   ?.addEventListener(
     "click",
-    e=>{
+    event=>{
 
       if(
-        e.target.id===
+        event.target.id ===
         "subjectModal"
-      )
+      ){
+
         closeSubject();
+
+      }
 
     }
   );
 
 
 /* =========================================================
-   START
+   INITIAL RENDER
 ========================================================= */
 
 renderTimer();
