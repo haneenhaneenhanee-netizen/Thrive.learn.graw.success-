@@ -654,6 +654,22 @@ select:focus{
   background:#eed0d0;
 }
 
+/* Subject grade entries */
+.grade-entry{
+  display:grid;
+  grid-template-columns:minmax(90px,1.2fr) minmax(70px,1fr) minmax(70px,1fr) auto;
+  gap:8px;
+  align-items:center;
+  margin:8px 0;
+}
+.grade-entry input{min-width:0;}
+.grade-entry .btn{padding:9px 11px;}
+.grade-summary{padding:12px;border-radius:10px;background:#B8CDBB;line-height:1.7;}
+@media(max-width:520px){
+  .grade-entry{grid-template-columns:1fr 1fr; }
+  .grade-entry input:first-child{grid-column:1 / -1;}
+}
+
 @media(max-width:750px){
 
   .sidebar{
@@ -704,8 +720,6 @@ select:focus{
 
 <body>
 
-<!-- ================= AUTH ================= -->
-
 <div id="authOverlay" class="overlay">
 
   <div class="auth">
@@ -718,18 +732,11 @@ select:focus{
 
     <div class="auth-tabs">
 
-      <button
-        id="loginTab"
-        class="active"
-        onclick="showAuth('login')"
-      >
+      <button id="loginTab" class="active" onclick="showAuth('login')">
         Login
       </button>
 
-      <button
-        id="signupTab"
-        onclick="showAuth('signup')"
-      >
+      <button id="signupTab" onclick="showAuth('signup')">
         Create account
       </button>
 
@@ -739,54 +746,30 @@ select:focus{
 
       <label>Name</label>
 
-      <input
-        id="authName"
-        placeholder="Your name"
-      >
+      <input id="authName" placeholder="Your name">
 
     </div>
 
     <label>Email</label>
 
-    <input
-      id="authEmail"
-      type="email"
-      placeholder="you@example.com"
-    >
+    <input id="authEmail" type="email" placeholder="you@example.com">
 
     <label>Password</label>
 
-    <input
-      id="authPassword"
-      type="password"
-      placeholder="At least 6 characters"
-    >
+    <input id="authPassword" type="password" placeholder="At least 6 characters">
 
-    <button
-      class="btn"
-      id="authBtn"
-      onclick="submitAuth()"
-    >
+    <button class="btn" id="authBtn" onclick="submitAuth()">
       Login
     </button>
 
-    <div
-      id="authMsg"
-      class="auth-msg"
-    ></div>
+    <div id="authMsg" class="auth-msg"></div>
 
   </div>
 
 </div>
 
 
-<!-- ================= APP ================= -->
-
-<div
-  class="app"
-  id="app"
-  style="display:none"
->
+<div class="app" id="app" style="display:none">
 
   <aside class="sidebar">
 
@@ -800,46 +783,31 @@ select:focus{
 
     <div class="nav">
 
-      <button
-        class="active"
-        onclick="go('dashboard',this)"
-      >
+      <button class="active" onclick="go('dashboard',this)">
         🏠 Dashboard
       </button>
 
-      <button
-        onclick="go('subjects',this)"
-      >
+      <button onclick="go('subjects',this)">
         📚 Subjects
       </button>
 
-      <button
-        onclick="go('schedule',this)"
-      >
+      <button onclick="go('schedule',this)">
         🗓️ Schedule
       </button>
 
-      <button
-        onclick="go('study',this)"
-      >
+      <button onclick="go('study',this)">
         ⏱️ Study
       </button>
 
-      <button
-        onclick="go('prayers',this)"
-      >
+      <button onclick="go('prayers',this)">
         🕌 Prayers
       </button>
 
-      <button
-        onclick="go('notes',this)"
-      >
+      <button onclick="go('notes',this)">
         📝 Notes
       </button>
 
-      <button
-        onclick="go('achievements',this)"
-      >
+      <button onclick="go('achievements',this)">
         🏆 Achievements
       </button>
 
@@ -851,15 +819,9 @@ select:focus{
         👤 <span id="sideUser">User</span>
       </div>
 
-      <div
-        class="small"
-        id="sideEmail"
-      ></div>
+      <div class="small" id="sideEmail"></div>
 
-      <button
-        class="btn secondary"
-        onclick="logout()"
-      >
+      <button class="btn secondary" onclick="logout()">
         Log out
       </button>
 
@@ -869,8 +831,6 @@ select:focus{
 
 
   <main class="main">
-
-    <!-- ================= TOP ================= -->
 
     <div class="top">
 
@@ -899,52 +859,32 @@ select:focus{
     </div>
 
 
-    <!-- ================= DASHBOARD ================= -->
-
-    <section
-      id="dashboard"
-      class="page active"
-    >
+    <section id="dashboard" class="page active">
 
       <div class="grid">
 
         <div class="stat">
-
           ⭐ XP
-
           <b id="xp">0</b>
 
-          <button
-            class="reset-xp"
-            onclick="resetXP()"
-          >
+          <button class="reset-xp" onclick="resetXP()">
             🔄 Reset XP
           </button>
-
         </div>
 
         <div class="stat">
-
           🏅 Level
-
           <b id="level">1</b>
-
         </div>
 
         <div class="stat">
-
           📖 Tasks done
-
           <b id="tasksDone">0</b>
-
         </div>
 
         <div class="stat">
-
           ⏱️ Study sessions
-
           <b id="sessions">0</b>
-
         </div>
 
       </div>
@@ -956,17 +896,11 @@ select:focus{
 
         <div class="xpbar">
 
-          <div
-            id="xpfill"
-            class="xpfill"
-          ></div>
+          <div id="xpfill" class="xpfill"></div>
 
         </div>
 
-        <p
-          class="muted"
-          id="xpText"
-        ></p>
+        <p class="muted" id="xpText"></p>
 
       </div>
 
@@ -981,10 +915,7 @@ select:focus{
           A little motivation for today.
         </div>
 
-        <div
-          id="dailyMotivation"
-          class="motivation-box"
-        ></div>
+        <div id="dailyMotivation" class="motivation-box"></div>
 
       </div>
 
@@ -999,10 +930,7 @@ select:focus{
           A rotating dua for your day.
         </div>
 
-        <div
-          id="dailyDua"
-          class="dua-box"
-        ></div>
+        <div id="dailyDua" class="dua-box"></div>
 
       </div>
 
@@ -1013,10 +941,7 @@ select:focus{
           📅 Today's Schedule
         </div>
 
-        <div
-          id="todaySchedule"
-          class="muted"
-        >
+        <div id="todaySchedule" class="muted">
           No schedule added yet.
         </div>
 
@@ -1036,21 +961,13 @@ select:focus{
     </section>
 
 
-    <!-- ================= SUBJECTS ================= -->
-
-    <section
-      id="subjects"
-      class="page"
-    >
+    <section id="subjects" class="page">
 
       <div class="card">
 
         <h2>📚 Subjects</h2>
 
-        <p
-          class="muted"
-          style="margin:6px 0 16px"
-        >
+        <p class="muted" style="margin:6px 0 16px">
           Add the subjects you actually study.
         </p>
 
@@ -1061,10 +978,7 @@ select:focus{
             placeholder="e.g. History, Biology, Turkish..."
           >
 
-          <button
-            class="btn"
-            onclick="addSubject()"
-          >
+          <button class="btn" onclick="addSubject()">
             Add Subject
           </button>
 
@@ -1072,29 +986,18 @@ select:focus{
 
       </div>
 
-      <div
-        id="subjectGrid"
-        class="subject-grid"
-      ></div>
+      <div id="subjectGrid" class="subject-grid"></div>
 
     </section>
 
 
-    <!-- ================= SCHEDULE ================= -->
-
-    <section
-      id="schedule"
-      class="page"
-    >
+    <section id="schedule" class="page">
 
       <div class="card">
 
         <h2>🗓️ Weekly Schedule</h2>
 
-        <p
-          class="muted"
-          style="margin:6px 0 16px"
-        >
+        <p class="muted" style="margin:6px 0 16px">
           Organize your study week.
         </p>
 
@@ -1178,11 +1081,7 @@ select:focus{
 
         </div>
 
-        <button
-          class="btn"
-          style="margin-top:15px"
-          onclick="saveSchedule()"
-        >
+        <button class="btn" style="margin-top:15px" onclick="saveSchedule()">
           💾 Save Schedule
         </button>
 
@@ -1191,21 +1090,13 @@ select:focus{
     </section>
 
 
-    <!-- ================= STUDY ================= -->
-
-    <section
-      id="study"
-      class="page"
-    >
+    <section id="study" class="page">
 
       <div class="card stopwatch">
 
         <h2>⏱️ Study Stopwatch</h2>
 
-        <div
-          class="time"
-          id="time"
-        >
+        <div class="time" id="time">
           00:00:00
         </div>
 
@@ -1215,34 +1106,21 @@ select:focus{
 
         <div class="timer-buttons">
 
-          <button
-            class="btn"
-            id="startBtn"
-            onclick="toggleStopwatch()"
-          >
+          <button class="btn" id="startBtn" onclick="toggleStopwatch()">
             Start
           </button>
 
-          <button
-            class="btn secondary"
-            onclick="pauseStopwatch()"
-          >
+          <button class="btn secondary" onclick="pauseStopwatch()">
             Pause
           </button>
 
-          <button
-            class="btn danger"
-            onclick="resetStopwatch()"
-          >
+          <button class="btn danger" onclick="resetStopwatch()">
             Reset
           </button>
 
         </div>
 
-        <div
-          class="timer-reward"
-          id="timerReward"
-        >
+        <div class="timer-reward" id="timerReward">
           Next reward: 30 XP after 30 minutes.
         </div>
 
@@ -1257,10 +1135,7 @@ select:focus{
 
         <h2>📝 Add Any Task</h2>
 
-        <p
-          class="muted"
-          style="margin:6px 0 16px"
-        >
+        <p class="muted" style="margin:6px 0 16px">
           Homework, revision, reading, studying, or anything else.
         </p>
 
@@ -1275,11 +1150,7 @@ select:focus{
 
         </div>
 
-        <button
-          class="btn"
-          style="margin-top:10px"
-          onclick="addTask()"
-        >
+        <button class="btn" style="margin-top:10px" onclick="addTask()">
           ➕ Add Task
         </button>
 
@@ -1297,21 +1168,13 @@ select:focus{
     </section>
 
 
-    <!-- ================= PRAYERS ================= -->
-
-    <section
-      id="prayers"
-      class="page"
-    >
+    <section id="prayers" class="page">
 
       <div class="card">
 
         <h2>🕌 Today's Prayers</h2>
 
-        <p
-          class="muted"
-          style="margin:6px 0 16px"
-        >
+        <p class="muted" style="margin:6px 0 16px">
           Keep track of your prayers for today.
         </p>
 
@@ -1338,6 +1201,7 @@ select:focus{
                 <b>Fajr</b>
                 <div class="small muted">الفجر</div>
               </td>
+
               <td style="text-align:center">
                 <input
                   class="prayer-check"
@@ -1352,6 +1216,7 @@ select:focus{
                 <b>Dhuhr</b>
                 <div class="small muted">الظهر</div>
               </td>
+
               <td style="text-align:center">
                 <input
                   class="prayer-check"
@@ -1366,6 +1231,7 @@ select:focus{
                 <b>Asr</b>
                 <div class="small muted">العصر</div>
               </td>
+
               <td style="text-align:center">
                 <input
                   class="prayer-check"
@@ -1380,6 +1246,7 @@ select:focus{
                 <b>Maghrib</b>
                 <div class="small muted">المغرب</div>
               </td>
+
               <td style="text-align:center">
                 <input
                   class="prayer-check"
@@ -1394,6 +1261,7 @@ select:focus{
                 <b>Isha</b>
                 <div class="small muted">العشاء</div>
               </td>
+
               <td style="text-align:center">
                 <input
                   class="prayer-check"
@@ -1407,10 +1275,7 @@ select:focus{
 
         </table>
 
-        <div
-          id="prayerStatus"
-          class="prayer-status"
-        >
+        <div id="prayerStatus" class="prayer-status">
           0 / 5 completed
         </div>
 
@@ -1421,17 +1286,11 @@ select:focus{
 
         <h2>📖 Ayah for Your Prayer</h2>
 
-        <p
-          class="muted"
-          style="margin:6px 0 16px"
-        >
+        <p class="muted" style="margin:6px 0 16px">
           After completing a prayer, a different ayah appears.
         </p>
 
-        <div
-          id="prayerQuran"
-          class="quran-box"
-        ></div>
+        <div id="prayerQuran" class="quran-box"></div>
 
       </div>
 
@@ -1440,29 +1299,18 @@ select:focus{
 
         <h2>🤲 Rotating Duas</h2>
 
-        <p
-          class="muted"
-          style="margin:6px 0 16px"
-        >
+        <p class="muted" style="margin:6px 0 16px">
           A little dua to keep close.
         </p>
 
-        <div
-          id="prayerDua"
-          class="dua-box"
-        ></div>
+        <div id="prayerDua" class="dua-box"></div>
 
       </div>
 
     </section>
 
 
-    <!-- ================= NOTES ================= -->
-
-    <section
-      id="notes"
-      class="page"
-    >
+    <section id="notes" class="page">
 
       <div class="card">
 
@@ -1472,10 +1320,7 @@ select:focus{
 
           <label>Title</label>
 
-          <input
-            id="noteTitle"
-            placeholder="Note title..."
-          >
+          <input id="noteTitle" placeholder="Note title...">
 
         </div>
 
@@ -1490,10 +1335,7 @@ select:focus{
 
         </div>
 
-        <button
-          class="btn"
-          onclick="addNote()"
-        >
+        <button class="btn" onclick="addNote()">
           💾 Save Note
         </button>
 
@@ -1504,31 +1346,20 @@ select:focus{
 
         <h2>📚 Your Notes</h2>
 
-        <div
-          id="notesList"
-          class="notes-list"
-        ></div>
+        <div id="notesList" class="notes-list"></div>
 
       </div>
 
     </section>
 
 
-    <!-- ================= ACHIEVEMENTS ================= -->
-
-    <section
-      id="achievements"
-      class="page"
-    >
+    <section id="achievements" class="page">
 
       <div class="card">
 
         <h2>🏆 Achievements</h2>
 
-        <p
-          class="muted"
-          style="margin:6px 0 16px"
-        >
+        <p class="muted" style="margin:6px 0 16px">
           Keep going and unlock new milestones. 🌟
         </p>
 
@@ -1543,12 +1374,7 @@ select:focus{
 </div>
 
 
-<!-- ================= SUBJECT MODAL ================= -->
-
-<div
-  id="subjectModal"
-  class="modal"
->
+<div id="subjectModal" class="modal">
 
   <div class="modal-box">
 
@@ -1558,49 +1384,33 @@ select:focus{
 
     <div class="form-group">
 
-      <label>Homework Grade</label>
+      <label>Homework</label>
 
-      <input
-        type="number"
-        id="homeworkGrade"
-        min="0"
-      >
+      <div id="homeworkEntries"></div>
 
-    </div>
-
-    <div class="form-group">
-
-      <label>Homework Max</label>
-
-      <input
-        type="number"
-        id="homeworkMax"
-        min="0"
-      >
+      <button type="button" class="btn secondary" onclick="addGradeEntry('homework')">
+        ➕ Add Homework
+      </button>
 
     </div>
 
     <div class="form-group">
 
-      <label>Exam Grade</label>
+      <label>Exams</label>
 
-      <input
-        type="number"
-        id="examGrade"
-        min="0"
-      >
+      <div id="examEntries"></div>
+
+      <button type="button" class="btn secondary" onclick="addGradeEntry('exam')">
+        ➕ Add Exam
+      </button>
 
     </div>
 
     <div class="form-group">
 
-      <label>Exam Max</label>
+      <label>Overall Grade & Progress</label>
 
-      <input
-        type="number"
-        id="examMax"
-        min="0"
-      >
+      <div id="subjectGradeSummary" class="muted">No grades entered yet.</div>
 
     </div>
 
@@ -1614,17 +1424,11 @@ select:focus{
 
     <div class="row">
 
-      <button
-        class="btn"
-        onclick="saveSubject()"
-      >
+      <button class="btn" onclick="saveSubject()">
         Save
       </button>
 
-      <button
-        class="btn secondary"
-        onclick="closeSubject()"
-      >
+      <button class="btn secondary" onclick="closeSubject()">
         Close
       </button>
 
@@ -1635,22 +1439,11 @@ select:focus{
 </div>
 
 
-<!-- ================= TOAST ================= -->
+<div id="toast" class="toast">
 
-<div
-  id="toast"
-  class="toast"
->
+  <div id="toastTitle" class="toast-title"></div>
 
-  <div
-    id="toastTitle"
-    class="toast-title"
-  ></div>
-
-  <div
-    id="toastText"
-    class="toast-text"
-  ></div>
+  <div id="toastText" class="toast-text"></div>
 
 </div>
 
@@ -3114,6 +2907,9 @@ function completeTask(id){
 
 function deleteTask(id){
 
+  const before =
+    tasks.length;
+
   tasks =
     tasks.filter(
       item =>
@@ -3121,28 +2917,52 @@ function deleteTask(id){
         String(id)
     );
 
+  if(tasks.length === before)
+    return;
+
   renderAll();
 
   cacheLocal();
   scheduleSync();
 
+  showToast(
+    "🗑️ Task deleted",
+    "The task was removed."
+  );
+
 }
 
+
+/*
+  IMPORTANT FIX:
+
+  Task IDs are stored as strings.
+
+  Instead of placing JSON strings directly
+  inside HTML attributes, we store the ID
+  in data-id and read it with this.dataset.id.
+
+  This prevents quotation marks from breaking
+  onclick / onchange.
+*/
 
 function taskHTML(task){
 
   const safeId =
-    JSON.stringify(task.id);
+    esc(task.id);
 
   return `
 
-    <div class="task">
+    <div
+      class="task ${task.done ? "done" : ""}"
+    >
 
       <input
         class="task-check"
         type="checkbox"
+        data-id="${safeId}"
         ${task.done ? "checked disabled" : ""}
-        onchange="completeTask(${safeId})"
+        onchange="completeTask(this.dataset.id)"
       >
 
       <div class="task-content">
@@ -3160,7 +2980,8 @@ function taskHTML(task){
       <button
         class="btn danger"
         style="padding:6px 10px"
-        onclick="deleteTask(${safeId})"
+        data-id="${safeId}"
+        onclick="deleteTask(this.dataset.id)"
       >
         Delete
       </button>
@@ -3171,6 +2992,12 @@ function taskHTML(task){
 
 }
 
+
+/*
+  FIXED renderTasks()
+
+  This function was missing in the code you sent.
+*/
 
 function renderTasks(){
 
@@ -3399,6 +3226,12 @@ function renderSubjects(){
                 ${pct}% • ${done}/${list.length} tasks done
               </span>
 
+              <div class="percent">
+                ${getSubjectGradeSummary(subject).hasGrades
+                  ? `📊 Overall: ${getSubjectGradeSummary(subject).percent}% (${getSubjectGradeSummary(subject).earned}/${getSubjectGradeSummary(subject).possible})`
+                  : `📊 No grades entered yet`}
+              </div>
+
               <div class="subject-actions">
 
                 <button
@@ -3435,126 +3268,176 @@ function renderSubjects(){
 }
 
 
-function openSubject(subject){
+function getGradeEntries(data, type){
+  const plural = type === "homework" ? "homeworks" : "exams";
+  if(Array.isArray(data[plural])) return data[plural];
 
-  currentSubject =
-    subject;
-
-  document.getElementById(
-    "modalSubjectTitle"
-  ).textContent =
-    subject;
-
-  const data =
-    subjectData[subject] || {};
-
-  document.getElementById(
-    "homeworkGrade"
-  ).value =
-    data.homeworkGrade ?? "";
-
-  document.getElementById(
-    "homeworkMax"
-  ).value =
-    data.homeworkMax ?? "";
-
-  document.getElementById(
-    "examGrade"
-  ).value =
-    data.examGrade ?? "";
-
-  document.getElementById(
-    "examMax"
-  ).value =
-    data.examMax ?? "";
-
-  document.getElementById(
-    "subjectNotes"
-  ).value =
-    data.notes || "";
-
-  document.getElementById(
-    "subjectModal"
-  ).classList.add("show");
-
+  // Keep existing single homework/exam grades when upgrading older saved data.
+  const gradeKey = type === "homework" ? "homeworkGrade" : "examGrade";
+  const maxKey = type === "homework" ? "homeworkMax" : "examMax";
+  if(data[gradeKey] !== undefined || data[maxKey] !== undefined){
+    const grade = data[gradeKey];
+    const max = data[maxKey];
+    if((grade !== "" && grade !== undefined && grade !== null) ||
+       (max !== "" && max !== undefined && max !== null)){
+      return [{name:type === "homework" ? "Homework 1" : "Exam 1",
+               grade:grade ?? "", max:max ?? ""}];
+    }
+  }
+  return [];
 }
 
+function getSubjectGradeSummary(subject){
+  const data = subjectData[subject] || {};
+  const homeworks = getGradeEntries(data, "homework");
+  const exams = getGradeEntries(data, "exam");
+  const entries = [...homeworks, ...exams].filter(item =>
+    item.grade !== "" && item.grade !== null && item.grade !== undefined &&
+    item.max !== "" && item.max !== null && item.max !== undefined &&
+    Number.isFinite(Number(item.grade)) && Number.isFinite(Number(item.max)) &&
+    Number(item.max) > 0 && Number(item.grade) >= 0 && Number(item.grade) <= Number(item.max)
+  );
+  const earned = entries.reduce((sum,item)=>sum + Number(item.grade),0);
+  const possible = entries.reduce((sum,item)=>sum + Number(item.max),0);
+  return {hasGrades:entries.length > 0, earned, possible,
+          percent:possible ? Math.round(earned / possible * 100) : 0};
+}
+
+function renderGradeEntries(type, entries){
+  const container = document.getElementById(type === "homework" ? "homeworkEntries" : "examEntries");
+  if(!container) return;
+  container.innerHTML = entries.map((entry,index)=>`
+    <div class="grade-entry">
+      <input aria-label="${type} name" placeholder="${type === "homework" ? "Homework" : "Exam"} name"
+        value="${esc(entry.name || `${type === "homework" ? "Homework" : "Exam"} ${index+1}`)}"
+        data-grade-type="${type}" data-grade-index="${index}" data-grade-field="name">
+      <input aria-label="Grade earned" type="number" min="0" step="any" placeholder="Grade"
+        value="${entry.grade ?? ""}" data-grade-type="${type}" data-grade-index="${index}" data-grade-field="grade">
+      <input aria-label="Maximum grade" type="number" min="0.01" step="any" placeholder="Out of"
+        value="${entry.max ?? ""}" data-grade-type="${type}" data-grade-index="${index}" data-grade-field="max">
+      <button type="button" class="btn danger" onclick="removeGradeEntry('${type}',${index})" aria-label="Remove entry">✕</button>
+    </div>
+  `).join("");
+}
+
+function readGradeEntries(type){
+  const container = document.getElementById(type === "homework" ? "homeworkEntries" : "examEntries");
+  if(!container) return [];
+  const entries = [];
+  const rows = [...container.querySelectorAll(".grade-entry")];
+  rows.forEach((row,index)=>{
+    const value = field => row.querySelector(`[data-grade-field="${field}"]`)?.value ?? "";
+    entries.push({
+      name: value("name").trim() || `${type === "homework" ? "Homework" : "Exam"} ${index+1}`,
+      grade: value("grade"),
+      max: value("max")
+    });
+  });
+  return entries;
+}
+
+document.addEventListener("input", event=>{
+  if(event.target && event.target.closest(".grade-entry")){
+    updateSubjectGradeSummary();
+  }
+});
+
+function addGradeEntry(type){
+  const entries = readGradeEntries(type);
+  entries.push({name:`${type === "homework" ? "Homework" : "Exam"} ${entries.length+1}`,grade:"",max:""});
+  renderGradeEntries(type, entries);
+  updateSubjectGradeSummary();
+}
+
+function removeGradeEntry(type,index){
+  const entries = readGradeEntries(type);
+  entries.splice(index,1);
+  renderGradeEntries(type, entries);
+  updateSubjectGradeSummary();
+}
+
+function updateSubjectGradeSummary(){
+  const homeworks = readGradeEntries("homework");
+  const exams = readGradeEntries("exam");
+  const valid = [...homeworks,...exams].filter(item =>
+    item.grade.trim() !== "" && item.max.trim() !== "" &&
+    Number.isFinite(Number(item.grade)) && Number.isFinite(Number(item.max)) &&
+    Number(item.max) > 0 && Number(item.grade) >= 0 && Number(item.grade) <= Number(item.max)
+  );
+  const earned = valid.reduce((sum,item)=>sum + Number(item.grade),0);
+  const possible = valid.reduce((sum,item)=>sum + Number(item.max),0);
+  const summary = document.getElementById("subjectGradeSummary");
+  if(summary){
+    summary.className = "grade-summary";
+    summary.textContent = possible
+      ? `Total: ${earned} / ${possible} • Overall percentage: ${Math.round(earned/possible*100)}%`
+      : "No valid grades entered yet. Add homework, exams, or both.";
+  }
+}
+
+function openSubject(subject){
+  currentSubject = subject;
+  document.getElementById("modalSubjectTitle").textContent = subject;
+  const data = subjectData[subject] || {};
+  renderGradeEntries("homework", getGradeEntries(data,"homework").map((entry,index)=>({
+    name:entry.name || `Homework ${index+1}`, grade:entry.grade ?? "", max:entry.max ?? ""
+  })));
+  renderGradeEntries("exam", getGradeEntries(data,"exam").map((entry,index)=>({
+    name:entry.name || `Exam ${index+1}`, grade:entry.grade ?? "", max:entry.max ?? ""
+  })));
+  document.getElementById("subjectNotes").value = data.notes || "";
+  document.getElementById("subjectModal").classList.add("show");
+  updateSubjectGradeSummary();
+}
 
 function closeSubject(){
-
-  document
-    .getElementById("subjectModal")
-    .classList.remove("show");
-
-  currentSubject =
-    "";
-
+  document.getElementById("subjectModal").classList.remove("show");
+  currentSubject = "";
 }
 
-
 function saveSubject(){
+  if(!currentSubject) return;
 
-  if(!currentSubject)
-    return;
+  const homeworks = readGradeEntries("homework");
+  const exams = readGradeEntries("exam");
+  for(const [type, entries] of [["homework",homeworks],["exam",exams]]){
+    for(const entry of entries){
+      const label = type === "homework" ? "Homework" : "Exam";
+      if(entry.grade !== "" && (Number(entry.grade) < 0 || !Number.isFinite(Number(entry.grade)))){
+        showToast("Invalid grade", `${label} grades must be valid non-negative numbers.`);
+        return;
+      }
+      if(entry.max !== "" && (Number(entry.max) <= 0 || !Number.isFinite(Number(entry.max)))){
+        showToast("Invalid maximum", `${label} maximum grades must be greater than zero.`);
+        return;
+      }
+      if(entry.grade !== "" && entry.max !== "" && Number(entry.grade) > Number(entry.max)){
+        showToast("Invalid grade", `${label} grade cannot be greater than its maximum.`);
+        return;
+      }
+    }
+  }
 
   subjectData[currentSubject] = {
-
-    homeworkGrade:
-      Number(
-        document.getElementById(
-          "homeworkGrade"
-        ).value
-      ) || 0,
-
-    homeworkMax:
-      Number(
-        document.getElementById(
-          "homeworkMax"
-        ).value
-      ) || 0,
-
-    examGrade:
-      Number(
-        document.getElementById(
-          "examGrade"
-        ).value
-      ) || 0,
-
-    examMax:
-      Number(
-        document.getElementById(
-          "examMax"
-        ).value
-      ) || 0,
-
-    notes:
-      document.getElementById(
-        "subjectNotes"
-      ).value
-
+    ...subjectData[currentSubject],
+    homeworks,
+    exams,
+    notes: document.getElementById("subjectNotes").value
   };
 
-  const subject =
-    currentSubject;
-
+  const subject = currentSubject;
   closeSubject();
-
   renderSubjects();
-
   cacheLocal();
   scheduleSync();
-
-  showToast(
-    "📚 Saved",
-    `${subject} details were saved.`
-  );
-
+  showToast("📚 Saved", `${subject} details were saved.`);
 }
 
 
 /* =========================================================
    WEEKLY SCHEDULE
 ========================================================= */
+
 
 function saveSchedule(){
 
@@ -3687,7 +3570,6 @@ function showToday(){
 
 /* =========================================================
    STOPWATCH
-   SINGLE SOURCE OF TRUTH
 ========================================================= */
 
 function formatTime(seconds){
@@ -3953,11 +3835,6 @@ function pauseStopwatch(){
   if(!stopwatchRunning)
     return;
 
-  /*
-    Calculate the exact real elapsed time
-    BEFORE stopping the stopwatch.
-  */
-
   updateStopwatch();
 
   clearStopwatchInterval();
@@ -4035,14 +3912,6 @@ function updateStartButton(){
 
 }
 
-
-/*
-  Resume the interval only.
-
-  The actual elapsed time is ALWAYS calculated
-  from Date.now(), so background throttling
-  cannot make the stopwatch lose time.
-*/
 
 function resumeStopwatchIfNeeded(){
 
@@ -4459,7 +4328,7 @@ function renderNotes(){
         note=>{
 
           const safeId =
-            JSON.stringify(note.id);
+            esc(note.id);
 
           return `
 
@@ -4474,7 +4343,8 @@ function renderNotes(){
                 <button
                   class="btn danger"
                   style="padding:6px 10px"
-                  onclick="deleteNote(${safeId})"
+                  data-id="${safeId}"
+                  onclick="deleteNote(this.dataset.id)"
                 >
                   Delete
                 </button>
