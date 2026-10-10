@@ -41,8 +41,8 @@ button{
 
 .sidebar{
   width:235px;
-  background:#183b2a;
-  color:#fff;
+  background:#b9e8c7;
+  color:#17452b;
   padding:25px 15px;
   position:fixed;
   inset:0 auto 0 0;
@@ -58,7 +58,7 @@ button{
 
 .made-by{
   text-align:center;
-  color:#BFD1C2;
+  color:#2f6842;
   font-size:11px;
   font-weight:700;
   letter-spacing:.4px;
@@ -71,15 +71,15 @@ button{
   padding:12px 14px;
   margin:4px 0;
   background:transparent;
-  color:#dce9df;
+  color:#245638;
   text-align:left;
   border-radius:12px;
 }
 
 .nav button:hover,
 .nav button.active{
-  background:#2c6044;
-  color:#fff;
+  background:#8fd3a5;
+  color:#123c23;
 }
 
 .main{
@@ -670,6 +670,42 @@ select:focus{
   .grade-entry input:first-child{grid-column:1 / -1;}
 }
 
+/* =========================================================
+   THEME SUPPORT: LIGHT / DARK MODE
+========================================================= */
+.top-actions{margin-left:auto;justify-content:flex-end;flex:1}
+body[data-theme="dark"]{background:#111713;color:#e7efe9;color-scheme:dark}
+body[data-theme="dark"] .sidebar{background:#315b3e;color:#eef8f0}
+body[data-theme="dark"] .made-by{color:#c3e4cb}
+body[data-theme="dark"] .nav button{color:#e0f0e4}
+body[data-theme="dark"] .nav button:hover,body[data-theme="dark"] .nav button.active{background:#477d55;color:#ffffff}
+body[data-theme="dark"] .card,body[data-theme="dark"] .subject-card,body[data-theme="dark"] .auth,body[data-theme="dark"] .modal-box{background:#202a23;color:#e7efe9;border-color:#3b4b40}
+body[data-theme="dark"] .stat,body[data-theme="dark"] .grade-summary,body[data-theme="dark"] .achievement,body[data-theme="dark"] .task,body[data-theme="dark"] .subject,body[data-theme="dark"] .note,body[data-theme="dark"] .schedule-item{background:#29362d;color:#e7efe9;border-color:#435648}
+body[data-theme="dark"] input,body[data-theme="dark"] textarea,body[data-theme="dark"] select{background:#172019;color:#edf5ef;border-color:#4b5e50}
+body[data-theme="dark"] input::placeholder,body[data-theme="dark"] textarea::placeholder{color:#a2b3a7}
+body[data-theme="dark"] .muted,body[data-theme="dark"] .section-subtitle,body[data-theme="dark"] .percent,body[data-theme="dark"] .note-date,body[data-theme="dark"] .note-body,body[data-theme="dark"] .timer-note{color:#b4c4b8}
+body[data-theme="dark"] .badge{background:#344a39;color:#e1f1e5}
+body[data-theme="dark"] .btn.secondary{background:#34483a;color:#e5f4e8}
+body[data-theme="dark"] .motivation-box,body[data-theme="dark"] .dua-box,body[data-theme="dark"] .quran-box,body[data-theme="dark"] .notes-list .note{background:#17221a;color:#e7efe9}
+body[data-theme="dark"] .quran-box .ayah{color:#f0f7f1}
+body[data-theme="dark"] .quran-box .ref{color:#a8d2b3}
+body[data-theme="dark"] .progress-bg,body[data-theme="dark"] .xpbar{background:#3b4b40}
+body[data-theme="dark"] .schedule-table th,body[data-theme="dark"] .prayer-table th{background:#2b3c30;color:#e6f2e8}
+body[data-theme="dark"] .schedule-table th,body[data-theme="dark"] .schedule-table td,body[data-theme="dark"] .prayer-table th,body[data-theme="dark"] .prayer-table td{border-color:#405145}
+body[data-theme="dark"] .schedule-table input{background:transparent}
+body[data-theme="dark"] .prayer{border-color:#405145}
+body[data-theme="dark"] .overlay{background:#111713}
+body[data-theme="dark"] .auth h1{color:#e4f1e7}
+body[data-theme="dark"] .auth-tabs button{background:#34483a;color:#e5f4e8}
+body[data-theme="dark"] .auth-tabs button.active{background:#2f754d;color:#fff}
+body[data-theme="dark"] .modal{background:rgba(0,0,0,.72)}
+body[data-theme="dark"] .toast{background:#26382b;color:#fff}
+body[data-theme="dark"] .account{background:#17251b}
+body[data-theme="dark"] .reset-xp{background:#4b2929;color:#ffdede}
+body[data-theme="dark"] .achievement.locked{opacity:.6}
+body[data-theme="dark"] .prayer-status,body[data-theme="dark"] .timer-reward{color:#a8d8b5}
+@media(max-width:750px){.top-actions{margin-left:0;flex:initial}.top{flex-wrap:wrap}}
+
 @media(max-width:750px){
 
   .sidebar{
@@ -846,6 +882,10 @@ select:focus{
 
       </div>
 
+      <div class="row top-actions">
+        <button class="btn secondary" id="themeToggle" type="button" onclick="toggleTheme()" aria-label="Toggle dark mode">🌙 Dark mode</button>
+      </div>
+
       <div class="member badge">
 
         📅 Member since
@@ -916,6 +956,9 @@ select:focus{
         </div>
 
         <div id="dailyMotivation" class="motivation-box"></div>
+        <div class="row" style="justify-content:center;margin-top:12px">
+          <button class="btn secondary" type="button" onclick="nextMotivation()">✨ مقولة جديدة</button>
+        </div>
 
       </div>
 
@@ -931,6 +974,9 @@ select:focus{
         </div>
 
         <div id="dailyDua" class="dua-box"></div>
+        <div class="row" style="justify-content:center;margin-top:12px">
+          <button class="btn secondary" type="button" onclick="nextDua('dailyDua')">🤲 دعاء جديد</button>
+        </div>
 
       </div>
 
@@ -1304,6 +1350,9 @@ select:focus{
         </p>
 
         <div id="prayerDua" class="dua-box"></div>
+        <div class="row" style="justify-content:center;margin-top:12px">
+          <button class="btn secondary" type="button" onclick="nextDua('prayerDua')">🤲 دعاء آخر</button>
+        </div>
 
       </div>
 
@@ -1551,6 +1600,8 @@ let stopwatchBaseSeconds = 0;
 let lastAyahIndex = -1;
 let userName = "";
 let currentSubject = "";
+let motivationIndex = -1;
+let duaIndexes = { dailyDua:-1, prayerDua:-1 };
 
 
 /* =========================================================
@@ -1572,7 +1623,22 @@ const motivations = [
   "Consistency beats perfection. Keep showing up. 📖",
   "Your effort today matters more than you think. ✨",
   "Quiet effort becomes loud results. 🌿",
-  "One page. One task. One step. You’ve got this. ☁️"
+  "One page. One task. One step. You’ve got this. ☁️",
+  "ابدئي بما تقدرين عليه، فكل خطوة صغيرة تصنع فرقًا. 🌱",
+  "التقدم الهادئ أفضل من انتظار اللحظة المثالية. ✨",
+  "مش لازم تخلصي كل حاجة مرة واحدة؛ المهم تكملي. 💚",
+  "خلي تعب النهارده يقربك من هدفك، مش يخوفك منه. 🎯",
+  "الاستمرار وقت ما الحماس يقل هو اللي بيصنع الفرق. 🔥",
+  "كل محاولة بتعلمك حاجة جديدة، فمتستهونيش بالبداية. 📚",
+  "ركزي على خطوتك الحالية، والباقي هييجي واحدة واحدة. 🌿",
+  "أنتِ مش مطالبة بالكمال؛ فقط ابذلي أفضل ما عندك اليوم. ⭐",
+  "الإنجاز الكبير بيبدأ بقرار صغير إنك تبدئي. 🚀",
+  "خدي نفسًا، رتبي أولوياتك، وابدئي من جديد. ☁️",
+  "لا تقارني رحلتك بحد؛ لكل شخص وقته وطريقه. 🌷",
+  "حتى الأيام الصعبة ممكن تكون بداية لتغيير جميل. 🌙",
+  "اعملي اللي تقدري عليه النهارده، وافتخري بمحاولتك. 💪",
+  "النجاح عادة صغيرة بتتكرر، مش خطوة واحدة ضخمة. 🏆",
+  "بإذن الله، مع السعي والصبر هتشوفي ثمرة تعبك. 🤍"
 ];
 
 const duas = [
@@ -1589,7 +1655,21 @@ const duas = [
   "اللهم افتح عليّ فتوحًا طيبة وارزقني فهمًا نافعًا.",
   "يا رب اجعل القادم أجمل، وبارك لي في سعيي ووقتي.",
   "اللهم اجعل العلم نورًا في قلبي ونفعًا في حياتي.",
-  "اللهم ارزقني الصبر والثبات وحسن التوكل عليك."
+  "اللهم ارزقني الصبر والثبات وحسن التوكل عليك.",
+  "اللهم إني أسألك علمًا نافعًا، ورزقًا طيبًا، وعملًا متقبلًا.",
+  "اللهم أعني ولا تعن عليّ، وانصرني ولا تنصر عليّ، واهدني ويسر الهدى لي.",
+  "اللهم إني أسألك الهدى والتقى والعفاف والغنى.",
+  "ربنا آتنا في الدنيا حسنة وفي الآخرة حسنة وقنا عذاب النار.",
+  "اللهم إني توكلت عليك وفوضت أمري إليك، فدبر لي أمري واختر لي الخير.",
+  "اللهم ارزقني قلبًا مطمئنًا ونفسًا راضية ويقينًا بك.",
+  "اللهم بارك لي في وقتي وجهدي، وارزقني حسن العمل والإتقان.",
+  "رب اشرح لي صدري ويسر لي أمري واحلل عقدة من لساني يفقهوا قولي.",
+  "اللهم إني أسألك التوفيق والسداد، وأعوذ بك من العجز والكسل.",
+  "اللهم اجعل لي من كل هم فرجًا ومن كل ضيق مخرجًا وارزقني من حيث لا أحتسب.",
+  "يا حي يا قيوم برحمتك أستغيث، أصلح لي شأني كله ولا تكلني إلى نفسي طرفة عين.",
+  "اللهم إني أسألك راحة القلب وطمأنينة النفس وبركة العمر.",
+  "اللهم اغفر لي وارحمني واهدني وعافني وارزقني.",
+  "اللهم اجعل عملي خالصًا لوجهك، ووفقني لما فيه الخير."
 ];
 
 const quranAyat = [
@@ -2696,65 +2776,70 @@ function renderDashboard(){
 
 
 function loadDailyMotivation(){
-
-  const box =
-    document.getElementById(
-      "dailyMotivation"
-    );
-
-  if(!box)
-    return;
-
-  box.textContent =
-    `"${motivations[
-      getDayNumber() %
-      motivations.length
-    ]}"`;
-
+  const box = document.getElementById("dailyMotivation");
+  if(!box) return;
+  motivationIndex = getDayNumber() % motivations.length;
+  box.textContent = `"${motivations[motivationIndex]}"`;
 }
 
+function nextMotivation(){
+  if(motivations.length < 2) return;
+  let next = Math.floor(Math.random() * motivations.length);
+  if(next === motivationIndex) next = (next + 1) % motivations.length;
+  motivationIndex = next;
+  const box = document.getElementById("dailyMotivation");
+  if(box) box.textContent = `"${motivations[motivationIndex]}"`;
+}
 
 function loadDailyDua(){
-
-  const box =
-    document.getElementById(
-      "dailyDua"
-    );
-
-  if(!box)
-    return;
-
-  box.textContent =
-    duas[
-      getDayNumber() %
-      duas.length
-    ];
-
+  const box = document.getElementById("dailyDua");
+  if(!box) return;
+  duaIndexes.dailyDua = getDayNumber() % duas.length;
+  box.textContent = duas[duaIndexes.dailyDua];
 }
-
 
 function loadPrayerDua(){
-
-  const box =
-    document.getElementById(
-      "prayerDua"
-    );
-
-  if(!box)
-    return;
-
-  box.textContent =
-    duas[
-      (getDayNumber() + 1) %
-      duas.length
-    ];
-
+  const box = document.getElementById("prayerDua");
+  if(!box) return;
+  duaIndexes.prayerDua = (getDayNumber() + 1) % duas.length;
+  box.textContent = duas[duaIndexes.prayerDua];
 }
 
+function nextDua(targetId){
+  const box = document.getElementById(targetId);
+  if(!box || duas.length < 2) return;
+  const current = Number.isInteger(duaIndexes[targetId]) ? duaIndexes[targetId] : -1;
+  let next = Math.floor(Math.random() * duas.length);
+  if(next === current) next = (next + 1) % duas.length;
+  duaIndexes[targetId] = next;
+  box.textContent = duas[next];
+}
 
 /* =========================================================
-   TASK SUBJECT OPTIONS
+   THEME TOGGLE
 ========================================================= */
+function applyTheme(theme){
+  const isDark = theme === "dark";
+  document.body.dataset.theme = isDark ? "dark" : "light";
+  const button = document.getElementById("themeToggle");
+  if(button){
+    button.textContent = isDark ? "☀️ Light mode" : "🌙 Dark mode";
+    button.setAttribute("aria-pressed", String(isDark));
+  }
+  try { localStorage.setItem("thrive_theme", isDark ? "dark" : "light"); } catch(error) {}
+}
+
+function toggleTheme(){
+  const current = document.body.dataset.theme || "light";
+  applyTheme(current === "dark" ? "light" : "dark");
+}
+
+(function initTheme(){
+  let saved = "light";
+  try { saved = localStorage.getItem("thrive_theme") || "light"; } catch(error) {}
+  applyTheme(saved);
+})();
+
 
 function updateTaskSubjectOptions(){
 
